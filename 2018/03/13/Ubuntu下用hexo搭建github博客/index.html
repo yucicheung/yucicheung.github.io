@@ -23,7 +23,7 @@
 <meta property="og:site_name" content="Yuci&#39;s Blog">
 <meta property="og:description" content="配置环境：Ubuntu 16.04目标网站：username.github.io博客搭建程序：hexo在新建分支hexo下管理部署文件，最终部署到主分支master进行网站发布，涉及第三方应用绑定。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-03-12T19:30:49.375Z">
+<meta property="og:updated_time" content="2018-03-12T19:35:05.685Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ubuntu下用hexo搭建github博客">
 <meta name="twitter:description" content="配置环境：Ubuntu 16.04目标网站：username.github.io博客搭建程序：hexo在新建分支hexo下管理部署文件，最终部署到主分支master进行网站发布，涉及第三方应用绑定。">
@@ -323,7 +323,7 @@
 <p><code>deploy</code>时需要github的账户和密码，自动上传文件完成部署。<br><strong>Tips：</strong>网站再次进行部署时，还需要清理<code>public</code>文件夹内容，重新生成部署，用以下命令。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ hexo clean</span><br><span class="line">$ hexo g</span><br><span class="line">$ hexo d</span><br></pre></td></tr></table></figure></p>
 <h2 id="管理hexo文件"><a href="#管理hexo文件" class="headerlink" title="管理hexo文件"></a>管理hexo文件</h2><p>最好的办法是在<code>username.github.io</code>主页创建两个分支，一个<code>master</code>分支(由deployer管理)，一个<code>hexo</code>分支（我们自己管理）。<br>在把自己的<code>username.github.io</code>仓库克隆到本地后，<code>cd username.github.io</code>，进行以下操作。<br>创建hexo分支并切换到该分支。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git checkout -b hexo</span><br></pre></td></tr></table></figure></p>
 <p>将<code>hexo/</code>文件夹下所有内容拷贝到<code>username.github.io/hexo/</code>下。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cp -r ~/hexo/ ~/yucicheung.github.io/</span><br></pre></td></tr></table></figure></p>
-<p>将修改加入并push到分支<code>hexo</code>。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git add .</span><br><span class="line">$ git push origin hexo</span><br></pre></td></tr></table></figure></p>
+<p>将修改加入并push到分支<code>hexo</code>。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git add .</span><br><span class="line">$ git commit -m <span class="string">"commet"</span></span><br><span class="line">$ git push origin hexo</span><br></pre></td></tr></table></figure></p>
 <p>这样文件管理就很方便了。</p>
 <h2 id="第三方部署"><a href="#第三方部署" class="headerlink" title="第三方部署"></a>第三方部署</h2><p>因为第三方部署跟主题有很大关系，而<a href="http://moxfive.coding.me/yelee/5.Vendor/" target="_blank" rel="noopener">主题文档</a>中说明得比较清楚，我主要讨论一下文档中说明不清的Google站长认证问题。</p>
 <h3 id="Google站长验证"><a href="#Google站长验证" class="headerlink" title="Google站长验证"></a>Google站长验证</h3><p>Google验证，会提供给你一个html文件，拷贝至<code>theme</code>下的<code>source</code>文件中，在<code>generate</code>的时候会原样生成。<br><strong>Tips:</strong>同理，如果有每次生成都要保存的文件，如<code>README.md</code>，请都放置在此文件夹下。</p>
@@ -345,7 +345,7 @@
         <p><span>本文标题:</span><a href="/2018/03/13/Ubuntu下用hexo搭建github博客/">Ubuntu下用hexo搭建github博客</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">Yuci Cheung</a></p>
         <p><span>发布时间:</span>2018-03-13, 03:30:49</p>
-        <p><span>最后更新:</span>2018-03-13, 03:30:49</p>
+        <p><span>最后更新:</span>2018-03-13, 03:35:05</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2018/03/13/Ubuntu下用hexo搭建github博客/" title="Ubuntu下用hexo搭建github博客">https://yucicheung.github.io/2018/03/13/Ubuntu下用hexo搭建github博客/</a>
             <span class="copy-path" data-clipboard-text="原文: https://yucicheung.github.io/2018/03/13/Ubuntu下用hexo搭建github博客/　　作者: Yuci Cheung" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
