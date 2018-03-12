@@ -117,7 +117,7 @@ $ git push origin hexo
 因为第三方部署跟主题有很大关系，而[主题文档](http://moxfive.coding.me/yelee/5.Vendor/)中说明得比较清楚，我主要讨论一下文档中说明不清的Google站长认证问题。
 ### Google站长验证
 Google验证，会提供给你一个html文件，拷贝至`theme`下的`source`文件中，在`generate`的时候会原样生成。
-**Tips:**同理，如果有每次生成都要保存的文件，如`README.md`，请都放置在此文件夹下。
+**Tips:**同理，如果有每次生成都要保存的html文件，请都放置在此文件夹下。如果是`README.md`文件，请在`hexo/_config.yml`中配置`skip_render: README.md`。
 ## 文章的发表
 先生成draft，然后发表。
 ```bash
