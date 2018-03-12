@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/xsl" href="sitemap.xsl"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
     <url>
-        <loc>https://yucicheung.github.io</loc>
-        <changefreq>daily</changefreq>
-        <priority>1</priority>
+        <loc>https://yucicheung.github.io/tags/hexo/</loc>
+        <lastmod>2018-03-12T19:30:49.375Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>https://yucicheung.github.io/2018/03/13/Ubuntu%E4%B8%8B%E7%94%A8hexo%E6%90%AD%E5%BB%BAgithub%E5%8D%9A%E5%AE%A2/</loc>
+        <loc>https://yucicheung.github.io/tags/git/</loc>
         <lastmod>2018-03-12T19:30:49.375Z</lastmod>
         <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
+        <priority>0.2</priority>
+    </url>
 
+    <url>
+        <loc>https://yucicheung.github.io/tags/Ubuntu/</loc>
+        <lastmod>2018-03-12T19:30:49.375Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
     </url>
 
 </urlset>
