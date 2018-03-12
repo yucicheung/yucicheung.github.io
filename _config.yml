@@ -33,7 +33,7 @@ default_layout: post
 titlecase: false # Transform title into titlecase
 external_link: true # Open external links in new tab
 filename_case: 0
-render_drafts: false
+render_drafts: true
 post_asset_folder: false
 relative_link: false
 future: true
@@ -76,7 +76,7 @@ theme: yelee
 
 # Sitemap setup
 baidusitemap:
-  path: baidusitemap.xml
+path: baidusitemap.xml
 
 sitemap:
   path: sitemap.xml
