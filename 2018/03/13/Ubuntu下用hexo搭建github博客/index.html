@@ -23,7 +23,7 @@
 <meta property="og:site_name" content="Yuci&#39;s Blog">
 <meta property="og:description" content="配置环境：Ubuntu 16.04目标网站：username.github.io博客搭建程序：hexo在新建分支hexo下管理部署文件，最终部署到主分支master进行网站发布，涉及第三方应用绑定。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-03-12T19:45:13.360Z">
+<meta property="og:updated_time" content="2018-03-13T05:41:14.627Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ubuntu下用hexo搭建github博客">
 <meta name="twitter:description" content="配置环境：Ubuntu 16.04目标网站：username.github.io博客搭建程序：hexo在新建分支hexo下管理部署文件，最终部署到主分支master进行网站发布，涉及第三方应用绑定。">
@@ -326,7 +326,7 @@
 <p>将修改加入并push到分支<code>hexo</code>。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git add .</span><br><span class="line">$ git commit -m <span class="string">"commet"</span></span><br><span class="line">$ git push origin hexo</span><br></pre></td></tr></table></figure></p>
 <p>这样文件管理就很方便了。</p>
 <h2 id="第三方部署"><a href="#第三方部署" class="headerlink" title="第三方部署"></a>第三方部署</h2><p>因为第三方部署跟主题有很大关系，而<a href="http://moxfive.coding.me/yelee/5.Vendor/" target="_blank" rel="noopener">主题文档</a>中说明得比较清楚，我主要讨论一下文档中说明不清的Google站长认证问题。</p>
-<h3 id="Google站长验证"><a href="#Google站长验证" class="headerlink" title="Google站长验证"></a>Google站长验证</h3><p>Google验证，会提供给你一个html文件，拷贝至<code>theme</code>下的<code>source</code>文件中，在<code>generate</code>的时候会原样生成。<br><strong>Tips:</strong>同理，如果有每次生成都要保存的html文件，请都放置在此文件夹下。如果是<code>README.md</code>文件，请在<code>hexo/_config.yml</code>中配置<code>skip_render: README.md</code>。</p>
+<h3 id="Google站长验证"><a href="#Google站长验证" class="headerlink" title="Google站长验证"></a>Google站长验证</h3><p>Google验证，会提供给你一个html文件，拷贝至<code>theme</code>下的<code>source</code>文件中，在<code>generate</code>的时候会原样生成。<br><strong>Tips:</strong>同理，如果有每次生成都要保存的html文件，请都放置在此文件夹下。如果是<code>README.md</code>文件要保持不被渲染，请添加到<code>hexo/source/</code>下，并且在<code>hexo/_config.yml</code>中配置<code>skip_render: README.md</code>。</p>
 <h2 id="文章的发表"><a href="#文章的发表" class="headerlink" title="文章的发表"></a>文章的发表</h2><p>先生成draft，然后发表。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new draft <span class="string">"title"</span> <span class="comment">#在source/_draft下生成md文件</span></span><br><span class="line">$ hexo publish <span class="string">"title"</span></span><br></pre></td></tr></table></figure></p>
 <p>草稿默认不会显示在页面中，可在配置文件中把render_drafts 参数设为 true 来预览草稿。<br><strong>或</strong>直接生成新文章。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"title"</span> <span class="comment"># 自动生成title.md在_posts下</span></span><br></pre></td></tr></table></figure></p>
 <p>如果要删除文章的话在source下删除文章后，重新生成和部署就可以了</p>
@@ -345,7 +345,7 @@
         <p><span>本文标题:</span><a href="/2018/03/13/Ubuntu下用hexo搭建github博客/">Ubuntu下用hexo搭建github博客</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">Yuci Cheung</a></p>
         <p><span>发布时间:</span>2018-03-13, 03:30:49</p>
-        <p><span>最后更新:</span>2018-03-13, 03:45:13</p>
+        <p><span>最后更新:</span>2018-03-13, 13:41:14</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2018/03/13/Ubuntu下用hexo搭建github博客/" title="Ubuntu下用hexo搭建github博客">https://yucicheung.github.io/2018/03/13/Ubuntu下用hexo搭建github博客/</a>
             <span class="copy-path" data-clipboard-text="原文: https://yucicheung.github.io/2018/03/13/Ubuntu下用hexo搭建github博客/　　作者: Yuci Cheung" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -583,11 +583,11 @@ MathJax.Hub.Queue(function() {
         var titleTime;
         document.addEventListener("visibilitychange", function() {
             if (document.hidden) {
-                document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
+                document.title = "(つェ⊂)" + originTitle;
                 clearTimeout(titleTime);
             }
             else {
-                document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
+                document.title = "(*´∇｀*)" + originTitle;
                 titleTime = setTimeout(function() {
                     document.title = originTitle;
                 }, 2000);
