@@ -17,7 +17,7 @@ menu:
 avatar: /img/avatar.png
 
 # Small icon of Your site | 站点小图标地址
-favicon: /favicon.png
+favicon: /egg.png
 
 # Internationalization | 主题语言
 ## Change Language in SITE's _config.yml | 在站点配置中切换语言
@@ -127,7 +127,7 @@ base_font_size: 16  #px, 16 - 24
 color_scheme: yilia
 
 highlight_style:
-  #on: true
+  on: true
   inline_code: 1  # Value: 0 - 9 可选
   code_block: 1  # Value: 0 - 4 
   # Set inline_code to style highlight text
@@ -220,8 +220,8 @@ ie_updater:
 # Tab Title Change | 标签页标题切换
 tab_title_change: 
   on: true
-  left_tab_title: '(つェ⊂) 我藏好了哦~ '
-  return_tab_title: '(*´∇｀*) 被你发现啦~ '
+  left_tab_title: '(つェ⊂)'
+  return_tab_title: '(*´∇｀*)'
 
 
 # >>> Vendors | 第三方工具 & 服务 <<<
