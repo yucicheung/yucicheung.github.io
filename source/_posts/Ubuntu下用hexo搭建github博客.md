@@ -90,7 +90,7 @@ $ hexo deploy # 或hexo d
 `deploy`时需要github的账户和密码，自动上传文件完成部署。
 **Tips：**网站再次进行部署时，还需要清理`public`文件夹内容，重新生成部署，用以下命令。
 ```bash
-$ hexo clean
+$ hexo clean # 尤其在更换主题后需使用
 $ hexo g
 $ hexo d
 ```
