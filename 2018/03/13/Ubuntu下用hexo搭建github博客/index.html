@@ -23,7 +23,7 @@
 <meta property="og:site_name" content="Yuci&#39;s Blog">
 <meta property="og:description" content="配置环境：Ubuntu 16.04 搭建目标：Github page(username.github.io) 搭建程序：hexo 在新建分支hexo下管理部署文件，最终部署到主分支master进行网站发布，涉及第三方应用绑定。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-03-14T13:32:19.104Z">
+<meta property="og:updated_time" content="2018-03-14T13:44:29.751Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ubuntu下用hexo搭建github博客">
 <meta name="twitter:description" content="配置环境：Ubuntu 16.04 搭建目标：Github page(username.github.io) 搭建程序：hexo 在新建分支hexo下管理部署文件，最终部署到主分支master进行网站发布，涉及第三方应用绑定。">
@@ -328,7 +328,7 @@
 <h2 id="部署到网站"><a href="#部署到网站" class="headerlink" title="部署到网站"></a>部署到网站</h2><p><strong>说明:网站的部署其实就是生成静态文件，<code>hexo</code>下所有生成的静态文件会放在<code>public/</code>文件夹中，所谓部署<code>deploy</code>其实就是将<code>public/</code>文件夹中内容上传到git仓库<code>yucicheung.github.io</code>中。</strong><br>要准备将静态文件部署到自己的git主页，首先需要安装一个用于部署的插件<a href="https://github.com/hexojs/hexo-deployer-git" target="_blank" rel="noopener">hexo-deployer-git</a>，这个插件可以自动将<code>public/</code>文件中内容上传到<code>master</code>下(即用于生成github.io界面的文件)。<br><strong>如果不装插件，也可以手动进行文件复制。</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure></p>
 <p>然后在<code>hexo/_config.yml</code>的<code>deploy</code>部分配置以下语句。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: https://github.com/yucicheung/yucicheung.github.io</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure></p>
 <p>需要在根据需要修改<code>hexo/</code>和<code>hexo/themes/</code>下的<code>_config.yml</code>文件后，就可以进行生成和部署了。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate <span class="comment"># 或hexo g</span></span><br><span class="line">$ hexo deploy <span class="comment"># 或hexo d</span></span><br></pre></td></tr></table></figure></p>
-<p><code>deploy</code>时需要github的账户和密码，自动上传文件完成部署。<br><strong>Tips：</strong>网站再次进行部署时，还需要清理<code>public</code>文件夹内容，重新生成部署，用以下命令。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ hexo clean <span class="comment"># 一般在更换主题后需进行，一般不用此命令</span></span><br><span class="line">$ hexo g</span><br><span class="line">$ hexo d</span><br></pre></td></tr></table></figure></p>
+<p><code>deploy</code>时需要github的账户和密码，自动上传文件完成部署。<br><strong>Tips：</strong>网站再次进行部署时，还需要清理<code>public</code>文件夹内容，重新生成部署，用以下命令。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ hexo clean <span class="comment"># 尤其在更换主题后需使用</span></span><br><span class="line">$ hexo g</span><br><span class="line">$ hexo d</span><br></pre></td></tr></table></figure></p>
 <h2 id="管理hexo文件"><a href="#管理hexo文件" class="headerlink" title="管理hexo文件"></a>管理hexo文件</h2><p>最好的办法是在<code>username.github.io</code>主页创建两个分支，一个<code>master</code>分支(由deployer管理)，一个<code>hexo</code>分支（我们自己管理）。<br>在把自己的<code>username.github.io</code>仓库克隆到本地后，<code>cd username.github.io</code>，进行以下操作。<br>创建hexo分支并切换到该分支。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git checkout -b hexo</span><br></pre></td></tr></table></figure></p>
 <p>将<code>hexo/</code>文件夹下所有内容拷贝到<code>username.github.io/hexo/</code>下。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cp -r ~/hexo/ ~/yucicheung.github.io/</span><br></pre></td></tr></table></figure></p>
 <p>将修改加入并push到分支<code>hexo</code>。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git add .</span><br><span class="line">$ git commit -m <span class="string">"commet"</span></span><br><span class="line">$ git push origin hexo</span><br></pre></td></tr></table></figure></p>
@@ -356,7 +356,7 @@
         <p><span>本文标题:</span><a href="/2018/03/13/Ubuntu下用hexo搭建github博客/">Ubuntu下用hexo搭建github博客</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">Yuci Cheung</a></p>
         <p><span>发布时间:</span>2018-03-13, 03:30:49</p>
-        <p><span>最后更新:</span>2018-03-14, 21:32:19</p>
+        <p><span>最后更新:</span>2018-03-14, 21:44:29</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2018/03/13/Ubuntu下用hexo搭建github博客/" title="Ubuntu下用hexo搭建github博客">https://yucicheung.github.io/2018/03/13/Ubuntu下用hexo搭建github博客/</a>
             <span class="copy-path" data-clipboard-text="原文: https://yucicheung.github.io/2018/03/13/Ubuntu下用hexo搭建github博客/　　作者: Yuci Cheung" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -410,20 +410,6 @@
 
     
 <div class="share">
-    
-        <div class="bdsharebuttonbox">
-            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
-            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
-            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
-            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
-            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
-            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
-            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
-        </div>
-        <script>
-            window._bd_share_config={
-                "common":{"bdSnsKey":{},"bdText":"Ubuntu下用hexo搭建github博客　| Yuci's Blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-        </script>
     
 
     
@@ -532,7 +518,7 @@
                 $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
             }
             else {
-                var backgroundnum = 5;
+                var backgroundnum = 6;
                 var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
                 $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
             }
