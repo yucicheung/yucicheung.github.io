@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Yuci Cheung" />
+
+
+
+<meta name="description" content="实现目标  获取自定义域名yucichueng.me; 将上述域名(及www域名)解析到yucichueng.github.ioIP地址; 将域名解析服务托管于CloudFlare; 获取SSL证书，使网站可以通过https访问。">
+<meta name="keywords" content="github,SSL,CDN">
+<meta property="og:type" content="article">
+<meta property="og:title" content="为Github page绑定自定义域名并实现https访问">
+<meta property="og:url" content="https://yucicheung.github.io/2018/03/14/为Github-page绑定自定义域名并实现https访问/index.html">
+<meta property="og:site_name" content="Yuci&#39;s Blog">
+<meta property="og:description" content="实现目标  获取自定义域名yucichueng.me; 将上述域名(及www域名)解析到yucichueng.github.ioIP地址; 将域名解析服务托管于CloudFlare; 获取SSL证书，使网站可以通过https访问。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://yucicheung.github.io/img/manage_DNS.png">
+<meta property="og:image" content="https://yucicheung.github.io/img/change_ns.png">
+<meta property="og:image" content="https://yucicheung.github.io/img/Active.png">
+<meta property="og:image" content="https://yucicheung.github.io/img/full_SSL.png">
+<meta property="og:image" content="https://yucicheung.github.io/img/https.png">
+<meta property="og:image" content="https://yucicheung.github.io/img/ssl.png">
+<meta property="og:updated_time" content="2018-03-14T12:28:08.332Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="为Github page绑定自定义域名并实现https访问">
+<meta name="twitter:description" content="实现目标  获取自定义域名yucichueng.me; 将上述域名(及www域名)解析到yucichueng.github.ioIP地址; 将域名解析服务托管于CloudFlare; 获取SSL证书，使网站可以通过https访问。">
+<meta name="twitter:image" content="https://yucicheung.github.io/img/manage_DNS.png">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="Yuci&#39;s Blog" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/egg.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>为Github page绑定自定义域名并实现https访问 | Yuci&#39;s Blog</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?bd6df76638422f4466c5d6bd0c572265";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Yuci Cheung</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">A to-be programmer.</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="false" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:yucicheung@gmail.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/yucicheung" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" href="http://blog.csdn.net/yucicheung" title="CSDN"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CDN/">CDN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSL/">SSL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+
+                
+                
+                <section class="switch-part switch-part3">
+                
+                    <div id="js-aboutme">预备役程序员。</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Yuci Cheung</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Yuci Cheung</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">A to-be programmer.</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:yucicheung@gmail.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/yucicheung" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" target="_blank" href="http://blog.csdn.net/yucicheung" title="CSDN"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-为Github-page绑定自定义域名并实现https访问" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/03/14/为Github-page绑定自定义域名并实现https访问/" class="article-date">
+      <time datetime="2018-03-14T12:28:08.000Z" itemprop="datePublished">2018-03-14</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      为Github page绑定自定义域名并实现https访问
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Configuration/">Configuration</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CDN/">CDN</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SSL/">SSL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/github/">github</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><excerpt in="" index="" |="" 首页摘要=""><br><code>实现目标</code></excerpt></p>
+<ul>
+<li>获取自定义域名<code>yucichueng.me</code>;</li>
+<li>将上述域名(及<strong>www</strong>域名)解析到<code>yucichueng.github.io</code>IP地址;</li>
+<li>将域名解析服务托管于<strong>CloudFlare</strong>;</li>
+<li>获取<strong>SSL</strong>证书，使网站可以通过<strong>https</strong>访问。<a id="more"></a>
+<the rest="" of="" contents="" |="" 余下全文=""><h2 id="获取自定义域名"><a href="#获取自定义域名" class="headerlink" title="获取自定义域名"></a>获取自定义域名</h2>我购买的域名是<code>yucicheung.me</code>。<br>一级域名<code>me</code>在<a href="https://au.godaddy.com/" target="_blank" rel="noopener">GoDaddy</a>网站进行购买。心仪的域名可以在网站<a href="https://www.whois.net/" target="_blank" rel="noopener">whois</a>查看是否被注册，未被注册可在相应域名商处购买。<br><strong>Tips:</strong>如果是在<code>Godaddy</code>购买的域名，建议购买隐私服务(不泄露个人信息)，不是很便宜，所以建议可以直接从国内域名商处购买，赠送隐私保护服务。<h2 id="域名解析到Github-page"><a href="#域名解析到Github-page" class="headerlink" title="域名解析到Github page"></a>域名解析到Github page</h2>购买域名后，在对应域名供应商处一般会提供域名解析服务，我们需要对解析服务进行配置。<br>对我来说，就要在<code>Godaddy</code>域名解析服务处进行配置。<h3 id="修改域名服务商解析记录"><a href="#修改域名服务商解析记录" class="headerlink" title="修改域名服务商解析记录"></a>修改域名服务商解析记录</h3></the></li>
+</ul>
+<ol>
+<li>点击主页右上角自己的账户名–&gt;点击<strong>manage my domains</strong>–&gt;在<strong>My Domains</strong>选择<strong>Manage DNS</strong>;<div align="center"><br><img src="\img\manage_DNS.png" alt="manage_DNS"><br></div></li>
+<li>添加<code>CNAME</code>和<code>A</code>解析记录，使<code>www</code>网址和<code>@</code>(即本身)都指向自己的github page；<br>按以下表格分别添加<strong>A</strong>和<strong>CNAME</strong>两条解析记录：</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">类型type</th>
+<th style="text-align:center">主机host</th>
+<th style="text-align:center">指向points to</th>
+<th style="text-align:center">TTL(Time To Live)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>A</code></td>
+<td style="text-align:center"><code>@</code></td>
+<td style="text-align:center">github page的IP 地址</td>
+<td style="text-align:center">600</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>CNAME</code></td>
+<td style="text-align:center"><code>www</code></td>
+<td style="text-align:center">github page的网址</td>
+<td style="text-align:center">600</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>A记录</strong>：<br>用来指定域名的IPv4地址<br>如要将域名指向一个IP地址<br>添加A记录<br><br><strong>CNAME</strong>：<br> 如要将域名指向另一域名<br>再由该域名提供ip<br>添加CNAME记录</td>
+<td style="text-align:center"><strong>www</strong>：<br>解析后域名为<strong><a href="http://www.yucicheung.me" target="_blank" rel="noopener">www.yucicheung.me</a></strong><br><br><strong>@</strong>：<br>解析主域名<strong>yucicheung.me</strong><br><br><strong>*</strong>：<br>泛解析，匹配其他所有域名，<strong>*.yucicheung.me</strong></td>
+<td style="text-align:center">对于<code>A记录</code>:<br>要指向IP地址<br><br>对于<code>CNAME</code>:<br>要指向一个域名<br><br></td>
+<td style="text-align:center">指地方dns缓存域名记录的时间,缓存失效后会再次获取<br><br><strong>600</strong>:<br>建议采用600<br><br><strong>60</strong>:<br>如果经常修改IP可用(修改可快速生效),长期使用略影响解析速度<br><br><strong>3600</strong>:<br>如果IP极少变动(一年几次),可选择 3600,解析速度快</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Tips</strong>：github page的IP地址可以通过以下命令获取：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ping yucicheung.github.io</span><br></pre></td></tr></table></figure></p>
+<h3 id="添加github仓库的域名解析记录"><a href="#添加github仓库的域名解析记录" class="headerlink" title="添加github仓库的域名解析记录"></a>添加github仓库的域名解析记录</h3><ol>
+<li><p>按以下命令在自己的github仓库中添加CNAME文件，其中填入购买的域名。或者可以在仓库的<strong>settings</strong>中设置<strong>Custom Domain</strong>设置好自己的域名，github会自动添加CNAME文件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ touch CNAME</span><br><span class="line">$ <span class="built_in">echo</span> <span class="string">'yucicheung.me'</span>&gt; CNAME</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>稍等一下就可以通过购买域名<strong>yucicheung.me</strong>访问<strong>yucicheung.github.io</strong>了，但是这时只能通过<code>http</code>访问自定义域名而非<code>https</code>。</p>
+</li>
+</ol>
+<h2 id="通过HTTPS访问自定义域名"><a href="#通过HTTPS访问自定义域名" class="headerlink" title="通过HTTPS访问自定义域名"></a>通过HTTPS访问自定义域名</h2><p>在完成上述操作以后，只能通过<code>HTTP</code>协议传输(明文传输),于是在通过自定义域名访问自己的github page时，发现浏览器提示<strong>该网址不安全，没有合格的安全证书</strong>，不能通过<code>https</code>(密文传输)访问。</p>
+<h3 id="HTTP与HTTPS"><a href="#HTTP与HTTPS" class="headerlink" title="HTTP与HTTPS"></a>HTTP与HTTPS</h3><p><strong>HTTP</strong>是明文传输协议，传输内容容易被嗅探和篡改。<br>而<strong>HTTPS</strong>，即<strong>HTTP over SSL/TLS</strong>,是添加了一层<strong>SSL(Secure Sockets Layer，安全套接层)</strong>，或者是<strong>TLS(Transport Layer Security,传输层安全协议)</strong>，所以<strong>HTTPS</strong>就可以视为<strong>HTTP</strong>和<strong>SSL/TLS</strong>协议的组合。<br><br><br><strong>HTTPS</strong>能做到良好的保密性(防嗅探)，真实性(防篡改)，完整性(防域名劫持和域名欺骗)。</p>
+<h3 id="SSL证书"><a href="#SSL证书" class="headerlink" title="SSL证书"></a>SSL证书</h3><p><strong>SSL</strong>是<strong>TLS</strong>的前身，但<strong>TLS</strong>通常也被标志为<strong>SSL</strong>。<br><strong>SSL/TLS</strong>协议的基本思路是采用公钥加密法，也就是说，客户端先向服务器端索要公钥，然后用公钥加密信息(会话秘钥)，服务器收到密文后，用自己的私钥解密。<br>这个公钥就放在数字证书中。只要证书是可信的，公钥就是可信的。</p>
+<h3 id="申请SSL证书"><a href="#申请SSL证书" class="headerlink" title="申请SSL证书"></a>申请SSL证书</h3><p>SSL证书由你的NS(Name Server，域名服务商)颁发，由于<code>GoDaddy</code>的SSL证书超级贵，所以我们可以迁移到免费提供SSL的NS处，比如国内的<strong>DNSpod</strong>(国内都需要备案),还有国外的<strong>Netlify</strong>和<strong>Cloudflare</strong>，从速度和操作性考虑，本人选择了<code>Cloudflare</code>。</p>
+<ol>
+<li>到<a href="https://www.cloudflare.com/" target="_blank" rel="noopener">Cloudflare官网</a>注册；</li>
+<li>根据指引点击<strong>Add Site</strong>，添加自定义域名<strong>yucicheung.me</strong>，会自动开始扫描DNS解析记录；</li>
+<li>扫描完成后，<strong>Cloudflare</strong>会选择给我们分配两个NS地址，将这两个地址替换<strong>GoDaddy</strong>上的原NS地址，等待生效；<div align="center"><br><img src="/img/change_ns.png" alt="change_ns"><br></div></li>
+<li>在<strong>Cloudflare</strong>上检查自己网站的状态，显示为<code>Active</code>时表示NS更改成功；<div align="center"><br><img src="/img/Active.png" alt="active"><br></div></li>
+<li>在<strong>Cloudflare</strong>将自己网站的<strong>SSL</strong>状态改变为<code>Full</code>状态，等待<strong>Status</strong>变为<code>Active Certificate</code>，通常生效需要十几分钟。<div align="center"><br><img src="/img/full_SSL.png" alt="ssl"><br></div></li>
+<li>再访问自定义域名时，就可以看见是<code>https</code>传输，网址前也有一把绿色小锁,可以看到这个证书其实是Cloudflare的证书。<br><div align="center"><br><img src="/img/https.png" alt="https"><br><img src="/img/ssl.png" alt="ssl"><br></div><h2 id="CDN-关于访问速度"><a href="#CDN-关于访问速度" class="headerlink" title="CDN:关于访问速度"></a>CDN:关于访问速度</h2>如果因为NS在国外，担心访问速度，可以稍微放心。<br><strong>Cloudflare</strong>本身提供<code>CDN</code>(content delivery network,内容分发网络)服务，是指一种通过互联网互相连接的电脑网络系统，利用最靠近每位用户的服务器，就近获取网络内容传递给用户。<br>免费服务一般只能加速<strong>css、js</strong>的引用，而对于<strong>html</strong>和<strong>图片</strong>的加速通常是付费服务。<br>实验过之后，确实是图片加载会稍慢一些，但是整体速度是可以接受的，<strong>如果实在介意速度，建议通过国内NS解析网址</strong>。<br>另：发现Cloudflare已经和baidu合作针对企业级用户启动加速服务，一个节点服务海外访问者，另一个服务国内访问者。<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2></li>
+</ol>
+<ul>
+<li>最后实现的整个系统可以这么理解：就相当于由github提供主机（相当于寄存在github的服务器），自己购买域名，域名指向服务器文件进行展示。</li>
+<li>原本的github主页，域名解析由GitHub负责，SSL证书由github.com提供，所以可以安全访问。现在的域名解析由Cloudflare服务，SSL证书也由其提供。</li>
+</ul>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2018/03/14/为Github-page绑定自定义域名并实现https访问/">为Github page绑定自定义域名并实现https访问</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">Yuci Cheung</a></p>
+        <p><span>发布时间:</span>2018-03-14, 20:28:08</p>
+        <p><span>最后更新:</span>2018-03-14, 20:28:08</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2018/03/14/为Github-page绑定自定义域名并实现https访问/" title="为Github page绑定自定义域名并实现https访问">https://yucicheung.github.io/2018/03/14/为Github-page绑定自定义域名并实现https访问/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://yucicheung.github.io/2018/03/14/为Github-page绑定自定义域名并实现https访问/　　作者: Yuci Cheung" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2018/03/13/Ubuntu下用hexo搭建github博客/">
+                    Ubuntu下用hexo搭建github博客
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#获取自定义域名"><span class="toc-number">1.</span> <span class="toc-text">获取自定义域名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#域名解析到Github-page"><span class="toc-number">2.</span> <span class="toc-text">域名解析到Github page</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#修改域名服务商解析记录"><span class="toc-number">2.1.</span> <span class="toc-text">修改域名服务商解析记录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#添加github仓库的域名解析记录"><span class="toc-number">2.2.</span> <span class="toc-text">添加github仓库的域名解析记录</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#通过HTTPS访问自定义域名"><span class="toc-number">3.</span> <span class="toc-text">通过HTTPS访问自定义域名</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP与HTTPS"><span class="toc-number">3.1.</span> <span class="toc-text">HTTP与HTTPS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SSL证书"><span class="toc-number">3.2.</span> <span class="toc-text">SSL证书</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#申请SSL证书"><span class="toc-number">3.3.</span> <span class="toc-text">申请SSL证书</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CDN-关于访问速度"><span class="toc-number">4.</span> <span class="toc-text">CDN:关于访问速度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"为Github page绑定自定义域名并实现https访问　| Yuci's Blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+        <section id="comments">
+    <style> aside.comment-bar { margin: auto 30px; }</style>
+    <div id="disqus_thread"></div>
+    <script>
+        var disqus_config = function(){
+            this.page.url = 'https://yucicheung.github.io/2018/03/14/为Github-page绑定自定义域名并实现https访问/';
+            this.page.identifier = '2018/03/14/为Github-page绑定自定义域名并实现https访问/';
+        };
+        var loadComment = function(){
+            var d = document, s = d.createElement('script');
+            s.src = '//yucicheung-github-io.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        }
+    </script>
+    
+    <script> loadComment(); </script>
+
+</section>
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2018/03/13/Ubuntu下用hexo搭建github博客/" title="下一篇: Ubuntu下用hexo搭建github博客">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/03/14/为Github-page绑定自定义域名并实现https访问/">为Github page绑定自定义域名并实现https访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/13/Ubuntu下用hexo搭建github博客/">Ubuntu下用hexo搭建github博客</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2018 Yuci Cheung
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-115529402-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+    <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "(つェ⊂)" + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*)" + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

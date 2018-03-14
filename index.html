@@ -15,7 +15,7 @@
 
 
      
-        <meta name="baidu-site-verification" content="91b0G2JGtm" />
+        <meta name="baidu-site-verification" content="rh7nKEz4BG" />
     
      
         <meta name="google-site-verification" content="YksDxJybov0bzwgH5aP9X3F5Pv0mvC6xy7bNxszvBbM" />
@@ -119,7 +119,7 @@
         </hgroup>
 
         
-        <p class="header-subtitle">A To-be programmer.</p>
+        <p class="header-subtitle">A to-be programmer.</p>
         
 
         
@@ -199,7 +199,7 @@
                 
                 <section class="switch-part switch-part2">
                     <div class="widget tagcloud" id="js-tagcloud">
-                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li></ul>
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CDN/">CDN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSL/">SSL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li></ul>
                     </div>
                 </section>
                 
@@ -233,7 +233,7 @@
               <h1 class="header-author"><a href="/" title="回到主页">Yuci Cheung</a></h1>
             </hgroup>
             
-            <p class="header-subtitle">A To-be programmer.</p>
+            <p class="header-subtitle">A to-be programmer.</p>
             
             <nav class="header-menu">
                 <ul>
@@ -265,6 +265,88 @@
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
       <div class="body-wrap">
+  
+    <article id="post-为Github-page绑定自定义域名并实现https访问" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/03/14/为Github-page绑定自定义域名并实现https访问/" class="article-date">
+      <time datetime="2018-03-14T12:28:08.000Z" itemprop="datePublished">2018-03-14</time>
+</a>
+
+ 
+    <a href="/2018/03/14/为Github-page绑定自定义域名并实现https访问/#comments" title="查看评论">
+        <i class="fa fa-comments-o" aria-hidden="true"></i>
+        <span class="count-comment"></span>
+        
+        
+            <span class="disqus-comment-count" data-disqus-identifier="2018/03/14/为Github-page绑定自定义域名并实现https访问/"></span>
+        
+    </a>
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/14/为Github-page绑定自定义域名并实现https访问/">为Github page绑定自定义域名并实现https访问</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <p><excerpt in="" index="" |="" 首页摘要=""><br><code>实现目标</code></excerpt></p>
+<ul>
+<li>获取自定义域名<code>yucichueng.me</code>;</li>
+<li>将上述域名(及<strong>www</strong>域名)解析到<code>yucichueng.github.io</code>IP地址;</li>
+<li>将域名解析服务托管于<strong>CloudFlare</strong>;</li>
+<li>获取<strong>SSL</strong>证书，使网站可以通过<strong>https</strong>访问。
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Configuration/">Configuration</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CDN/">CDN</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SSL/">SSL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/github/">github</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2018/03/14/为Github-page绑定自定义域名并实现https访问/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
   
     <article id="post-Ubuntu下用hexo搭建github博客" class="article article-type-post" itemscope itemprop="blogPost">
   
@@ -304,7 +386,12 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-              <p><excerpt in="" index="" |="" 首页摘要=""><br>配置环境：Ubuntu 16.04<br>目标网站：username.github.io博客<br>搭建程序：hexo<br>在新建分支hexo下管理部署文件，最终部署到主分支master进行网站发布，涉及第三方应用绑定。<br>
+              <p><excerpt in="" index="" |="" 首页摘要=""> </excerpt></p>
+<ul>
+<li>配置环境：<strong>Ubuntu 16.04</strong></li>
+<li>搭建目标：<strong>Github page(username.github.io)</strong></li>
+<li>搭建程序：<strong>hexo</strong></li>
+<li>在新建分支hexo下管理部署文件，最终部署到主分支master进行网站发布，涉及第三方应用绑定。
           
       
     </div>
