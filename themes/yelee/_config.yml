@@ -255,8 +255,8 @@ share:
 # 百度、谷歌站长验证。填写 HTML 标签 content
 # Site Verification for Google and Baidu. HTML label content.
 # google site verification should be done by uploading html file to url
-baidu_site: "91b0G2JGtm"
-google_site: 
+baidu_site: "rh7nKEz4BG"
+google_site: "YksDxJybov0bzwgH5aP9X3F5Pv0mvC6xy7bNxszvBbM"
 
 # Fill in Google Analytics tracking ID, #e.g. UA-XXXXX-X
 google_analytics: UA-115529402-1

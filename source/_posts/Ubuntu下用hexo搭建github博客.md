@@ -8,12 +8,11 @@ categories:
   - Configuration
 date: 2018-03-13 03:30:49
 ---
-
 <Excerpt in index | 首页摘要> 
-配置环境：Ubuntu 16.04
-目标网站：username.github.io博客
-搭建程序：hexo
-在新建分支hexo下管理部署文件，最终部署到主分支master进行网站发布，涉及第三方应用绑定。
+- 配置环境：**Ubuntu 16.04**
+- 搭建目标：**Github page(username.github.io)**
+- 搭建程序：**hexo**
+- 在新建分支hexo下管理部署文件，最终部署到主分支master进行网站发布，涉及第三方应用绑定。
 <!-- more -->
 <The rest of contents | 余下全文>
 ## 基础配置
@@ -116,7 +115,8 @@ $ git push origin hexo
 ## 第三方部署
 因为第三方部署跟主题有很大关系，而[主题文档](http://moxfive.coding.me/yelee/5.Vendor/)中说明得比较清楚，我主要讨论一下文档中说明不清的Google站长认证问题。
 ### Google站长验证
-Google验证，会提供给你一个html文件，拷贝至`theme`下的`source`文件中，在`generate`的时候会原样生成。
+1. 如果要按照主题定义的方法操作，需要在验证备用方法中选择`html验证`。
+2. Google验证，默认方法是提供给你一个html文件，拷贝至`theme`下的`source`文件中，在`generate`的时候会原样生成。
 **Tips:**同理，如果有每次生成都要保存的html文件，请都放置在此文件夹下。如果是`README.md`文件要保持不被渲染，请添加到`hexo/source/`下，并且在`hexo/_config.yml`中配置`skip_render: README.md`。
 ## 文章的发表
 先生成draft，然后发表。
