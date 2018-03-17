@@ -8,7 +8,14 @@
 
     <url>
         <loc>https://yucicheung.github.io/categories/Configuration/</loc>
-        <lastmod>2018-03-14T13:44:29.751Z</lastmod>
+        <lastmod>2018-03-17T07:39:10.398Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://yucicheung.github.io/categories/Basic/</loc>
+        <lastmod>2018-03-17T14:33:02.936Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

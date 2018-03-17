@@ -3,42 +3,49 @@
 
     <url>
         <loc>https://yucicheung.github.io/tags/github/</loc>
-        <lastmod>2018-03-14T12:28:08.332Z</lastmod>
+        <lastmod>2018-03-17T07:39:03.054Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://yucicheung.github.io/tags/SSL/</loc>
-        <lastmod>2018-03-14T12:28:08.332Z</lastmod>
+        <lastmod>2018-03-17T07:39:03.054Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://yucicheung.github.io/tags/CDN/</loc>
-        <lastmod>2018-03-14T12:28:08.332Z</lastmod>
+        <lastmod>2018-03-17T07:39:03.054Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://yucicheung.github.io/tags/hexo/</loc>
-        <lastmod>2018-03-14T13:44:29.751Z</lastmod>
+        <lastmod>2018-03-17T07:39:10.398Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://yucicheung.github.io/tags/git/</loc>
-        <lastmod>2018-03-14T13:44:29.751Z</lastmod>
+        <lastmod>2018-03-17T07:39:10.398Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://yucicheung.github.io/tags/Ubuntu/</loc>
-        <lastmod>2018-03-14T13:44:29.751Z</lastmod>
+        <lastmod>2018-03-17T07:39:10.398Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://yucicheung.github.io/tags/python/</loc>
+        <lastmod>2018-03-17T14:33:02.936Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

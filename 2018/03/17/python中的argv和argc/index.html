@@ -15,13 +15,18 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Yuci&#39;s Blog">
-<meta property="og:url" content="https://yucicheung.github.io/archives/2018/03/index.html">
+<meta name="description" content="主要问题 为什么argv中第一个，即index=0的内容就是文件名？ python中argc是用什么实现的？">
+<meta name="keywords" content="python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python中的argv和argc">
+<meta property="og:url" content="https://yucicheung.github.io/2018/03/17/python中的argv和argc/index.html">
 <meta property="og:site_name" content="Yuci&#39;s Blog">
+<meta property="og:description" content="主要问题 为什么argv中第一个，即index=0的内容就是文件名？ python中argc是用什么实现的？">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-03-17T14:33:02.936Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Yuci&#39;s Blog">
+<meta name="twitter:title" content="python中的argv和argc">
+<meta name="twitter:description" content="主要问题 为什么argv中第一个，即index=0的内容就是文件名？ python中argc是用什么实现的？">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -53,7 +58,7 @@
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>Archives: 2018/3 | Yuci&#39;s Blog</title>
+<title>python中的argv和argc | Yuci&#39;s Blog</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -63,8 +68,8 @@
         fancybox: true,
         animate: true,
         isHome: false,
-        isPost: false,
-        isArchive: true,
+        isPost: true,
+        isArchive: false,
         isTag: false,
         isCategory: false,
         fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
@@ -257,134 +262,191 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
-      <div class="body-wrap">
+      <div class="body-wrap"><article id="post-python中的argv和argc" class="article article-type-post" itemscope itemprop="blogPost">
   
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-          <div class="article-meta">
-              <a href="/2018/03/17/python中的argv和argc/" class="archive-article-date">
-      <time datetime="2018-03-17T14:24:44.000Z" itemprop="datePublished">03-17</time>
+    <div class="article-meta">
+      <a href="/2018/03/17/python中的argv和argc/" class="article-date">
+      <time datetime="2018-03-17T14:24:44.000Z" itemprop="datePublished">2018-03-17</time>
 </a>
 
 
-        </div>
-         
+    </div>
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/17/python中的argv和argc/">python中的argv和argc</a>
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      python中的argv和argc
     </h1>
   
 
-        <div class="article-info info-on-archive">
-          
+      </header>
+      
+      <div class="article-info article-info-post">
+        
     <div class="article-category tagcloud">
     <a class="article-category-link" href="/categories/Basic/">Basic</a>
     </div>
 
 
-          
+        
     <div class="article-tag tagcloud">
         <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
     </div>
 
-        </div>
         <div class="clearfix"></div>
-    </header>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><excerpt in="" index="" |="" 首页摘要=""> </excerpt></p>
+<h2 id="主要问题"><a href="#主要问题" class="headerlink" title="主要问题"></a>主要问题</h2><ul>
+<li>为什么<code>argv</code>中第一个，即index=0的内容就是文件名？</li>
+<li>python中<code>argc</code>是用什么实现的？<a id="more"></a>
+<the rest="" of="" contents="" |="" 余下全文=""><h2 id="概念解释"><a href="#概念解释" class="headerlink" title="概念解释"></a>概念解释</h2><code>argc</code>:argument counter，命令行参数个数<br><code>argv</code>:argument vector，命令行参数向量(内容)<h2 id="通过代码理解含义"><a href="#通过代码理解含义" class="headerlink" title="通过代码理解含义"></a>通过代码理解含义</h2>创建一个文件<code>arg_exam.py</code>，其中内容如下：<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># argv</span></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> sys.argv:</span><br><span class="line">    <span class="keyword">print</span> i</span><br><span class="line"></span><br><span class="line"><span class="comment"># argc</span></span><br><span class="line">argc = len(sys.argv)</span><br><span class="line"><span class="keyword">print</span> argc</span><br></pre></td></tr></table></figure>
+</the></li>
+</ul>
+<p>在shell中运行一个简单的例子<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ python arg_exam.py hello I am an example</span><br></pre></td></tr></table></figure></p>
+<p>输出为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">arg_exam.py</span><br><span class="line">hello</span><br><span class="line">I</span><br><span class="line">am</span><br><span class="line">an</span><br><span class="line">example</span><br><span class="line">6</span><br></pre></td></tr></table></figure></p>
+<p>所以说，<code>argv</code>就是<code>python</code>命令后跟着的一系列命令参数的内容。<br>而<code>argc</code>（在C语言存在的变量）就是这些命令参数的个数了，在python中因为<code>argv</code>是个列表，其长度<code>len</code>自然就是<code>argc</code>了，所以python中并没有为<code>argc</code>特地设置一个方法或者属性。</p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><ul>
+<li>argv是在命令行中运行程序时跟在<code>python</code>命令后的所有内容，以空格为分界，得到各元素。</li>
+<li>python中argc并不是一个特定属性或方法，而是可以直接通过<code>len(sys.argv)</code>获得。</li>
+</ul>
+
+      
+    </div>
+    
   </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2018/03/17/python中的argv和argc/">python中的argv和argc</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">Yuci Cheung</a></p>
+        <p><span>发布时间:</span>2018-03-17, 22:24:44</p>
+        <p><span>最后更新:</span>2018-03-17, 22:33:02</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2018/03/17/python中的argv和argc/" title="python中的argv和argc">https://yucicheung.github.io/2018/03/17/python中的argv和argc/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://yucicheung.github.io/2018/03/17/python中的argv和argc/　　作者: Yuci Cheung" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2018/03/14/为Github-page绑定自定义域名并实现https访问/">
+                    为Github page绑定自定义域名并实现https访问
+                </a>
+            </div>
+        
+    </nav>
+
+  
 </article>
-  
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#主要问题"><span class="toc-number">1.</span> <span class="toc-text">主要问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#概念解释"><span class="toc-number">2.</span> <span class="toc-text">概念解释</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#通过代码理解含义"><span class="toc-number">3.</span> <span class="toc-text">通过代码理解含义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结论"><span class="toc-number">4.</span> <span class="toc-text">结论</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
     
+<div class="share">
     
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-          <div class="article-meta">
-              <a href="/2018/03/14/为Github-page绑定自定义域名并实现https访问/" class="archive-article-date">
-      <time datetime="2018-03-14T12:28:08.000Z" itemprop="datePublished">03-14</time>
-</a>
+
+    
+        <div class="addthis_sharing_toolbox"></div>
+    
+</div>
 
 
-        </div>
-         
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/14/为Github-page绑定自定义域名并实现https访问/">为Github page绑定自定义域名并实现https访问</a>
-    </h1>
-  
 
-        <div class="article-info info-on-archive">
-          
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Configuration/">Configuration</a>
+
+
+
+
+    
+        <section id="comments">
+    <style> aside.comment-bar { margin: auto 30px; }</style>
+    <div id="disqus_thread"></div>
+    <script>
+        var disqus_config = function(){
+            this.page.url = 'https://yucicheung.github.io/2018/03/17/python中的argv和argc/';
+            this.page.identifier = '2018/03/17/python中的argv和argc/';
+        };
+        var loadComment = function(){
+            var d = document, s = d.createElement('script');
+            s.src = '//yucicheung-github-io.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        }
+    </script>
+    
+    <script> loadComment(); </script>
+
+</section>
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2018/03/14/为Github-page绑定自定义域名并实现https访问/" title="下一篇: 为Github page绑定自定义域名并实现https访问">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
     </div>
 
-
-          
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CDN/">CDN</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SSL/">SSL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/github/">github</a></li></ul>
-    </div>
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-          <div class="article-meta">
-              <a href="/2018/03/13/Ubuntu下用hexo搭建github博客/" class="archive-article-date">
-      <time datetime="2018-03-12T19:30:49.000Z" itemprop="datePublished">03-13</time>
-</a>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/03/17/python中的argv和argc/">python中的argv和argc</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/14/为Github-page绑定自定义域名并实现https访问/">为Github page绑定自定义域名并实现https访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/13/Ubuntu下用hexo搭建github博客/">Ubuntu下用hexo搭建github博客</a></li></ul>
 
 
-        </div>
-         
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/13/Ubuntu下用hexo搭建github博客/">Ubuntu下用hexo搭建github博客</a>
-    </h1>
-  
-
-        <div class="article-info info-on-archive">
-          
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Configuration/">Configuration</a>
-    </div>
 
 
-          
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git/">git</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/">hexo</a></li></ul>
-    </div>
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-
+    <script>
+        
+    </script>
 </div>
       <footer id="footer">
     <div class="outer">
