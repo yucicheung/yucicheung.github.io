@@ -7,16 +7,8 @@
     </url>
 
     <url>
-        <loc>https://yucicheung.github.io/2018/03/17/python%E4%B8%AD%E7%9A%84argv%E5%92%8Cargc/</loc>
-        <lastmod>2018-03-17T14:33:02.936Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://yucicheung.github.io/2018/03/13/Ubuntu%E4%B8%8B%E7%94%A8hexo%E6%90%AD%E5%BB%BAgithub%E5%8D%9A%E5%AE%A2/</loc>
-        <lastmod>2018-03-17T07:39:10.398Z</lastmod>
+        <loc>https://yucicheung.github.io/2018/03/24/Dijkstras%E7%AE%97%E6%B3%95%E5%92%8C%E5%AE%9E%E7%8E%B0/</loc>
+        <lastmod>2018-03-23T17:37:48.249Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -24,7 +16,23 @@
 
     <url>
         <loc>https://yucicheung.github.io/2018/03/14/%E4%B8%BAGithub-page%E7%BB%91%E5%AE%9A%E8%87%AA%E5%AE%9A%E4%B9%89%E5%9F%9F%E5%90%8D%E5%B9%B6%E5%AE%9E%E7%8E%B0https%E8%AE%BF%E9%97%AE/</loc>
-        <lastmod>2018-03-17T07:39:03.054Z</lastmod>
+        <lastmod>2018-03-18T17:55:25.644Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://yucicheung.github.io/2018/03/13/Ubuntu%E4%B8%8B%E7%94%A8hexo%E6%90%AD%E5%BB%BAgithub%E5%8D%9A%E5%AE%A2/</loc>
+        <lastmod>2018-03-18T17:55:14.888Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://yucicheung.github.io/2018/03/17/python%E4%B8%AD%E7%9A%84argv%E5%92%8Cargc/</loc>
+        <lastmod>2018-03-18T17:53:53.359Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
