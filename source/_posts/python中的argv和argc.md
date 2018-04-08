@@ -3,7 +3,7 @@ title: python中的argv和argc
 tags:
   - python
 categories:
-  - 学艺更精
+  - Learning
 date: 2018-03-17 22:24:44
 ---
 <Excerpt in index | 首页摘要> 

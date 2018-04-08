@@ -5,10 +5,9 @@ tags:
   - 算法
   - python
 categories:
-  - 学艺更精
+  - Learning
 date: 2018-03-24 01:37:48
 ---
-
 <Excerpt in index | 首页摘要> 
 - Dijkstras算法的基本原理和求解步骤
 - Dijkstras算法用python实现的思路和源代码

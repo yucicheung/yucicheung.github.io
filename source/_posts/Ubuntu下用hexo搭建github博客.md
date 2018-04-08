@@ -5,7 +5,7 @@ tags:
   - git
   - Ubuntu
 categories:
-  - 玩点别的
+  - Documenting
 date: 2018-03-13 03:30:49
 ---
 <Excerpt in index | 首页摘要> 
