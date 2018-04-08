@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Yuci Cheung" />
+
+
+
+<meta name="description" content="对进程及其属性的介绍 ps进程监视命令 top命令即时跟踪进程 lsof命令查看占用文件进程 kill命令向进程发送信号 /PROC文件系统">
+<meta name="keywords" content="Linux,Shell">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux系列8-进程管理">
+<meta property="og:url" content="https://yucicheung.github.io/2018/04/09/Linux系列8-进程管理/index.html">
+<meta property="og:site_name" content="Yuci&#39;s Blog">
+<meta property="og:description" content="对进程及其属性的介绍 ps进程监视命令 top命令即时跟踪进程 lsof命令查看占用文件进程 kill命令向进程发送信号 /PROC文件系统">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-04-08T16:45:12.412Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux系列8-进程管理">
+<meta name="twitter:description" content="对进程及其属性的介绍 ps进程监视命令 top命令即时跟踪进程 lsof命令查看占用文件进程 kill命令向进程发送信号 /PROC文件系统">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="Yuci&#39;s Blog" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/egg.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>Linux系列8-进程管理 | Yuci&#39;s Blog</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+    <script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5aa6360dad8cb1a6"></script>
+
+
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?bd6df76638422f4466c5d6bd0c572265";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Yuci Cheung</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">Talk is cheap.</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="false" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:yucicheung@gmail.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/yucicheung" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" href="http://blog.csdn.net/yucicheung" title="CSDN"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CDN/">CDN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Grub/">Grub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSL/">SSL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/">Shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/正则表达式/">正则表达式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+
+                
+                
+                <section class="switch-part switch-part3">
+                
+                    <div id="js-aboutme">预备役程序员。</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Yuci Cheung</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Yuci Cheung</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">Talk is cheap.</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:yucicheung@gmail.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/yucicheung" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" target="_blank" href="http://blog.csdn.net/yucicheung" title="CSDN"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-Linux系列8-进程管理" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/04/09/Linux系列8-进程管理/" class="article-date">
+      <time datetime="2018-04-08T16:45:12.000Z" itemprop="datePublished">2018-04-09</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Linux系列8-进程管理
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/学艺更精/">学艺更精</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Shell/">Shell</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><excerpt in="" index="" |="" 首页摘要=""> </excerpt></p>
+<ul>
+<li>对进程及其属性的介绍</li>
+<li><code>ps</code>进程监视命令</li>
+<li><code>top</code>命令即时跟踪进程</li>
+<li><code>lsof</code>命令查看占用文件进程</li>
+<li><code>kill</code>命令向进程发送信号</li>
+<li>/PROC文件系统<a id="more"></a>
+<the rest="" of="" contents="" |="" 余下全文=""><h2 id="上手"><a href="#上手" class="headerlink" title="上手"></a>上手</h2></the></li>
+<li>下列是一个自动创建进程的badpro程序,会自动打开程序并且创建目录和文件。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#! /bin/bash</span><br><span class="line">while echo &quot;I&apos;m making files!!&quot;</span><br><span class="line">do</span><br><span class="line">	mkdir adir</span><br><span class="line">	cd adir</span><br><span class="line">	touch afile</span><br><span class="line"></span><br><span class="line">	sleep 2s</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ chmod +x badpro</span><br><span class="line">$ ./badpro &amp;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>ps</code>：查看程序的PID号(PID号用于唯一表示一个进程)。<ul>
+<li><code>ps aux | grep badpro</code>(是将前一个命令的输出作为后一个命令的输入)。<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">kill</span> PID</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h2><ol>
+<li>Linux是一种多用户、多进程的操作系统。</li>
+<li>在Linux的内核中维护着一张表，这张表记录了当前系统中运行的所有进程的各种信息。内核会自动完成对进程的控制和调度。</li>
+<li>进程，是正在运行的程序。<h2 id="进程的属性"><a href="#进程的属性" class="headerlink" title="进程的属性"></a>进程的属性</h2></li>
+</ol>
+<ul>
+<li><code>PID</code>:进程的ID号;<ul>
+<li>Linux自己使用PID确定进程，也要求用户在管理进程时提供相应的PID号;</li>
+<li>几乎所有进程管理工具都使用PID而不是进程名。</li>
+</ul>
+</li>
+<li><code>PPID</code>:父进程的PID;<ul>
+<li>Linux中，所有的进程都必须由另一个进程创建——除了在系统引导时，直接由内核主动创建并安装的几个进程。当一个进程被创建时，创建它的那个进程被称为<strong>父进程</strong>，而这个进程就叫做<strong>子进程</strong>。子进程应该是其父进程的克隆体。</li>
+</ul>
+</li>
+<li><code>UID</code>:真实用户ID;<ul>
+<li>只有进程的创建者和root用户才有权利对该进程进行操作,于是记录一个进程的创建者(也就是属主)就显得非常必要，进程的UID就是其创建者的用户ID号，用于标识进程的属主。</li>
+</ul>
+</li>
+<li><code>EUID</code>:有效的用户ID<br>-Linux还为进程保存一个”有效用户ID号”，被称作EUID，用来确定进程对某些资源和文件的访问权限。绝大部分情况下，进程的UID和EUID是一致的——除了著名的<code>SETUID</code>程序。</li>
+<li>允许用户修改密码的命令<code>passwd</code>命令就是一个典型的<code>SETUID</code>程序，其UID是当前执行这个命令的用户ID，而EUID是root用户的ID(也就是0)。</li>
+<li>GID和EGID：真实和有效的组ID;<ul>
+<li>EGID可能在确定访问权限方面还发挥了一定作用</li>
+</ul>
+</li>
+<li>谦让度和优先级;<ul>
+<li>进程的优先级决定了其受到CPU优待的程度，优先级高的进程可以更早地被处理，并获得更多的处理器时间;</li>
+<li>决定进程何时被处理是内核的事情，不用用户插手，但用户可以设置进程的谦让度来影响内核的想法。<h2 id="监视进程-ps命令"><a href="#监视进程-ps命令" class="headerlink" title="监视进程: ps命令"></a>监视进程: ps命令</h2></li>
+</ul>
+</li>
+<li><code>ps</code>是最常用的监视进程的命令。</li>
+<li><code>ps aux</code>命令用于现实当前系统上运行的所有进程的信息。其中部分行代表的信息是<br>  | 字段 | 含义 |<br>  | — | — |<br>  | USER | 进程创建者的用户名 |<br>  | PID | 进程的ID号 |<br>  | %CPU | 进程占用CPU的百分比 |<br>  | %MEM | 进程占用内存的百分比 |<br>  | VSZ | 进程占用的虚拟内存大小 |<br>  | RSS | 内存中页的数量(页是管理内存的单位，在PC上通常为4K)|<br>  | TTY | 进程所在终端的ID号 |<br>  | STAT | 进程状态，常用字母代表含义如下：<br><code>R</code> 正在运行/可运行  <code>D</code> 睡眠中(不可被唤醒，通常是在等待I/O设备)<br> <code>S</code> 睡眠中（可以被唤醒） <code>T</code> 停止（由于受到信号或被跟踪）<br> <code>Z</code> 僵进程（已经结束而没有释放系统资源的进程）<br>————<br>常用的附加标志有：<br> <code>&lt;</code> 进程拥有比普通优先级高的优先级<br><code>N</code> 进程拥有比普通优先级低的优先级<br><code>L</code> 有些页面被锁在内存中<br><code>s</code> 会话的先导进程|<br>  |START | 进程启动时间 |<br>  | TIME | 进程已经占用的CPU时间 |<br>  | COMMAND | 命令和参数 |</li>
+<li><code>ps</code>的另一组选项<code>lax</code>可以提供PPID和谦让度(NI)。<ul>
+<li>另<code>ps lax</code>不显示进程属主的用户名，因此可以提供更快的运行速度(<code>ps aux</code>需要把UID转化为用户名之后才输出)。<h2 id="即时跟踪进程信息：top命令"><a href="#即时跟踪进程信息：top命令" class="headerlink" title="即时跟踪进程信息：top命令"></a>即时跟踪进程信息：top命令</h2><code>ps</code>命令可以一次性给出当前系统中进程信息的快照，但如果管理员需要实时监视进程运行情况，就可以运行<code>top</code>命令即时跟踪当前系统中进程的情况。<br><code>top</code>命令显示的信息会占满一页，且在默认情况下每10s更新一次。使用CPU最多的程序会排在前面，用<code>h</code>查看帮助，<code>q</code>推出。<h2 id="查看占用文件的命令：lsof"><a href="#查看占用文件的命令：lsof" class="headerlink" title="查看占用文件的命令：lsof"></a>查看占用文件的命令：lsof</h2></li>
+</ul>
+</li>
+<li>不带任何参数的<code>lsof</code>命令会列出当前系统中所有打开文件的进程信息。</li>
+<li>用文件名作为参数，可以查看占用该文件的进程。<h2 id="向进程发送信号：kill"><a href="#向进程发送信号：kill" class="headerlink" title="向进程发送信号：kill"></a>向进程发送信号：kill</h2><code>kill</code>命令用来向进程发送一个信号，这个信号是什么由用户指定。默认发送的是<code>TERM</code>信号，这个信号表示请求终止某项操作。</li>
+<li><p>标准用法是：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">kill</span> [-signal] pid</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>信号及其编号用<code>kill -l</code>查看(INT为’ctrl+c’)。<br>  | 信号编号 | 信号名 | 描 述 | 默认情况下执行的操作 |<br>  | — | — | — | — |<br>  | 0 | EXIT | 程序退出时收到该信号 | 终止 |<br>  | 1 | HUP | 挂起 | 终止 |<br>  | 2 | INT | 中断 | 终止 |<br>  | 3 | QUIT | 退出 | 终止 |<br>  | 9 | KILL | 杀死 | 终止 |<br>  | 11 | SEGV | 段错误 | 终止 |<br>  | 15 | TERM | 软件终止 | 终止 |<br>  <em>hints</em>:信号名前缀<code>SIG</code>是可以省略，即 <code>kill -SIGTERM pid</code>和<code>kill -TERM pid</code>都是一样的。</p>
+</li>
+<li><strong>注意</strong>：<code>kill</code>命令<em>不一定</em>可以终止一个进程，既然<code>kill</code>命令向进程发送一个信号，这个信号就能被程序捕捉，程序可以“封锁”或者“忽略”捕捉到的信号。只有在信号没有被程序捕捉的情况下，系统才会执行默认操作。比如可以加入<code>trap &quot;&quot; TERM</code>来忽略TERM信号。</li>
+<li><strong><code>KILL</code>信号永远不能被程序所捕捉</strong>，<code>KILL</code>信号可以在内核级别杀死进程。<code>kill -SIGTERM pid</code>或<code>kill -TERM pid</code>或<code>kill -9 pid</code>。<br>也有<code>KILL</code>信号都不能影响的进程，常常是由一些退化的I/O（输入/输出）虚假锁定造成的。此时，重新启动系统是唯一的解决办法。<h2 id="调整进程的谦让度：nice和renice"><a href="#调整进程的谦让度：nice和renice" class="headerlink" title="调整进程的谦让度：nice和renice"></a>调整进程的谦让度：nice和renice</h2></li>
+<li><code>nice</code>命令可以在启动程序时设置其谦让度,调整的是“相对”谦让度值。<ul>
+<li>用不带参数的<code>nice</code>的命令查看默认谦让度值，一般是0。</li>
+</ul>
+</li>
+<li><code>renice</code>命令在程序运行时调整其谦让度值，调整的是“绝对”谦让度值。</li>
+<li>高谦让度表示低优先级，低谦让度(尤其是负数)的程序会占用更多的CPU时间，拥有更高的优先级。</li>
+<li>新进程一般将从其父进程那里继承谦让度。为保证低优先级的进程不会派生出高优先级的进程，允许进程的属主提高其谦让度（降低优先级），但不能降低谦让度。<strong>但是root用户可以任意设置进程的优先级</strong>。<h2 id="PROC文件系统"><a href="#PROC文件系统" class="headerlink" title="/PROC文件系统"></a>/PROC文件系统</h2></li>
+<li><code>/proc</code>目录下存放了内核有关系统状态的各种有意义的信息。<ul>
+<li>在系统运行时，内核会随时向这个目录写入数据。<code>ps</code>和<code>top</code>命令就是从此目录中读取数据的。</li>
+<li>实际上，这是操作系统向用户提供的一条通往内核的通道，用户甚至可以通过向/PROC目录下的文件写入数据来修改操作系统参数。</li>
+<li>内容说明：<ul>
+<li>以数字命名的目录存放着对应进程的信息。/proc/1包含进程init的信息，由内核在系统启动时创建，是除了那个时候同时创建的几个内核进程之外所有进程的父进程。<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><em>Linux从入门到精通 刘忆智 著</em></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2018/04/09/Linux系列8-进程管理/">Linux系列8-进程管理</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">Yuci Cheung</a></p>
+        <p><span>发布时间:</span>2018-04-09, 00:45:12</p>
+        <p><span>最后更新:</span>2018-04-09, 00:45:12</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2018/04/09/Linux系列8-进程管理/" title="Linux系列8-进程管理">https://yucicheung.github.io/2018/04/09/Linux系列8-进程管理/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://yucicheung.github.io/2018/04/09/Linux系列8-进程管理/　　作者: Yuci Cheung" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2018/04/09/Linux系列9-网络配置和远程访问/">
+                    Linux系列9-网络配置和远程访问
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2018/04/09/Linux系列7-用户与用户组管理/">
+                    Linux系列6-用户与用户组管理
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#上手"><span class="toc-number">1.</span> <span class="toc-text">上手</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#进程"><span class="toc-number">2.</span> <span class="toc-text">进程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#进程的属性"><span class="toc-number">3.</span> <span class="toc-text">进程的属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#监视进程-ps命令"><span class="toc-number">4.</span> <span class="toc-text">监视进程: ps命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#即时跟踪进程信息：top命令"><span class="toc-number">5.</span> <span class="toc-text">即时跟踪进程信息：top命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查看占用文件的命令：lsof"><span class="toc-number">6.</span> <span class="toc-text">查看占用文件的命令：lsof</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#向进程发送信号：kill"><span class="toc-number">7.</span> <span class="toc-text">向进程发送信号：kill</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#调整进程的谦让度：nice和renice"><span class="toc-number">8.</span> <span class="toc-text">调整进程的谦让度：nice和renice</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PROC文件系统"><span class="toc-number">9.</span> <span class="toc-text">/PROC文件系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考文献"><span class="toc-number">10.</span> <span class="toc-text">参考文献</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+
+    
+        <div class="addthis_sharing_toolbox"></div>
+    
+</div>
+
+
+
+
+
+
+
+    
+        <section id="comments">
+    <style> aside.comment-bar { margin: auto 30px; }</style>
+    <div id="disqus_thread"></div>
+    <script>
+        var disqus_config = function(){
+            this.page.url = 'https://yucicheung.github.io/2018/04/09/Linux系列8-进程管理/';
+            this.page.identifier = '2018/04/09/Linux系列8-进程管理/';
+        };
+        var loadComment = function(){
+            var d = document, s = d.createElement('script');
+            s.src = '//yucicheung-github-io.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        }
+    </script>
+    
+    <script> loadComment(); </script>
+
+</section>
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2018/04/09/Linux系列9-网络配置和远程访问/" title="上一篇: Linux系列9-网络配置和远程访问">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2018/04/09/Linux系列7-用户与用户组管理/" title="下一篇: Linux系列6-用户与用户组管理">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列9-网络配置和远程访问/">Linux系列9-网络配置和远程访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列8-进程管理/">Linux系列8-进程管理</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列7-用户与用户组管理/">Linux系列6-用户与用户组管理</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列6-磁盘管理/">Linux系列6-磁盘管理</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列5-软件包管理/">Linux系列5-软件包管理</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列4-文件目录管理/">Linux系列4-文件目录管理</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列3-shell基本命令/">Linux系列3-shell基本命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列2-基本配置/">Linux系列2-基本配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列1-概述/">Linux系列1-概述</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列11-Shell编程/">Linux系列11-Shell编程</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列10-VIM/">Linux系列10-Linux编程</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/24/Dijkstras算法和实现/">Dijkstras算法和实现(python)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/17/python中的argv和argc/">python中的argv和argc</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/14/为Github-page绑定自定义域名并实现https访问/">为Github page绑定自定义域名并实现https访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/13/Ubuntu下用hexo搭建github博客/">Ubuntu下用hexo搭建github博客</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2018 Yuci Cheung
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 6;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-115529402-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+    <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "(つェ⊂)" + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*)" + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

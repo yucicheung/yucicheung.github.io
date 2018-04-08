@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Yuci Cheung" />
+
+
+
+<meta name="description" content="Linux下编辑器VIM的操作 保存和编辑 字符串的搜索和替换 针对程序员的配置   C/C++的编译、运行和调试 版本管理系统简介">
+<meta name="keywords" content="Linux,Shell">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux系列10-Linux编程">
+<meta property="og:url" content="https://yucicheung.github.io/2018/04/09/Linux系列10-VIM/index.html">
+<meta property="og:site_name" content="Yuci&#39;s Blog">
+<meta property="og:description" content="Linux下编辑器VIM的操作 保存和编辑 字符串的搜索和替换 针对程序员的配置   C/C++的编译、运行和调试 版本管理系统简介">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-04-08T16:45:00.748Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux系列10-Linux编程">
+<meta name="twitter:description" content="Linux下编辑器VIM的操作 保存和编辑 字符串的搜索和替换 针对程序员的配置   C/C++的编译、运行和调试 版本管理系统简介">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="Yuci&#39;s Blog" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/egg.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>Linux系列10-Linux编程 | Yuci&#39;s Blog</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+    <script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5aa6360dad8cb1a6"></script>
+
+
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?bd6df76638422f4466c5d6bd0c572265";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Yuci Cheung</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">Talk is cheap.</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="false" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:yucicheung@gmail.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/yucicheung" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" href="http://blog.csdn.net/yucicheung" title="CSDN"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CDN/">CDN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Grub/">Grub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSL/">SSL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/">Shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/正则表达式/">正则表达式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+
+                
+                
+                <section class="switch-part switch-part3">
+                
+                    <div id="js-aboutme">预备役程序员。</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Yuci Cheung</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Yuci Cheung</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">Talk is cheap.</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:yucicheung@gmail.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/yucicheung" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" target="_blank" href="http://blog.csdn.net/yucicheung" title="CSDN"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-Linux系列10-VIM" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/04/09/Linux系列10-VIM/" class="article-date">
+      <time datetime="2018-04-08T16:45:00.000Z" itemprop="datePublished">2018-04-09</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Linux系列10-Linux编程
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/学艺更精/">学艺更精</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Shell/">Shell</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><excerpt in="" index="" |="" 首页摘要=""> </excerpt></p>
+<ul>
+<li>Linux下编辑器VIM的操作<ul>
+<li>保存和编辑</li>
+<li>字符串的搜索和替换</li>
+<li>针对程序员的配置</li>
+</ul>
+</li>
+<li>C/C++的编译、运行和调试</li>
+<li>版本管理系统简介<a id="more"></a>
+<the rest="" of="" contents="" |="" 余下全文=""><h2 id="Vim编辑器"><a href="#Vim编辑器" class="headerlink" title="Vim编辑器"></a>Vim编辑器</h2></the></li>
+<li>Vim是Vi的增强版本，在不正式的情况下，两者是一回事。</li>
+<li>Vim是所有UNIX和Linux系统下的标准软件。<h3 id="两种模式-编辑和保存"><a href="#两种模式-编辑和保存" class="headerlink" title="两种模式/编辑和保存"></a>两种模式/编辑和保存</h3></li>
+<li><code>vim file</code>:对文件用vim编辑器进行编辑。如果文件不存在，Vim将自动创建文件。<ul>
+<li><code>vim</code> : 不带参数的vim自动打开编辑器。</li>
+</ul>
+</li>
+<li>vim分为<em>插入</em>和<em>命令</em>两种模式。Vim启动时自动处于命令模式。<ul>
+<li>按’I’键进入插入模式，此模式下可以输入字符;</li>
+<li>按’Esc’键进入命令模式，此模式下执行除了字符操作以外的所有操作，包括保存、搜索、移动光标等。</li>
+</ul>
+</li>
+<li>命令模式下，输入“：”在底部打开一个命令行，此时光标闪烁输入，等待用户输入。</li>
+<li>H、J、K、L分别代表向左、上、下、右移动。当然使用方向键也是可以的。</li>
+<li>O在当前行下插入一行空白行。</li>
+<li><code>w</code>保存，<code>q</code>退出，<code>wq</code>保存且退出，<code>q!</code>强制退出。<h3 id="搜索字符串"><a href="#搜索字符串" class="headerlink" title="搜索字符串"></a>搜索字符串</h3></li>
+<li><code>/string</code>用于搜索一个字符串，输入<code>/</code>后，vim底部也会出现一个命令行。</li>
+<li>vim的搜索可以循环进行，<code>/</code>命令向前(文件尾)查找，<code>？</code>命令向后(向文件头)查找。</li>
+<li>对大小写是否敏感：<ul>
+<li><code>:set ignorecase</code>命令vim忽略大小写;</li>
+<li><code>:set noignorecase</code>命令vim重新开启大小写敏感。<h3 id="替换字符串"><a href="#替换字符串" class="headerlink" title="替换字符串"></a>替换字符串</h3></li>
+</ul>
+</li>
+<li><p><code>:[range]s/pattern/string/[c,e,g,i]</code>:替换命令的完整语法，将匹配pattern(正则表达式)的字符串替换为string。</p>
+<ul>
+<li>range规定替换范围，<code>1,4</code>表示1到4行，<code>1,$</code>表示1行到最后一行(全文)，<code>%</code>也表示全文。</li>
+<li><p>最后方括号内的字符是可选选项，选项含义如下：</p>
+<p>| 标志 | 含义 |<br>| — | — |<br>| c | 每次替换前询问 |<br>| e | 不显示错误信息 |<br>| g | 替换一行中的所有匹配项（通常需要使用,否则替换第一项） |<br>| i | 不区分大小写 |</p>
+</li>
+</ul>
+</li>
+<li><p>*清除文本文件中的<code>^M</code>字符：由于来自windows环境的源代码对换行符的表述和Linux不一致，因此文末常出现<code>^M</code>符号——虽然对程序编译器和解释器没有影响，但在shell编程时会产生问题，此时用<code>%s/^M$//g</code>删除行末的<code>^M</code>字符。</p>
+<h3 id="针对程序员的配置"><a href="#针对程序员的配置" class="headerlink" title="针对程序员的配置"></a>针对程序员的配置</h3></li>
+<li>一些常用的配置命令：<ul>
+<li><code>:syntax on</code>打开语法高亮，vim会根据文件扩展名决定哪些为关键字。</li>
+<li><code>:set autoindent</code>设置自动缩进;</li>
+<li><code>:set shiftwidth=4</code>设置自动缩进的空白长度;</li>
+<li><code>:set tabstop=4</code>将tab键缩进设置为4个空格。</li>
+</ul>
+</li>
+<li>为避免每次启动vim都要手动输入命令，可以将命令写入vim的配置文件中(文件中不要包含<code>:</code>)，vim的配置文件为<code>/etc/vim/vimrc</code>(/etc中的文件对系统中所有用户生效)，推荐用户可以新建一个<code>~/.vimrc</code>文件在其中写入配置信息，只对当前用户生效。<ul>
+<li><strong>通常用户个性化的设置文件都是隐藏文件(<code>.</code>开头的文件)，且保存在用户主目录下</strong>。<h3 id="Vim的常用命令总结"><a href="#Vim的常用命令总结" class="headerlink" title="Vim的常用命令总结"></a>Vim的常用命令总结</h3></li>
+</ul>
+</li>
+<li>模式切换：<ul>
+<li><code>a</code>:在光标后插入;</li>
+<li><code>i</code>:在光标所在位置插入;</li>
+<li><code>o</code>：在光标所在位置下一行插入;</li>
+<li><code>Esc</code>:进入命令模式;</li>
+<li><code>:</code>进入行命令模式。</li>
+</ul>
+</li>
+<li>光标移动(名列前加上数字，可以重复多次移动，如<code>5w</code>)：<ul>
+<li><code>h</code>/<code>l</code>/<code>j</code>/<code>k</code>：光标向左/右/上/下移动;</li>
+<li><code>^</code>/<code>$</code>：移动光标到行首/尾;</li>
+<li><code>gg</code>/<code>shift+g</code>:移动光标到文件首/尾;</li>
+<li><code>w</code>/<code>b</code>:移动到下一个/上一个单词;</li>
+<li><code>ctrl+f</code>/<code>ctrl+b</code>:向前(文件尾)/后(文件头)翻动一页。</li>
+</ul>
+</li>
+<li>删除、复制和粘贴：<ul>
+<li><code>x</code>:删除光标所在位置的字符;</li>
+<li><code>dd</code>：删除光标所在行;</li>
+<li><code>shift+d</code>:删除光标所在位置到行尾的所有字符;</li>
+<li><code>d</code>:和移动命令配合使用的删除命令，如<code>dw</code>表示删除光标所在位置到下一个单词之间的所有字符;</li>
+<li><code>yy</code>:复制光标所在行;</li>
+<li><code>y</code>:和移动命令配合使用的复制命令;</li>
+<li><code>shift+p</code>:在光标所在位置粘贴最近复制/删除的内容。</li>
+</ul>
+</li>
+<li>撤销和重做：<ul>
+<li><code>u</code>：撤销一次操作;</li>
+<li><code>ctrl+r</code>:重做被撤销的操作。</li>
+</ul>
+</li>
+<li>搜索和替换：<ul>
+<li><code>:/string</code>：向前搜索字符串string;</li>
+<li><code>:?string</code>：向后搜索字符串string;</li>
+<li><code>:s/pattern/string</code>：将pattern代表的字符串替换成string。</li>
+</ul>
+</li>
+<li>保存和退出：<ul>
+<li><code>:w</code>：保存文件;</li>
+<li><code>:w filename</code>：另存为filename;</li>
+<li><code>:q</code>：退出vim;</li>
+<li><code>:!q</code>：强制退出，放弃保存修改。<h2 id="C-C-的编译-gcc-g"><a href="#C-C-的编译-gcc-g" class="headerlink" title="C/C++的编译(gcc/g++)"></a>C/C++的编译(gcc/g++)</h2></li>
+</ul>
+</li>
+<li>gcc最初是C编译器(GNU C Compiler)，如今支持多种语言编译(GNU Compiler Collection)。</li>
+<li><code>gcc *.c</code>:编译C源文件，默认产生一个可执行文件为<code>a.out</code>;<ul>
+<li><code>gcc -o &lt;outname&gt; *.c</code>:指定产生的可执行文件名字为<code>outname</code>。</li>
+</ul>
+</li>
+<li>*和编译有关的选项：<ul>
+<li><code>-c</code>：只激活预处理、编译和汇编，生成扩展名为.o的目标代码文件(在编写大型程序时必须，存在依赖关系的源代码应首先编译成目标代码，最后连接成可执行文件，超过3个源文件考虑用<code>make</code>);</li>
+<li><code>-S</code>：只激活预处理和编译，并生成扩展名为.s的汇编代码文件;</li>
+<li><code>-E</code>：只激活预处理，并将结果输出至标准输出;</li>
+<li><code>-g</code>：为调试程序(gdb)生成相关信息。</li>
+</ul>
+</li>
+<li>优化选项：gcc提供了从低到高3个级别的优化选项，依次为<code>-O1</code>、<code>-O2</code>、<code>-O3</code>。<ul>
+<li>优化程序越高，效率越高，相应风险越大;</li>
+<li>通常<code>-O2</code>选项可以满足绝大多数优化需求;</li>
+<li>这三个优化级别其实就是对多个优化选项的“打包”。</li>
+</ul>
+</li>
+<li><code>-march=</code>生成只适合特定CPU的二进制代码(一般不使用)。</li>
+<li><code>g++ *.cpp</code>：用g++完成C++程序的编译和连接(<code>gcc</code>可以编译C++源文件，但不能和C++程序使用的库连接)，会自动调用<code>gcc</code>完成对文件的编译;<ul>
+<li><code>-o</code>：同<code>gcc</code>，此选项指定可执行文件名。<h2 id="C程序的调试-gdb"><a href="#C程序的调试-gdb" class="headerlink" title="C程序的调试(gdb)"></a>C程序的调试(gdb)</h2></li>
+</ul>
+</li>
+<li>使用<code>gdb</code>调试C/C++程序之前，要先使用<code>gcc -g</code>生成带有调试信息的可执行程序，否则只有汇编代码存在。</li>
+<li><code>gdb a.out</code>：gdb以可执行二进制文件为参数，对其进行调试，运行后显示提示符(gdb)等待接受用户指令;一些常用指令如下：<ul>
+<li><code>help</code>/<code>help &lt;command&gt;</code>：获取(和特定命令)有关的帮助信息;</li>
+<li>支持<tab>命令补全，当不足以确定唯一命令时，连按两次tab获得所有符合要求的命令;</tab></li>
+<li>支持命令缩写，如<code>h</code>就可以替代<code>help</code>;</li>
+<li><code>list</code>/<code>l</code>:用于查看程序源代码(会自动在源代码前加上行号，每次显示10行，可指定中间行);</li>
+<li><code>search &lt;content&gt;</code>：搜索特定内容，只能向前搜索，不能循环，支持正则表达式;</li>
+<li><code>reverse-search &lt;content&gt;</code>：反向搜索特定内容，向后搜索，支持正则表达式。</li>
+</ul>
+</li>
+<li>断点指令：<ul>
+<li><code>break</code>/<code>b</code>：在指定位置设置断点，可以用行号或函数名做参数;</li>
+<li><code>info break</code>：查看已设置断点信息;</li>
+<li><code>clear</code>：清除当前行断点。</li>
+</ul>
+</li>
+<li>运行程序和单步执行：<ul>
+<li><code>run</code>/<code>r</code>：运行程序至断点;</li>
+<li><code>next</code>/<code>n</code>：单步执行程序，可在后面添加数字n，表<strong>连续执行n行</strong>;</li>
+<li><code>step</code>/<code>s</code>：单步执行，会在遇见函数时进入函数内部，而<code>n</code>只执行调用函数不进入内部;</li>
+<li><code>continue</code>/<code>c</code>：继续运行程序直至遇见下一个断点;</li>
+</ul>
+</li>
+<li>监视变量：<ul>
+<li><code>print</code>/<code>p</code>：打印指定变量的值;</li>
+<li><code>watch</code>/<code>w</code>：设置观察点(可以看作是变量的一种)，以变量名/表达式为参数，一旦参数值发生变化，就停下程序。</li>
+</ul>
+</li>
+<li>临时修改变量：<ul>
+<li><code>set var</code>实现，如<code>set var i=1</code></li>
+</ul>
+</li>
+<li>查看堆栈情况(每次程序调用一个函数，其地址、参数、函数内的局部变量都会被压入栈中)：<ul>
+<li><code>bt</code>实现。</li>
+</ul>
+</li>
+<li>退出gdb：<ul>
+<li><code>quit</code>/<code>q</code>。<h2 id="版本控制系统"><a href="#版本控制系统" class="headerlink" title="版本控制系统"></a>版本控制系统</h2></li>
+</ul>
+</li>
+<li>不论是与他人协作还是管理自己的密码，版本控制系统(git和SVN)都是非常好的工具。</li>
+<li>版本控制系统是一套在开发程序时存储源代码所有修改的工具。满足这些需求：<ul>
+<li>集中化管理，自动跟踪单个文件的修改历史;</li>
+<li>完善的日志机制，便于掌握某次修改的原因;</li>
+<li>快速还原到指定的版本;</li>
+<li>协调不同开发者之间的活动，保证对源代码同一部分的改动步互相覆盖。</li>
+</ul>
+</li>
+<li>Subversion相比git，管理人员对开发人员的权利可以作出规范，但git是最好用的版本管理工具。</li>
+<li>git的使用，可以参考我的其他笔记。<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><em>Linux从入门到精通 刘忆智 著</em></li>
+</ul>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2018/04/09/Linux系列10-VIM/">Linux系列10-Linux编程</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">Yuci Cheung</a></p>
+        <p><span>发布时间:</span>2018-04-09, 00:45:00</p>
+        <p><span>最后更新:</span>2018-04-09, 00:45:00</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2018/04/09/Linux系列10-VIM/" title="Linux系列10-Linux编程">https://yucicheung.github.io/2018/04/09/Linux系列10-VIM/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://yucicheung.github.io/2018/04/09/Linux系列10-VIM/　　作者: Yuci Cheung" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2018/04/09/Linux系列11-Shell编程/">
+                    Linux系列11-Shell编程
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2018/03/24/Dijkstras算法和实现/">
+                    Dijkstras算法和实现(python)
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Vim编辑器"><span class="toc-number">1.</span> <span class="toc-text">Vim编辑器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#两种模式-编辑和保存"><span class="toc-number">1.1.</span> <span class="toc-text">两种模式/编辑和保存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#搜索字符串"><span class="toc-number">1.2.</span> <span class="toc-text">搜索字符串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#替换字符串"><span class="toc-number">1.3.</span> <span class="toc-text">替换字符串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#针对程序员的配置"><span class="toc-number">1.4.</span> <span class="toc-text">针对程序员的配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Vim的常用命令总结"><span class="toc-number">1.5.</span> <span class="toc-text">Vim的常用命令总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C-C-的编译-gcc-g"><span class="toc-number">2.</span> <span class="toc-text">C/C++的编译(gcc/g++)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C程序的调试-gdb"><span class="toc-number">3.</span> <span class="toc-text">C程序的调试(gdb)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#版本控制系统"><span class="toc-number">4.</span> <span class="toc-text">版本控制系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考文献"><span class="toc-number">5.</span> <span class="toc-text">参考文献</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+
+    
+        <div class="addthis_sharing_toolbox"></div>
+    
+</div>
+
+
+
+
+
+
+
+    
+        <section id="comments">
+    <style> aside.comment-bar { margin: auto 30px; }</style>
+    <div id="disqus_thread"></div>
+    <script>
+        var disqus_config = function(){
+            this.page.url = 'https://yucicheung.github.io/2018/04/09/Linux系列10-VIM/';
+            this.page.identifier = '2018/04/09/Linux系列10-VIM/';
+        };
+        var loadComment = function(){
+            var d = document, s = d.createElement('script');
+            s.src = '//yucicheung-github-io.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        }
+    </script>
+    
+    <script> loadComment(); </script>
+
+</section>
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2018/04/09/Linux系列11-Shell编程/" title="上一篇: Linux系列11-Shell编程">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2018/03/24/Dijkstras算法和实现/" title="下一篇: Dijkstras算法和实现(python)">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列9-网络配置和远程访问/">Linux系列9-网络配置和远程访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列8-进程管理/">Linux系列8-进程管理</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列7-用户与用户组管理/">Linux系列6-用户与用户组管理</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列6-磁盘管理/">Linux系列6-磁盘管理</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列5-软件包管理/">Linux系列5-软件包管理</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列4-文件目录管理/">Linux系列4-文件目录管理</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列3-shell基本命令/">Linux系列3-shell基本命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列2-基本配置/">Linux系列2-基本配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列1-概述/">Linux系列1-概述</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列11-Shell编程/">Linux系列11-Shell编程</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列10-VIM/">Linux系列10-Linux编程</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/24/Dijkstras算法和实现/">Dijkstras算法和实现(python)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/17/python中的argv和argc/">python中的argv和argc</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/14/为Github-page绑定自定义域名并实现https访问/">为Github page绑定自定义域名并实现https访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/13/Ubuntu下用hexo搭建github博客/">Ubuntu下用hexo搭建github博客</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2018 Yuci Cheung
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 6;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-115529402-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+    <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "(つェ⊂)" + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*)" + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

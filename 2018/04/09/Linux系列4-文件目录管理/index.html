@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Yuci Cheung" />
+
+
+
+<meta name="description" content="Linux的文件系统架构 文件和目录管理的基本操作 更改文件和目录权限 文件类型 重定向和管道">
+<meta name="keywords" content="Linux,Shell">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux系列4-文件目录管理">
+<meta property="og:url" content="https://yucicheung.github.io/2018/04/09/Linux系列4-文件目录管理/index.html">
+<meta property="og:site_name" content="Yuci&#39;s Blog">
+<meta property="og:description" content="Linux的文件系统架构 文件和目录管理的基本操作 更改文件和目录权限 文件类型 重定向和管道">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-04-08T16:45:07.236Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux系列4-文件目录管理">
+<meta name="twitter:description" content="Linux的文件系统架构 文件和目录管理的基本操作 更改文件和目录权限 文件类型 重定向和管道">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="Yuci&#39;s Blog" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/egg.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>Linux系列4-文件目录管理 | Yuci&#39;s Blog</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+    <script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5aa6360dad8cb1a6"></script>
+
+
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?bd6df76638422f4466c5d6bd0c572265";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Yuci Cheung</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">Talk is cheap.</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="false" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:yucicheung@gmail.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/yucicheung" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" href="http://blog.csdn.net/yucicheung" title="CSDN"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CDN/">CDN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Grub/">Grub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSL/">SSL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/">Shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/正则表达式/">正则表达式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+
+                
+                
+                <section class="switch-part switch-part3">
+                
+                    <div id="js-aboutme">预备役程序员。</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Yuci Cheung</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Yuci Cheung</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">Talk is cheap.</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:yucicheung@gmail.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/yucicheung" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" target="_blank" href="http://blog.csdn.net/yucicheung" title="CSDN"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-Linux系列4-文件目录管理" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/04/09/Linux系列4-文件目录管理/" class="article-date">
+      <time datetime="2018-04-08T16:45:07.000Z" itemprop="datePublished">2018-04-09</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Linux系列4-文件目录管理
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/学艺更精/">学艺更精</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Shell/">Shell</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><excerpt in="" index="" |="" 首页摘要=""> </excerpt></p>
+<ul>
+<li>Linux的文件系统架构</li>
+<li>文件和目录管理的基本操作</li>
+<li>更改文件和目录权限</li>
+<li>文件类型</li>
+<li>重定向和管道<a id="more"></a>
+<the rest="" of="" contents="" |="" 余下全文=""><h2 id="Linux文件系统架构"><a href="#Linux文件系统架构" class="headerlink" title="Linux文件系统架构"></a>Linux文件系统架构</h2></the></li>
+<li>Linux没有盘符，有的是目录(挂载点)。</li>
+<li>Linux标识目录使用的是正斜杠<code>/</code>。</li>
+<li>Linux需要先建立一个根’/‘文件系统（即“分区”），并且在这个文件系统中建立一系列空目录，然后将其他硬盘分区中的文件系统（如果有的话）挂载到这些目录中，比如在安装系统时，我们先划分一个单独的分区，再将其挂载到/home目录下。</li>
+<li>理论上可以为根目录下的每一个目录都划分一个单独的硬盘分区，这样根分区就可以设置的很小(因为子目录都“映射”到了其他分区上，不占据根分区的容量)。</li>
+<li>如果子目录没有划分自己的分区，那么其文件内容就自动存储在<code>/</code>根分区下。</li>
+<li>Linux系统主要目录及内容表格<br>| 目 录 | 内 容 |<br>| — | — |<br>| <code>/bin</code> | 构建最小系统所需要的命令（最常用的命令）|<br>| <code>/boot</code> | 内核与启动文件 |<br>| <code>/dev</code> | 各种设备文件 |<br>| <code>/etc</code> | 系统软件的启动和配置文件 |<br>| <code>/home</code> | 用户的主目录 |<br>| <code>/lib</code> | C编译器的库 |<br>| <code>/media</code> | 可移动介质的安装点 |<br>| <code>/opt</code> | 可选的应用程序包 |<br>| <code>/proc</code> | 进程的映像 |<br>| <code>/root</code> | 超级用户root的主目录 |<br>| <code>/sbin</code> | 和系统操作有关的命令 |<br>| <code>/tmp</code> | 临时文件存放点 |<br>| <code>/usr</code> | 非文件的程序和命令 |<br>| <code>/var</code> | 系统专用的数据和配置文件 |<h2 id="工作组共享文件"><a href="#工作组共享文件" class="headerlink" title="工作组共享文件"></a>工作组共享文件</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo groupadd workgroup</span><br><span class="line">sudo useradd -G workgroup lucy</span><br><span class="line">sudo passwd lucy</span><br><span class="line">sudo chgrp workgroup work/ <span class="comment">#将组拥有权交给workgroup</span></span><br><span class="line">sudo chmod g+rwx work/ <span class="comment"># 用户组对目录有读写和执行权限</span></span><br><span class="line">sudo chmod o-rwx work/ <span class="comment"># 其他用户对目录无上述权限</span></span><br><span class="line">sudo chown lewis work/ <span class="comment"># 将目录所有权移交给lewis</span></span><br><span class="line">su lewis <span class="comment"># 切换用户ID</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="文件和目录管理"><a href="#文件和目录管理" class="headerlink" title="文件和目录管理"></a>文件和目录管理</h2><h3 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h3><ul>
+<li><code>mkdir</code>:一次性建立一个或几个目录。<ul>
+<li><code>mkdir -p dirname</code>:如果父目录不存在会自动创建。</li>
+</ul>
+</li>
+<li><code>touch</code>：建立新的空文件。</li>
+<li><code>mv</code>:重命名是移动同时修改名字（可选择不修改），一般同名时直接覆盖。<ul>
+<li><code>mv -i</code>:如果同名，询问;</li>
+<li><code>mv -b</code>:如果同名，在文件名后面添加<code>~</code>符号。</li>
+</ul>
+</li>
+<li><code>cp</code>:复制文件和目录。<ul>
+<li><code>cp -i</code>:覆盖前询问;</li>
+<li><code>cp -b</code>：同名文件重命名;</li>
+<li><code>cp -r</code>：递归式复制（目录及子目录）。</li>
+</ul>
+</li>
+<li><code>rm</code>:永久删除文件和目录。<ul>
+<li><code>rm -i</code>:删除前询问;</li>
+<li><code>rm -f</code>：强制删除，即对所有询问自动yes;</li>
+<li><code>rm -r</code>：递归删除所有目录。<h3 id="更改文件和目录权限"><a href="#更改文件和目录权限" class="headerlink" title="更改文件和目录权限"></a>更改文件和目录权限</h3></li>
+</ul>
+</li>
+<li><code>chmod</code>：使用格式[ugoa…][[-+=][perms…]…]。<ol>
+<li>Linux为3种人准备了权限——文件所有者(u)，文件所属组(g)和其他人(o)，其他人指非前两者也非root用户(因为root拥有完整权限)，其他人总是享有最低权限。</li>
+<li>所有人(a)指代上述所有3个用户组;</li>
+<li><code>+</code>表示增加权限，<code>-</code>表示删除权限，<code>=</code>表直接设置权限;</li>
+<li>一般来说，文件创建者自动成为所有者，但是所有权可以转让，手续由root用户实施。</li>
+<li>权限分为3种：读取(r)，写入(w)和执行(x)。</li>
+</ol>
+<ul>
+<li>对于<strong>文件</strong>，能否删除和重命名一个文件是由其父目录的权限设置所控制的，要让一个文件可执行，必须设置其执行权限;可执行文件分为两类:<ul>
+<li>(1)可由CPU执行的二进制代码;</li>
+<li>(2)shell脚本程序;</li>
+</ul>
+</li>
+<li>对于<strong>目录</strong>，<ul>
+<li>(1)执行权限:控制用户能否进入该目录;</li>
+<li>(2)读取权限：负责确定能否列出该目录的内容;</li>
+<li>(3)写入权限：在目录中创建、删除和重命名文件。</li>
+<li>所以<strong>目录和文件的执行权限是最基本的权限</strong>。</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li><strong>权限的八进制表示</strong>：每组权限rwx用3位二进制数表示(有为1无为0)，即可以用1位八进制数表示。所以完整的9位权限位就可以用3个八进制数表示，如<code>chmod 711 prog</code>就可以规定各用户组权限。</li>
+</ol>
+</li>
+<li><code>chown</code>:格式chown [OPTION]… [OWNER][:[GROUP]] FILE将file的[属主]和[属组]改变为owner和group。<ul>
+<li><code>chown -R</code>:递归式改变所有子目录所有者和组;</li>
+<li><code>chgrp</code>:只改变所属组。</li>
+</ul>
+</li>
+<li><code>ls -l</code>和<code>ls -ld</code>:分别查看文件和目录的属性，属性项依次为:文件类型-3组权限位+链接数目+文件属主+文件属组+文件大小+最后修改日期+最后修改时间+完整路径。 <h3 id="文件类型"><a href="#文件类型" class="headerlink" title="文件类型"></a>文件类型</h3></li>
+<li>Linux中一切都表示为文件的形式（包括进程、硬件设备、通信通道等），文件类型(ls -l的显示)包括：<br>| 文件类型 | 符号 |<br>| — | — |<br>| 普通文件 | - |<br>| 目录 | d |<br>| 字符设备(顺序访问设备)文件 | c |<br>| 块设备(随机访问设备)文件 | b |<br>| 本地域套接口(进程间通信) | s |<br>| 有名管道(进程间通信) | p |<br>| 符号链接(快捷方式) | l |</li>
+<li>链接分为两种：<ul>
+<li>(1)软连接/符号链接:用<code>ln -s TARGET LINK_NAME</code>创建，通过名称进行引用，删除链接也不影响原文件;</li>
+<li>(2)硬连接：用<code>ln</code>直接创建，直接引用，对其中一者的修改会影响另一者。已<strong>很少使用</strong>。<h3 id="重定向和管道"><a href="#重定向和管道" class="headerlink" title="重定向和管道"></a>重定向和管道</h3></li>
+</ul>
+</li>
+<li>输入输出重定向：改变程序获取输入或产生输出的位置。标准输出指向屏幕，标准输入指向键盘。<ul>
+<li>输入重定向：<code>&lt;</code>;</li>
+<li>两种常用输出重定向：<ul>
+<li><code>&gt;</code>:相当于覆盖。</li>
+<li><code>&gt;&gt;</code>:相当于添加。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>管道：<code>|</code>将一条命令的输出连接到另一条命令的输入，举例：<ul>
+<li><code>ls | grep ay</code>:ls的输出送给grep做最后一个输入。<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><em>Linux从入门到精通 刘忆智 著</em></li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2018/04/09/Linux系列4-文件目录管理/">Linux系列4-文件目录管理</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">Yuci Cheung</a></p>
+        <p><span>发布时间:</span>2018-04-09, 00:45:07</p>
+        <p><span>最后更新:</span>2018-04-09, 00:45:07</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2018/04/09/Linux系列4-文件目录管理/" title="Linux系列4-文件目录管理">https://yucicheung.github.io/2018/04/09/Linux系列4-文件目录管理/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://yucicheung.github.io/2018/04/09/Linux系列4-文件目录管理/　　作者: Yuci Cheung" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2018/04/09/Linux系列5-软件包管理/">
+                    Linux系列5-软件包管理
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2018/04/09/Linux系列3-shell基本命令/">
+                    Linux系列3-shell基本命令
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux文件系统架构"><span class="toc-number">1.</span> <span class="toc-text">Linux文件系统架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#工作组共享文件"><span class="toc-number">2.</span> <span class="toc-text">工作组共享文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件和目录管理"><span class="toc-number">3.</span> <span class="toc-text">文件和目录管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基本操作"><span class="toc-number">3.1.</span> <span class="toc-text">基本操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#更改文件和目录权限"><span class="toc-number">3.2.</span> <span class="toc-text">更改文件和目录权限</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文件类型"><span class="toc-number">3.3.</span> <span class="toc-text">文件类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#重定向和管道"><span class="toc-number">3.4.</span> <span class="toc-text">重定向和管道</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考文献"><span class="toc-number">4.</span> <span class="toc-text">参考文献</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+
+    
+        <div class="addthis_sharing_toolbox"></div>
+    
+</div>
+
+
+
+
+
+
+
+    
+        <section id="comments">
+    <style> aside.comment-bar { margin: auto 30px; }</style>
+    <div id="disqus_thread"></div>
+    <script>
+        var disqus_config = function(){
+            this.page.url = 'https://yucicheung.github.io/2018/04/09/Linux系列4-文件目录管理/';
+            this.page.identifier = '2018/04/09/Linux系列4-文件目录管理/';
+        };
+        var loadComment = function(){
+            var d = document, s = d.createElement('script');
+            s.src = '//yucicheung-github-io.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        }
+    </script>
+    
+    <script> loadComment(); </script>
+
+</section>
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2018/04/09/Linux系列5-软件包管理/" title="上一篇: Linux系列5-软件包管理">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2018/04/09/Linux系列3-shell基本命令/" title="下一篇: Linux系列3-shell基本命令">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列9-网络配置和远程访问/">Linux系列9-网络配置和远程访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列8-进程管理/">Linux系列8-进程管理</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列7-用户与用户组管理/">Linux系列6-用户与用户组管理</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列6-磁盘管理/">Linux系列6-磁盘管理</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列5-软件包管理/">Linux系列5-软件包管理</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列4-文件目录管理/">Linux系列4-文件目录管理</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列3-shell基本命令/">Linux系列3-shell基本命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列2-基本配置/">Linux系列2-基本配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列1-概述/">Linux系列1-概述</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列11-Shell编程/">Linux系列11-Shell编程</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列10-VIM/">Linux系列10-Linux编程</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/24/Dijkstras算法和实现/">Dijkstras算法和实现(python)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/17/python中的argv和argc/">python中的argv和argc</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/14/为Github-page绑定自定义域名并实现https访问/">为Github page绑定自定义域名并实现https访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/13/Ubuntu下用hexo搭建github博客/">Ubuntu下用hexo搭建github博客</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2018 Yuci Cheung
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 6;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-115529402-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+    <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "(つェ⊂)" + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*)" + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
