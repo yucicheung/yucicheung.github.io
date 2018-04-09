@@ -23,7 +23,7 @@
 <meta property="og:site_name" content="Yuci&#39;s Blog">
 <meta property="og:description" content="连网方式的介绍 ifconfig用于命令行下配置网络 route配置静态路由 简单计算机网络概念 ftp命令 基于SSH的文件传输sftp和scp 关于Linux系统的远程登录如要下载笔记和代码请到我的github。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-04-09T03:48:57.208Z">
+<meta property="og:updated_time" content="2018-04-09T04:30:36.382Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux系列9-网络配置和远程访问">
 <meta name="twitter:description" content="连网方式的介绍 ifconfig用于命令行下配置网络 route配置静态路由 简单计算机网络概念 ftp命令 基于SSH的文件传输sftp和scp 关于Linux系统的远程登录如要下载笔记和代码请到我的github。">
@@ -465,11 +465,91 @@
 <li>用<code>sftp</code>传输有助于保护用户账户和传输安全;</li>
 <li><code>sftp</code>建立连接和上传/下载文件的流程：<ul>
 <li>首先要确保远程主机开启了SSH守护进程，用命令<code>sftp user@&lt;ipaddress&gt;</code>建立连接;</li>
-<li><code>sftp</code>的常见命令与<code>ftp</code>的基本命令大部分一致。<br>| 命令 | 说明 |<br>| — | — |<br>| <code>cd</code> | 切换远程所在的目录 |<br>| <code>ls</code>或<code>dir</code> | 显示当前目录下的文件列表 |<br>| <code>mkdir</code> | 建立目录 |<br>| <code>rmdir</code> | 删除目录 |<br>| <code>pwd</code> | 显示当前远程目录 |<br>| <code>chgrp</code> | 修改文件(目录)的属组 |<br>| <code>chown</code> | 修改文件(目录)的属主 |<br>| <code>chmod</code> | 修改文件(目录)的权限 |<br>| <code>rm</code> | 删除文件/目录 |<br>| <code>rename &lt;oldname&gt; &lt;newname&gt;</code> | 修改文件名 |<br>| <code>exit</code>或<code>bye</code>或<code>quit</code> | 关闭sftp客户端程序 |<br>| <code>lcd</code> | 切换本地所在目录 |<br>| <code>lls</code> | 显示本地所在目录下的文件列表 |<br>| <code>lmkdir</code> | 当地新建目录 |<br>| <code>lpwd</code> | 显示当地所在的文件目录 |<br>| <code>put</code> | 上传文件 |<br>| <code>get</code> | 下载文件 |<h3 id="利用SSH通道复制文件-scp"><a href="#利用SSH通道复制文件-scp" class="headerlink" title="利用SSH通道复制文件:scp"></a>利用SSH通道复制文件:<code>scp</code></h3></li>
+<li><code>sftp</code>的常见命令与<code>ftp</code>的基本命令大部分一致。</li>
 </ul>
 </li>
 </ul>
 </li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>cd</code></td>
+<td>切换远程所在的目录</td>
+</tr>
+<tr>
+<td><code>ls</code>或<code>dir</code></td>
+<td>显示当前目录下的文件列表</td>
+</tr>
+<tr>
+<td><code>mkdir</code></td>
+<td>建立目录</td>
+</tr>
+<tr>
+<td><code>rmdir</code></td>
+<td>删除目录</td>
+</tr>
+<tr>
+<td><code>pwd</code></td>
+<td>显示当前远程目录</td>
+</tr>
+<tr>
+<td><code>chgrp</code></td>
+<td>修改文件(目录)的属组</td>
+</tr>
+<tr>
+<td><code>chown</code></td>
+<td>修改文件(目录)的属主</td>
+</tr>
+<tr>
+<td><code>chmod</code></td>
+<td>修改文件(目录)的权限</td>
+</tr>
+<tr>
+<td><code>rm</code></td>
+<td>删除文件/目录</td>
+</tr>
+<tr>
+<td><code>rename &lt;oldname&gt; &lt;newname&gt;</code></td>
+<td>修改文件名</td>
+</tr>
+<tr>
+<td><code>exit</code>或<code>bye</code>或<code>quit</code></td>
+<td>关闭sftp客户端程序</td>
+</tr>
+<tr>
+<td><code>lcd</code></td>
+<td>切换本地所在目录</td>
+</tr>
+<tr>
+<td><code>lls</code></td>
+<td>显示本地所在目录下的文件列表</td>
+</tr>
+<tr>
+<td><code>lmkdir</code></td>
+<td>当地新建目录</td>
+</tr>
+<tr>
+<td><code>lpwd</code></td>
+<td>显示当地所在的文件目录</td>
+</tr>
+<tr>
+<td><code>put</code></td>
+<td>上传文件</td>
+</tr>
+<tr>
+<td><code>get</code></td>
+<td>下载文件</td>
+</tr>
+</tbody>
+</table>
+<h3 id="利用SSH通道复制文件-scp"><a href="#利用SSH通道复制文件-scp" class="headerlink" title="利用SSH通道复制文件:scp"></a>利用SSH通道复制文件:<code>scp</code></h3><ul>
 <li>使用<code>scp</code>前应先断开<code>SSH</code>连接。</li>
 <li>从服务器复制文件到本地：<code>scp username@&lt;ip_address&gt;:&lt;remote_file_path&gt; &lt;local_file_path&gt;</code>;</li>
 <li>从本地复制文件到服务器：<code>scp &lt;local_file_path&gt; username@&lt;ip_address&gt;:&lt;remote_file_path&gt;</code>。</li>
@@ -551,7 +631,7 @@
         <p><span>本文标题:</span><a href="/2018/04/09/Linux系列9-网络配置和远程访问/">Linux系列9-网络配置和远程访问</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">Yuci Cheung</a></p>
         <p><span>发布时间:</span>2018-04-09, 00:45:13</p>
-        <p><span>最后更新:</span>2018-04-09, 11:48:57</p>
+        <p><span>最后更新:</span>2018-04-09, 12:30:36</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2018/04/09/Linux系列9-网络配置和远程访问/" title="Linux系列9-网络配置和远程访问">https://yucicheung.github.io/2018/04/09/Linux系列9-网络配置和远程访问/</a>
             <span class="copy-path" data-clipboard-text="原文: https://yucicheung.github.io/2018/04/09/Linux系列9-网络配置和远程访问/　　作者: Yuci Cheung" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>

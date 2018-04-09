@@ -23,7 +23,7 @@
 <meta property="og:site_name" content="Yuci&#39;s Blog">
 <meta property="og:description" content="用户的管理(增加、删除、修改和切换) 用户组的管理 用户和组的配置文件/etc/shadow、/etc/passwd、/etc/group 记录用户历史操作命令history如要下载笔记和代码请到我的github。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-04-09T03:48:31.295Z">
+<meta property="og:updated_time" content="2018-04-09T04:28:29.675Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux系列7-用户与用户组管理">
 <meta name="twitter:description" content="用户的管理(增加、删除、修改和切换) 用户组的管理 用户和组的配置文件/etc/shadow、/etc/passwd、/etc/group 记录用户历史操作命令history如要下载笔记和代码请到我的github。">
@@ -354,10 +354,40 @@
 <li><code>-r</code>:删除用户帐号，同时删除用户主目录;<h2 id="管理用户帐号usermod"><a href="#管理用户帐号usermod" class="headerlink" title="管理用户帐号usermod"></a>管理用户帐号<code>usermod</code></h2></li>
 </ul>
 </li>
-<li><p><code>usermod</code>常用选项及含义：<br>  | 选 项 | 含 义 |<br>  | — | — |<br>  | <code>-d</code> | 修改用户主目录 |<br>  | <code>-e</code> | 修改帐号的有效期限(MM/DD/YY) |<br>  | <code>-g</code> | 修改用户所属的组 |<br>  | <code>-l</code> | 修改用户帐号名称 |<br>  | <code>-s</code> | 修改用户登录后所使用的shell |</p>
-</li>
-<li><p>同样可以通过修改配置文件<code>/etc/passwd</code>、<code>/etc/shadow</code>和<code>/etc/group</code>来修改用户信息。</p>
-<h2 id="查看用户信息id"><a href="#查看用户信息id" class="headerlink" title="查看用户信息id"></a>查看用户信息<code>id</code></h2></li>
+<li><code>usermod</code>常用选项及含义：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>选 项</th>
+<th>含 义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-d</code></td>
+<td>修改用户主目录</td>
+</tr>
+<tr>
+<td><code>-e</code></td>
+<td>修改帐号的有效期限(MM/DD/YY)</td>
+</tr>
+<tr>
+<td><code>-g</code></td>
+<td>修改用户所属的组</td>
+</tr>
+<tr>
+<td><code>-l</code></td>
+<td>修改用户帐号名称</td>
+</tr>
+<tr>
+<td><code>-s</code></td>
+<td>修改用户登录后所使用的shell</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>同样可以通过修改配置文件<code>/etc/passwd</code>、<code>/etc/shadow</code>和<code>/etc/group</code>来修改用户信息。<h2 id="查看用户信息id"><a href="#查看用户信息id" class="headerlink" title="查看用户信息id"></a>查看用户信息<code>id</code></h2></li>
 <li><code>id</code>：查看用户信息;<ul>
 <li>以用户名作参数，查看用户的UID、GID及所属组;</li>
 <li>不带参数，则显示当前登录用户的信息。<h2 id="用户间切换su"><a href="#用户间切换su" class="headerlink" title="用户间切换su"></a>用户间切换<code>su</code></h2></li>
@@ -452,7 +482,7 @@
         <p><span>本文标题:</span><a href="/2018/04/09/Linux系列7-用户与用户组管理/">Linux系列7-用户与用户组管理</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">Yuci Cheung</a></p>
         <p><span>发布时间:</span>2018-04-09, 00:45:11</p>
-        <p><span>最后更新:</span>2018-04-09, 11:48:31</p>
+        <p><span>最后更新:</span>2018-04-09, 12:28:29</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2018/04/09/Linux系列7-用户与用户组管理/" title="Linux系列7-用户与用户组管理">https://yucicheung.github.io/2018/04/09/Linux系列7-用户与用户组管理/</a>
             <span class="copy-path" data-clipboard-text="原文: https://yucicheung.github.io/2018/04/09/Linux系列7-用户与用户组管理/　　作者: Yuci Cheung" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>

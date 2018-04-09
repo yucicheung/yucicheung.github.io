@@ -23,7 +23,7 @@
 <meta property="og:site_name" content="Yuci&#39;s Blog">
 <meta property="og:description" content="对进程及其属性的介绍 ps进程监视命令 top命令即时跟踪进程 lsof命令查看占用文件进程 kill命令向进程发送信号 /PROC文件系统如要下载笔记和代码请到我的github。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-04-09T03:48:44.368Z">
+<meta property="og:updated_time" content="2018-04-09T04:29:45.345Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux系列8-进程管理">
 <meta name="twitter:description" content="对进程及其属性的介绍 ps进程监视命令 top命令即时跟踪进程 lsof命令查看占用文件进程 kill命令向进程发送信号 /PROC文件系统如要下载笔记和代码请到我的github。">
@@ -357,7 +357,63 @@
 </ul>
 </li>
 <li><code>ps</code>是最常用的监视进程的命令。</li>
-<li><code>ps aux</code>命令用于现实当前系统上运行的所有进程的信息。其中部分行代表的信息是<br>  | 字段 | 含义 |<br>  | — | — |<br>  | USER | 进程创建者的用户名 |<br>  | PID | 进程的ID号 |<br>  | %CPU | 进程占用CPU的百分比 |<br>  | %MEM | 进程占用内存的百分比 |<br>  | VSZ | 进程占用的虚拟内存大小 |<br>  | RSS | 内存中页的数量(页是管理内存的单位，在PC上通常为4K)|<br>  | TTY | 进程所在终端的ID号 |<br>  | STAT | 进程状态，常用字母代表含义如下：<br><code>R</code> 正在运行/可运行  <code>D</code> 睡眠中(不可被唤醒，通常是在等待I/O设备)<br> <code>S</code> 睡眠中（可以被唤醒） <code>T</code> 停止（由于受到信号或被跟踪）<br> <code>Z</code> 僵进程（已经结束而没有释放系统资源的进程）<br>————<br>常用的附加标志有：<br> <code>&lt;</code> 进程拥有比普通优先级高的优先级<br><code>N</code> 进程拥有比普通优先级低的优先级<br><code>L</code> 有些页面被锁在内存中<br><code>s</code> 会话的先导进程|<br>  |START | 进程启动时间 |<br>  | TIME | 进程已经占用的CPU时间 |<br>  | COMMAND | 命令和参数 |</li>
+<li><code>ps aux</code>命令用于现实当前系统上运行的所有进程的信息。其中部分行代表的信息是</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>USER</td>
+<td>进程创建者的用户名</td>
+</tr>
+<tr>
+<td>PID</td>
+<td>进程的ID号</td>
+</tr>
+<tr>
+<td>%CPU</td>
+<td>进程占用CPU的百分比</td>
+</tr>
+<tr>
+<td>%MEM</td>
+<td>进程占用内存的百分比</td>
+</tr>
+<tr>
+<td>VSZ</td>
+<td>进程占用的虚拟内存大小</td>
+</tr>
+<tr>
+<td>RSS</td>
+<td>内存中页的数量(页是管理内存的单位，在PC上通常为4K)</td>
+</tr>
+<tr>
+<td>TTY</td>
+<td>进程所在终端的ID号</td>
+</tr>
+<tr>
+<td>STAT</td>
+<td>进程状态，常用字母代表含义如下：<br><code>R</code> 正在运行/可运行  <code>D</code> 睡眠中(不可被唤醒，通常是在等待I/O设备)<br> <code>S</code> 睡眠中（可以被唤醒） <code>T</code> 停止（由于受到信号或被跟踪）<br> <code>Z</code> 僵进程（已经结束而没有释放系统资源的进程）<br>————<br>常用的附加标志有：<br> <code>&lt;</code> 进程拥有比普通优先级高的优先级<br><code>N</code> 进程拥有比普通优先级低的优先级<br><code>L</code> 有些页面被锁在内存中<br><code>s</code> 会话的先导进程</td>
+</tr>
+<tr>
+<td>START</td>
+<td>进程启动时间</td>
+</tr>
+<tr>
+<td>TIME</td>
+<td>进程已经占用的CPU时间</td>
+</tr>
+<tr>
+<td>COMMAND</td>
+<td>命令和参数</td>
+</tr>
+</tbody>
+</table>
+<ul>
 <li><code>ps</code>的另一组选项<code>lax</code>可以提供PPID和谦让度(NI)。<ul>
 <li>另<code>ps lax</code>不显示进程属主的用户名，因此可以提供更快的运行速度(<code>ps aux</code>需要把UID转化为用户名之后才输出)。<h2 id="即时跟踪进程信息：top命令"><a href="#即时跟踪进程信息：top命令" class="headerlink" title="即时跟踪进程信息：top命令"></a>即时跟踪进程信息：top命令</h2><code>ps</code>命令可以一次性给出当前系统中进程信息的快照，但如果管理员需要实时监视进程运行情况，就可以运行<code>top</code>命令即时跟踪当前系统中进程的情况。<br><code>top</code>命令显示的信息会占满一页，且在默认情况下每10s更新一次。使用CPU最多的程序会排在前面，用<code>h</code>查看帮助，<code>q</code>推出。<h2 id="查看占用文件的命令：lsof"><a href="#查看占用文件的命令：lsof" class="headerlink" title="查看占用文件的命令：lsof"></a>查看占用文件的命令：lsof</h2></li>
 </ul>
@@ -367,8 +423,65 @@
 <li><p>标准用法是：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">kill</span> [-signal] pid</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>信号及其编号用<code>kill -l</code>查看(INT为’ctrl+c’)。<br>  | 信号编号 | 信号名 | 描 述 | 默认情况下执行的操作 |<br>  | — | — | — | — |<br>  | 0 | EXIT | 程序退出时收到该信号 | 终止 |<br>  | 1 | HUP | 挂起 | 终止 |<br>  | 2 | INT | 中断 | 终止 |<br>  | 3 | QUIT | 退出 | 终止 |<br>  | 9 | KILL | 杀死 | 终止 |<br>  | 11 | SEGV | 段错误 | 终止 |<br>  | 15 | TERM | 软件终止 | 终止 |<br>  <em>hints</em>:信号名前缀<code>SIG</code>是可以省略，即 <code>kill -SIGTERM pid</code>和<code>kill -TERM pid</code>都是一样的。</p>
+<li><p>信号及其编号用<code>kill -l</code>查看(INT为’ctrl+c’)。</p>
 </li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>信号编号</th>
+<th>信号名</th>
+<th>描 述</th>
+<th>默认情况下执行的操作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>EXIT</td>
+<td>程序退出时收到该信号</td>
+<td>终止</td>
+</tr>
+<tr>
+<td>1</td>
+<td>HUP</td>
+<td>挂起</td>
+<td>终止</td>
+</tr>
+<tr>
+<td>2</td>
+<td>INT</td>
+<td>中断</td>
+<td>终止</td>
+</tr>
+<tr>
+<td>3</td>
+<td>QUIT</td>
+<td>退出</td>
+<td>终止</td>
+</tr>
+<tr>
+<td>9</td>
+<td>KILL</td>
+<td>杀死</td>
+<td>终止</td>
+</tr>
+<tr>
+<td>11</td>
+<td>SEGV</td>
+<td>段错误</td>
+<td>终止</td>
+</tr>
+<tr>
+<td>15</td>
+<td>TERM</td>
+<td>软件终止</td>
+<td>终止</td>
+</tr>
+</tbody>
+</table>
+<p><em>hints</em>:信号名前缀<code>SIG</code>是可以省略，即 <code>kill -SIGTERM pid</code>和<code>kill -TERM pid</code>都是一样的。</p>
+<ul>
 <li><strong>注意</strong>：<code>kill</code>命令<em>不一定</em>可以终止一个进程，既然<code>kill</code>命令向进程发送一个信号，这个信号就能被程序捕捉，程序可以“封锁”或者“忽略”捕捉到的信号。只有在信号没有被程序捕捉的情况下，系统才会执行默认操作。比如可以加入<code>trap &quot;&quot; TERM</code>来忽略TERM信号。</li>
 <li><strong><code>KILL</code>信号永远不能被程序所捕捉</strong>，<code>KILL</code>信号可以在内核级别杀死进程。<code>kill -SIGTERM pid</code>或<code>kill -TERM pid</code>或<code>kill -9 pid</code>。<br>也有<code>KILL</code>信号都不能影响的进程，常常是由一些退化的I/O（输入/输出）虚假锁定造成的。此时，重新启动系统是唯一的解决办法。<h2 id="调整进程的谦让度：nice和renice"><a href="#调整进程的谦让度：nice和renice" class="headerlink" title="调整进程的谦让度：nice和renice"></a>调整进程的谦让度：nice和renice</h2></li>
 <li><code>nice</code>命令可以在启动程序时设置其谦让度,调整的是“相对”谦让度值。<ul>
@@ -399,7 +512,7 @@
         <p><span>本文标题:</span><a href="/2018/04/09/Linux系列8-进程管理/">Linux系列8-进程管理</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">Yuci Cheung</a></p>
         <p><span>发布时间:</span>2018-04-09, 00:45:12</p>
-        <p><span>最后更新:</span>2018-04-09, 11:48:44</p>
+        <p><span>最后更新:</span>2018-04-09, 12:29:45</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2018/04/09/Linux系列8-进程管理/" title="Linux系列8-进程管理">https://yucicheung.github.io/2018/04/09/Linux系列8-进程管理/</a>
             <span class="copy-path" data-clipboard-text="原文: https://yucicheung.github.io/2018/04/09/Linux系列8-进程管理/　　作者: Yuci Cheung" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>

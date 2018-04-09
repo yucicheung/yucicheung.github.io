@@ -23,7 +23,7 @@
 <meta property="og:site_name" content="Yuci&#39;s Blog">
 <meta property="og:description" content="Linux的文件系统架构 文件和目录管理的基本操作 更改文件和目录权限 文件类型 重定向和管道如要下载笔记和代码请到我的github。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-04-09T03:49:03.117Z">
+<meta property="og:updated_time" content="2018-04-09T04:25:14.567Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux系列4-文件目录管理">
 <meta name="twitter:description" content="Linux的文件系统架构 文件和目录管理的基本操作 更改文件和目录权限 文件类型 重定向和管道如要下载笔记和代码请到我的github。">
@@ -319,9 +319,75 @@
 <li>Linux需要先建立一个根’/‘文件系统（即“分区”），并且在这个文件系统中建立一系列空目录，然后将其他硬盘分区中的文件系统（如果有的话）挂载到这些目录中，比如在安装系统时，我们先划分一个单独的分区，再将其挂载到/home目录下。</li>
 <li>理论上可以为根目录下的每一个目录都划分一个单独的硬盘分区，这样根分区就可以设置的很小(因为子目录都“映射”到了其他分区上，不占据根分区的容量)。</li>
 <li>如果子目录没有划分自己的分区，那么其文件内容就自动存储在<code>/</code>根分区下。</li>
-<li>Linux系统主要目录及内容表格<br>| 目 录 | 内 容 |<br>| — | — |<br>| <code>/bin</code> | 构建最小系统所需要的命令（最常用的命令）|<br>| <code>/boot</code> | 内核与启动文件 |<br>| <code>/dev</code> | 各种设备文件 |<br>| <code>/etc</code> | 系统软件的启动和配置文件 |<br>| <code>/home</code> | 用户的主目录 |<br>| <code>/lib</code> | C编译器的库 |<br>| <code>/media</code> | 可移动介质的安装点 |<br>| <code>/opt</code> | 可选的应用程序包 |<br>| <code>/proc</code> | 进程的映像 |<br>| <code>/root</code> | 超级用户root的主目录 |<br>| <code>/sbin</code> | 和系统操作有关的命令 |<br>| <code>/tmp</code> | 临时文件存放点 |<br>| <code>/usr</code> | 非文件的程序和命令 |<br>| <code>/var</code> | 系统专用的数据和配置文件 |<h2 id="工作组共享文件"><a href="#工作组共享文件" class="headerlink" title="工作组共享文件"></a>工作组共享文件</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo groupadd workgroup</span><br><span class="line">sudo useradd -G workgroup lucy</span><br><span class="line">sudo passwd lucy</span><br><span class="line">sudo chgrp workgroup work/ <span class="comment">#将组拥有权交给workgroup</span></span><br><span class="line">sudo chmod g+rwx work/ <span class="comment"># 用户组对目录有读写和执行权限</span></span><br><span class="line">sudo chmod o-rwx work/ <span class="comment"># 其他用户对目录无上述权限</span></span><br><span class="line">sudo chown lewis work/ <span class="comment"># 将目录所有权移交给lewis</span></span><br><span class="line">su lewis <span class="comment"># 切换用户ID</span></span><br></pre></td></tr></table></figure>
-</li>
+<li>Linux系统主要目录及内容表格</li>
 </ul>
+<table>
+<thead>
+<tr>
+<th>目 录</th>
+<th>内 容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/bin</code></td>
+<td>构建最小系统所需要的命令（最常用的命令）</td>
+</tr>
+<tr>
+<td><code>/boot</code></td>
+<td>内核与启动文件</td>
+</tr>
+<tr>
+<td><code>/dev</code></td>
+<td>各种设备文件</td>
+</tr>
+<tr>
+<td><code>/etc</code></td>
+<td>系统软件的启动和配置文件</td>
+</tr>
+<tr>
+<td><code>/home</code></td>
+<td>用户的主目录</td>
+</tr>
+<tr>
+<td><code>/lib</code></td>
+<td>C编译器的库</td>
+</tr>
+<tr>
+<td><code>/media</code></td>
+<td>可移动介质的安装点</td>
+</tr>
+<tr>
+<td><code>/opt</code></td>
+<td>可选的应用程序包</td>
+</tr>
+<tr>
+<td><code>/proc</code></td>
+<td>进程的映像</td>
+</tr>
+<tr>
+<td><code>/root</code></td>
+<td>超级用户root的主目录</td>
+</tr>
+<tr>
+<td><code>/sbin</code></td>
+<td>和系统操作有关的命令</td>
+</tr>
+<tr>
+<td><code>/tmp</code></td>
+<td>临时文件存放点</td>
+</tr>
+<tr>
+<td><code>/usr</code></td>
+<td>非文件的程序和命令</td>
+</tr>
+<tr>
+<td><code>/var</code></td>
+<td>系统专用的数据和配置文件</td>
+</tr>
+</tbody>
+</table>
+<h2 id="工作组共享文件"><a href="#工作组共享文件" class="headerlink" title="工作组共享文件"></a>工作组共享文件</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo groupadd workgroup</span><br><span class="line">sudo useradd -G workgroup lucy</span><br><span class="line">sudo passwd lucy</span><br><span class="line">sudo chgrp workgroup work/ <span class="comment">#将组拥有权交给workgroup</span></span><br><span class="line">sudo chmod g+rwx work/ <span class="comment"># 用户组对目录有读写和执行权限</span></span><br><span class="line">sudo chmod o-rwx work/ <span class="comment"># 其他用户对目录无上述权限</span></span><br><span class="line">sudo chown lewis work/ <span class="comment"># 将目录所有权移交给lewis</span></span><br><span class="line">su lewis <span class="comment"># 切换用户ID</span></span><br></pre></td></tr></table></figure>
 <h2 id="文件和目录管理"><a href="#文件和目录管理" class="headerlink" title="文件和目录管理"></a>文件和目录管理</h2><h3 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h3><ul>
 <li><code>mkdir</code>:一次性建立一个或几个目录。<ul>
 <li><code>mkdir -p dirname</code>:如果父目录不存在会自动创建。</li>
@@ -376,7 +442,47 @@
 </ul>
 </li>
 <li><code>ls -l</code>和<code>ls -ld</code>:分别查看文件和目录的属性，属性项依次为:文件类型-3组权限位+链接数目+文件属主+文件属组+文件大小+最后修改日期+最后修改时间+完整路径。 <h3 id="文件类型"><a href="#文件类型" class="headerlink" title="文件类型"></a>文件类型</h3></li>
-<li>Linux中一切都表示为文件的形式（包括进程、硬件设备、通信通道等），文件类型(ls -l的显示)包括：<br>| 文件类型 | 符号 |<br>| — | — |<br>| 普通文件 | - |<br>| 目录 | d |<br>| 字符设备(顺序访问设备)文件 | c |<br>| 块设备(随机访问设备)文件 | b |<br>| 本地域套接口(进程间通信) | s |<br>| 有名管道(进程间通信) | p |<br>| 符号链接(快捷方式) | l |</li>
+<li>Linux中一切都表示为文件的形式（包括进程、硬件设备、通信通道等），文件类型(ls -l的显示)包括：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>文件类型</th>
+<th>符号</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>普通文件</td>
+<td>-</td>
+</tr>
+<tr>
+<td>目录</td>
+<td>d</td>
+</tr>
+<tr>
+<td>字符设备(顺序访问设备)文件</td>
+<td>c</td>
+</tr>
+<tr>
+<td>块设备(随机访问设备)文件</td>
+<td>b</td>
+</tr>
+<tr>
+<td>本地域套接口(进程间通信)</td>
+<td>s</td>
+</tr>
+<tr>
+<td>有名管道(进程间通信)</td>
+<td>p</td>
+</tr>
+<tr>
+<td>符号链接(快捷方式)</td>
+<td>l</td>
+</tr>
+</tbody>
+</table>
+<ul>
 <li>链接分为两种：<ul>
 <li>(1)软连接/符号链接:用<code>ln -s TARGET LINK_NAME</code>创建，通过名称进行引用，删除链接也不影响原文件;</li>
 <li>(2)硬连接：用<code>ln</code>直接创建，直接引用，对其中一者的修改会影响另一者。已<strong>很少使用</strong>。<h3 id="重定向和管道"><a href="#重定向和管道" class="headerlink" title="重定向和管道"></a>重定向和管道</h3></li>
@@ -407,7 +513,7 @@
         <p><span>本文标题:</span><a href="/2018/04/09/Linux系列4-文件目录管理/">Linux系列4-文件目录管理</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">Yuci Cheung</a></p>
         <p><span>发布时间:</span>2018-04-09, 00:45:07</p>
-        <p><span>最后更新:</span>2018-04-09, 11:49:03</p>
+        <p><span>最后更新:</span>2018-04-09, 12:25:14</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2018/04/09/Linux系列4-文件目录管理/" title="Linux系列4-文件目录管理">https://yucicheung.github.io/2018/04/09/Linux系列4-文件目录管理/</a>
             <span class="copy-path" data-clipboard-text="原文: https://yucicheung.github.io/2018/04/09/Linux系列4-文件目录管理/　　作者: Yuci Cheung" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>

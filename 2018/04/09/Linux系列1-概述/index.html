@@ -23,7 +23,7 @@
 <meta property="og:site_name" content="Yuci&#39;s Blog">
 <meta property="og:description" content="Linux起源和发行版本介绍 GNU和GPL概念介绍 硬盘和分区描述 修复受损Grub如要下载笔记和代码请到我的github。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-04-09T03:49:13.837Z">
+<meta property="og:updated_time" content="2018-04-09T04:23:36.505Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux系列1-概述">
 <meta name="twitter:description" content="Linux起源和发行版本介绍 GNU和GPL概念介绍 硬盘和分区描述 修复受损Grub如要下载笔记和代码请到我的github。">
@@ -319,8 +319,54 @@
 <h2 id="Linux和Unix"><a href="#Linux和Unix" class="headerlink" title="Linux和Unix"></a>Linux和Unix</h2><ul>
 <li>Linux是对Unix的重新实现。</li>
 <li>Linux开发人员最初是借鉴了UNIX的技术和用户界面，并且融入了很多独创的技术改进，从这方面可以说Linux是UNIX的一个变体。但是从开发形式(社区支持)和最终产生的源代码来看，Linux不属于BSD和AT&amp;T风格中的任一种，因此严格说来，Linux是有别于UNIX的操作系统。</li>
-<li>Linux实际上<strong>只定义一个操作系统内核</strong>，以同一个基础开始，却衍生了不同的发行版本。以下表格列出著名的Linux发行版本(按<strong>源版本</strong>和衍生版本划分)<br>| 发行版本 | 官方网站 | 说 明 |<br>| <strong>Red Hat Enterprise</strong> | <a href="http://www.redhat.com" target="_blank" rel="noopener">www.redhat.com</a> | Red Hat公司的企业级商业化发行版本 |<br>| Fedora | fedoraproject.org | Red Hat公司赞助的社区项目免费发行版本 |<br>| CentOS | <a href="http://www.centos.org" target="_blank" rel="noopener">www.centos.org</a> | 模仿Red Hat Enterprise Linux的非商业发行版本 |<br>| <strong>Debian</strong> | <a href="http://www.debian.org" target="_blank" rel="noopener">www.debian.org</a> | 免费的非商业发行版本 |<br>| Ubuntu | <a href="http://www.ubuntu.com" target="_blank" rel="noopener">www.ubuntu.com</a> | 类似Debian的免费发行版本 |<br>| <strong>SUSE Linux Enterprise</strong> | <a href="http://www.suse.com/linux" target="_blank" rel="noopener">www.suse.com/linux</a> | Novell公司的企业级商业化Linux发行版本 |<br>| openSUSE | <a href="http://www.opensuse.org" target="_blank" rel="noopener">www.opensuse.org</a> | SUSE Linux的免费发行版本 |</li>
+<li>Linux实际上<strong>只定义一个操作系统内核</strong>，以同一个基础开始，却衍生了不同的发行版本。以下表格列出著名的Linux发行版本(按<strong>源版本</strong>和衍生版本划分)</li>
 </ul>
+<table>
+<thead>
+<tr>
+<th>发行版本</th>
+<th>官方网站</th>
+<th>说 明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Red Hat Enterprise</strong></td>
+<td><a href="http://www.redhat.com" target="_blank" rel="noopener">www.redhat.com</a></td>
+<td>Red Hat公司的企业级商业化发行版本</td>
+</tr>
+<tr>
+<td>Fedora</td>
+<td>fedoraproject.org</td>
+<td>Red Hat公司赞助的社区项目免费发行版本</td>
+</tr>
+<tr>
+<td>CentOS</td>
+<td><a href="http://www.centos.org" target="_blank" rel="noopener">www.centos.org</a></td>
+<td>模仿Red Hat Enterprise Linux的非商业发行版本</td>
+</tr>
+<tr>
+<td><strong>Debian</strong></td>
+<td><a href="http://www.debian.org" target="_blank" rel="noopener">www.debian.org</a></td>
+<td>免费的非商业发行版本</td>
+</tr>
+<tr>
+<td>Ubuntu</td>
+<td><a href="http://www.ubuntu.com" target="_blank" rel="noopener">www.ubuntu.com</a></td>
+<td>类似Debian的免费发行版本</td>
+</tr>
+<tr>
+<td><strong>SUSE Linux Enterprise</strong></td>
+<td><a href="http://www.suse.com/linux" target="_blank" rel="noopener">www.suse.com/linux</a></td>
+<td>Novell公司的企业级商业化Linux发行版本</td>
+</tr>
+<tr>
+<td>openSUSE</td>
+<td><a href="http://www.opensuse.org" target="_blank" rel="noopener">www.opensuse.org</a></td>
+<td>SUSE Linux的免费发行版本</td>
+</tr>
+</tbody>
+</table>
 <h2 id="GNU-amp-GPL"><a href="#GNU-amp-GPL" class="headerlink" title="GNU&amp;GPL"></a>GNU&amp;GPL</h2><ul>
 <li><code>GNU</code>(GNU’s not UNIX)是使软件自由的计划;</li>
 <li>它的开源协议是<code>GPL</code>(GNU Public License)，是包括Linux在内的一批开源软件遵循的许可证协议。<h2 id="Linux对硬盘及分区的表述"><a href="#Linux对硬盘及分区的表述" class="headerlink" title="Linux对硬盘及分区的表述"></a>Linux对硬盘及分区的表述</h2></li>
@@ -336,8 +382,40 @@
 <li><strong>安装提示</strong>:“安装类型”界面允许用户进行分区，创建两个分区就可以，一个主分区挂载点为’/‘(‘/boot’等挂载点会自动安装在其中)，另一个交换空间(相当于虚拟内存，用于缓冲数据)。<h2 id="进阶：修复受损的Grub"><a href="#进阶：修复受损的Grub" class="headerlink" title="进阶：修复受损的Grub"></a>进阶：修复受损的Grub</h2></li>
 <li>Linux默认使用的默认操作系统引导加载器Grub，可以引导包括Linux、Windows、FreeBSD等多种操作系统。</li>
 <li>Linux安装程序会在一切准备稳妥之后安装Grub，并加入对硬盘中原有操作系统的支持。这一切都是自动完成的。但是后安装Windows的话，win的引导程序却会自动将Grub覆盖。导致Linux无法启动。</li>
-<li>万一Grub失效，需要用修复盘（即安装盘）以LiveCD模式修复，即“Try Ubuntu without installing”以命令行重新安装Grub。依次用以下命令安装Grub:<br>| 命令 | 含义 |<br>| — | — |<br>| grub | 启动光盘上的grub程序 |<br>| find /boot/grub/stage1 | 查找硬盘上的Linux系统将/boot目录存放在哪个硬盘分区中，grub安装时需要读取这个目录中的相关配置文件 |<br>| root (hdx,y) | 指示Linux内核文件所在的硬盘分区（/boot所在分区），<br>将这里的(hdx,y)替换为上一行中查找到的那个分区。<br>注意括号中不能存在空格。 |<br>| setup (hd0) | 在地一块硬盘上安装引导程序Grub |<br>| quit | 退出Grub程序 |<br><strong>提示</strong>:Grub对磁盘分区的表示方式和Linux有所不同。Grub将所有硬盘都表示为(hd#)的形式，<code>#</code>从0开始编号。对任一块硬盘，(hd#,0)~(hd#,3)依次表示它的主分区，随后的(hd#,4)….则是逻辑分区。(sd[a-z]从1开始编号)<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><em>Linux从入门到精通 刘忆智 著</em></li>
+<li>万一Grub失效，需要用修复盘（即安装盘）以LiveCD模式修复，即“Try Ubuntu without installing”以命令行重新安装Grub。依次用以下命令安装Grub:</li>
 </ul>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>grub</td>
+<td>启动光盘上的grub程序</td>
+</tr>
+<tr>
+<td>find /boot/grub/stage1</td>
+<td>查找硬盘上的Linux系统将/boot目录存放在哪个硬盘分区中，grub安装时需要读取这个目录中的相关配置文件</td>
+</tr>
+<tr>
+<td>root (hdx,y)</td>
+<td>指示Linux内核文件所在的硬盘分区（/boot所在分区），<br>将这里的(hdx,y)替换为上一行中查找到的那个分区。<br>注意括号中不能存在空格。</td>
+</tr>
+<tr>
+<td>setup (hd0)</td>
+<td>在地一块硬盘上安装引导程序Grub</td>
+</tr>
+<tr>
+<td>quit</td>
+<td>退出Grub程序</td>
+</tr>
+</tbody>
+</table>
+<p><strong>提示</strong>:Grub对磁盘分区的表示方式和Linux有所不同。Grub将所有硬盘都表示为(hd#)的形式，<code>#</code>从0开始编号。对任一块硬盘，(hd#,0)~(hd#,3)依次表示它的主分区，随后的(hd#,4)….则是逻辑分区。(sd[a-z]从1开始编号)</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p><em>Linux从入门到精通 刘忆智 著</em></p>
 
       
     </div>
@@ -349,7 +427,7 @@
         <p><span>本文标题:</span><a href="/2018/04/09/Linux系列1-概述/">Linux系列1-概述</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">Yuci Cheung</a></p>
         <p><span>发布时间:</span>2018-04-09, 00:45:03</p>
-        <p><span>最后更新:</span>2018-04-09, 11:49:13</p>
+        <p><span>最后更新:</span>2018-04-09, 12:23:36</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2018/04/09/Linux系列1-概述/" title="Linux系列1-概述">https://yucicheung.github.io/2018/04/09/Linux系列1-概述/</a>
             <span class="copy-path" data-clipboard-text="原文: https://yucicheung.github.io/2018/04/09/Linux系列1-概述/　　作者: Yuci Cheung" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>

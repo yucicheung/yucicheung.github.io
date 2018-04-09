@@ -23,7 +23,7 @@
 <meta property="og:site_name" content="Yuci&#39;s Blog">
 <meta property="og:description" content="Linux文件系统简介 文件系统挂载/卸载(含命令) 磁盘管理命令 打包和压缩工具gzip`tar`等 安装硬盘和分区的操作如要下载笔记和代码请到我的github。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-04-09T03:50:33.984Z">
+<meta property="og:updated_time" content="2018-04-09T04:27:39.574Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux系列6-磁盘管理">
 <meta name="twitter:description" content="Linux文件系统简介 文件系统挂载/卸载(含命令) 磁盘管理命令 打包和压缩工具gzip`tar`等 安装硬盘和分区的操作如要下载笔记和代码请到我的github。">
@@ -400,26 +400,54 @@
 <li><code>fdisk</code>：Linux用于建立/查看分区表的工具，请不要在当前硬盘上实验导致删除整个系统;<ul>
 <li><code>fdisk -l</code>查看分区表;</li>
 <li><code>fdisk /dev/sdb</code>：在指定硬盘上建立分区;</li>
-<li>此交互式工具中常用的命令如下：<br>| 命令 | 含义 |<br>| new/n | 创建新分区 |<br>| print/p | 显示当前分区设置 |<br>| type/t |设置分区类型(建立swap时使用) |<br>| write/w | 把分区表写入硬盘 |</li>
-<li><code>fdisk</code>在分区完全确定之后，用<code>write</code>才会将设置写入分区表中，否则还可以<code>delete</code>删除分区。</li>
+<li>此交互式工具中常用的命令如下：</li>
 </ul>
 </li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>new/n</td>
+<td>创建新分区</td>
+</tr>
+<tr>
+<td>print/p</td>
+<td>显示当前分区设置</td>
+</tr>
+<tr>
+<td>type/t</td>
+<td>设置分区类型(建立swap时使用)</td>
+</tr>
+<tr>
+<td>write/w</td>
+<td>把分区表写入硬盘</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><code>fdisk</code>在分区完全确定之后，用<code>write</code>才会将设置写入分区表中，否则还可以<code>delete</code>删除分区。<ol>
 <li>分区表建立完成后用<code>mkfs</code>在各分区上建立文件系统。</li>
 <li>用<code>fsck</code>检查文件系统。</li>
 <li>将硬盘挂载到目录下，用<code>df</code>测试分区。</li>
-<li>对交换空间分区执行<code>mkswp &lt;par&gt;</code>和<code>swapon &lt;par&gt;</code>分别进行初始化和激活。<ul>
-<li><code>swapon -s</code>:可以查看当前交换空间分区的信息。、</li>
-</ul>
+<li>对交换空间分区执行<code>mkswp &lt;par&gt;</code>和<code>swapon &lt;par&gt;</code>分别进行初始化和激活。</li>
+</ol>
 </li>
+<li><code>swapon -s</code>:可以查看当前交换空间分区的信息。、<ol>
 <li>配置/etc/fstab文件，加入新分区，使开机自动加载文件系统。</li>
-<li>如果文件系统出问题，系统将不能正常启动，而会引导进入救援模式，依次进行下述手段：<ul>
+<li>如果文件系统出问题，系统将不能正常启动，而会引导进入救援模式，依次进行下述手段：</li>
+</ol>
+</li>
 <li><code>fsck</code>检查并修复受损文件系统;</li>
 <li>如果问题仍在，<code>mkfs</code>重建文件系统;</li>
 <li>最后尝试<code>fdisk</code>重建分区表。</li>
 <li>但是，总是可以通过注释掉fstab中对应行解决新建分区后不能正常启动的问题。<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><em>Linux从入门到精通 刘忆智 著</em></li>
 </ul>
-</li>
-</ol>
 
       
     </div>
@@ -431,7 +459,7 @@
         <p><span>本文标题:</span><a href="/2018/04/09/Linux系列6-磁盘管理/">Linux系列6-磁盘管理</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">Yuci Cheung</a></p>
         <p><span>发布时间:</span>2018-04-09, 00:45:09</p>
-        <p><span>最后更新:</span>2018-04-09, 11:50:33</p>
+        <p><span>最后更新:</span>2018-04-09, 12:27:39</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2018/04/09/Linux系列6-磁盘管理/" title="Linux系列6-磁盘管理">https://yucicheung.github.io/2018/04/09/Linux系列6-磁盘管理/</a>
             <span class="copy-path" data-clipboard-text="原文: https://yucicheung.github.io/2018/04/09/Linux系列6-磁盘管理/　　作者: Yuci Cheung" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>

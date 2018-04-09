@@ -23,7 +23,7 @@
 <meta property="og:site_name" content="Yuci&#39;s Blog">
 <meta property="og:description" content="正则表达式 Shell编程 Shell定制如要下载笔记和代码请到我的github。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-04-09T03:48:09.774Z">
+<meta property="og:updated_time" content="2018-04-09T04:32:38.705Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux系列11-Shell编程">
 <meta name="twitter:description" content="正则表达式 Shell编程 Shell定制如要下载笔记和代码请到我的github。">
@@ -333,7 +333,67 @@
 <li><code>\&lt;</code>和<code>\&gt;</code>：一对分隔符，表示匹配一个单词，注意<strong>正则表达式中对单词的定义</strong>指的是两侧由非单词字符分隔的字符串（非单词字符指的是字母、数字、下划线以外的任何字符）;</li>
 </ul>
 </li>
-<li>字符类：POSIX风格的正则表达式还提供预定义字符类来匹配某些特定的字符(但是很多类都可以用简单的正则表达式表示);<br>| 类 | 匹配字符 |<br>| — | — |<br>| [[:alnum:]] | 字母、数字字符 |<br>| [[:alpha:]] | 字母字符 |<br>| [[:lower:]] | 小写字母 |<br>| [[:upper:]] | 大写字母 |<br>| [[:digit:]] | 小数 |<br>| [[:xdigit:]] | 十六进制数字 |<br>| [[:punct:]] | 标点符号 |<br>| [[:blank:]] | 制表符和空格 |<br>| [[:space:]] | 空格 |<br>| [[:cntrl:]] | 所有控制符 |<br>| [[:print:]] | 所有可打印字符 |<br>| [[:graph:]] | 除空格外所有可打印字符 |</li>
+<li>字符类：POSIX风格的正则表达式还提供预定义字符类来匹配某些特定的字符(但是很多类都可以用简单的正则表达式表示);</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>类</th>
+<th>匹配字符</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[[:alnum:]]</td>
+<td>字母、数字字符</td>
+</tr>
+<tr>
+<td>[[:alpha:]]</td>
+<td>字母字符</td>
+</tr>
+<tr>
+<td>[[:lower:]]</td>
+<td>小写字母</td>
+</tr>
+<tr>
+<td>[[:upper:]]</td>
+<td>大写字母</td>
+</tr>
+<tr>
+<td>[[:digit:]]</td>
+<td>小数</td>
+</tr>
+<tr>
+<td>[[:xdigit:]]</td>
+<td>十六进制数字</td>
+</tr>
+<tr>
+<td>[[:punct:]]</td>
+<td>标点符号</td>
+</tr>
+<tr>
+<td>[[:blank:]]</td>
+<td>制表符和空格</td>
+</tr>
+<tr>
+<td>[[:space:]]</td>
+<td>空格</td>
+</tr>
+<tr>
+<td>[[:cntrl:]]</td>
+<td>所有控制符</td>
+</tr>
+<tr>
+<td>[[:print:]]</td>
+<td>所有可打印字符</td>
+</tr>
+<tr>
+<td>[[:graph:]]</td>
+<td>除空格外所有可打印字符</td>
+</tr>
+</tbody>
+</table>
+<ul>
 <li>位置匹配：<ul>
 <li><code>^</code>:用于匹配行首;</li>
 <li><code>$</code>:用于匹配行尾。</li>
@@ -490,17 +550,138 @@
 </li>
 <li><code>test</code>/<code>[</code>命令可以对以下3类表达式进行测试(可以在<code>man test</code>中看到详细内容)：<ul>
 <li>字符串比较(字符串相等/字符串是否为空)：<ul>
-<li><strong>引号的使用</strong>：Bash中给字符串两边加<code>&quot;&quot;</code>不是必要的，因为Bash会自动给没有值的变量加上引号（但是有些shell不如此）,为保证清晰性和可移植性应为字符串变量加上引号。<br>| 选项 | 描述 |<br>| — | — |<br>| -z str | 当字符串str长度为0时返回真 |<br>| -n str | 当字符串长度不为0时返回真 |<br>| str1 = str2 | 相等时返回真 |<br>| str1 != str2 | 不等时返回真 |</li>
+<li><strong>引号的使用</strong>：Bash中给字符串两边加<code>&quot;&quot;</code>不是必要的，因为Bash会自动给没有值的变量加上引号（但是有些shell不如此）,为保证清晰性和可移植性应为字符串变量加上引号。</li>
 </ul>
 </li>
-<li>文件测试：用于判断一个文件是否满足特定的条件;<br>| 选项 | 描述 |<br>| — | — |<br>| -d pathname | 是目录时返回真 |<br>| -e pathname | 指定文件或目录存在时为真 |<br>| -f file | 是常规文件(非符号链接、管道、目录等)时为真 |<br>| -h file | 是符号链接文件时返回真 |<br>| -[rwx] pathname | 当指定的文件或目录设置了可[读 写 执行]|权限时为真 |</li>
-<li>数字比较：只能用于比较正/负整数<code>test int1 option int2</code>/<code>[ int1 option int2 ]</code>;<br>| 选项 | 描述 |<br>| — | — |<br>| -eq | int1 == int2 |<br>| -ne | int1 != int2 |<br>| -lt | int1 &lt; int2 |<br>| -gt | int1 &gt; int2 |<br>| -le | int1 &lt;= int2 |<br>| -ge | int1 &gt;= int2 |</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-z str</td>
+<td>当字符串str长度为0时返回真</td>
+</tr>
+<tr>
+<td>-n str</td>
+<td>当字符串长度不为0时返回真</td>
+</tr>
+<tr>
+<td>str1 = str2</td>
+<td>相等时返回真</td>
+</tr>
+<tr>
+<td>str1 != str2</td>
+<td>不等时返回真</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>文件测试：用于判断一个文件是否满足特定的条件;</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-d pathname</td>
+<td>是目录时返回真</td>
+</tr>
+<tr>
+<td>-e pathname</td>
+<td>指定文件或目录存在时为真</td>
+</tr>
+<tr>
+<td>-f file</td>
+<td>是常规文件(非符号链接、管道、目录等)时为真</td>
+</tr>
+<tr>
+<td>-h file</td>
+<td>是符号链接文件时返回真</td>
+</tr>
+<tr>
+<td>-[rwx] pathname</td>
+<td>当指定的文件或目录设置了可[读 写 执行]</td>
+<td>权限时为真</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>数字比较：只能用于比较正/负整数<code>test int1 option int2</code>/<code>[ int1 option int2 ]</code>;</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-eq</td>
+<td>int1 == int2</td>
+</tr>
+<tr>
+<td>-ne</td>
+<td>int1 != int2</td>
+</tr>
+<tr>
+<td>-lt</td>
+<td>int1 &lt; int2</td>
+</tr>
+<tr>
+<td>-gt</td>
+<td>int1 &gt; int2</td>
+</tr>
+<tr>
+<td>-le</td>
+<td>int1 &lt;= int2</td>
+</tr>
+<tr>
+<td>-ge</td>
+<td>int1 &gt;= int2</td>
+</tr>
+</tbody>
+</table>
+<ul>
 <li>复合表达式：用逻辑(与或非)串起的多个表达式；<ul>
-<li><strong>注意</strong>：Shell的内建条件操作符<code>&amp;&amp;</code>或<code>||</code>可以代替下面的<code>-a</code>和<code>-o</code>；前者连接两条<code>[</code>或<code>test</code>语句，逻辑清晰;后者只用一条<code>[</code>/<code>test</code>语句，执行效率相对更高；如｀[ -f $@ -a -x /usr/bin/vim ]｀等于<code>[ -f $@ ] &amp;&amp; [ -x /usr/bin/vim ]</code>．<br>| 操作符 | 描述 |<br>| — | — |<br>| !expr | “非”运算 |<br>| expr1 -a expr2 | “与”运算 |<br>| expr1 -o expr2 | “或”运算 |<h3 id="循环结构"><a href="#循环结构" class="headerlink" title="循环结构"></a>循环结构</h3></li>
+<li><strong>注意</strong>：Shell的内建条件操作符<code>&amp;&amp;</code>或<code>||</code>可以代替下面的<code>-a</code>和<code>-o</code>；前者连接两条<code>[</code>或<code>test</code>语句，逻辑清晰;后者只用一条<code>[</code>/<code>test</code>语句，执行效率相对更高；如｀[ -f $@ -a -x /usr/bin/vim ]｀等于<code>[ -f $@ ] &amp;&amp; [ -x /usr/bin/vim ]</code>．</li>
 </ul>
 </li>
 </ul>
-</li>
+<table>
+<thead>
+<tr>
+<th>操作符</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>!expr</td>
+<td>“非”运算</td>
+</tr>
+<tr>
+<td>expr1 -a expr2</td>
+<td>“与”运算</td>
+</tr>
+<tr>
+<td>expr1 -o expr2</td>
+<td>“或”运算</td>
+</tr>
+</tbody>
+</table>
+<h3 id="循环结构"><a href="#循环结构" class="headerlink" title="循环结构"></a>循环结构</h3><ul>
 <li>Shell中的循环结构有3种:(1)while;(2)until;(3)for;</li>
 <li>条件测试时比较变量值时不能忘记<code>$</code>符号;</li>
 <li><p><code>while</code>语句：</p>
@@ -580,9 +761,43 @@
 </ul>
 </li>
 <li><code>wc</code>：用来统计文件中字节、单词和行的数量;<ul>
-<li>常用选项：<br>| 选 项 | 描 述 |<br>| — | — |<br>| <code>-c</code>/<code>--bytes</code> | 显示字节数 |<br>| <code>-l</code>/<code>--lines</code> | 显示行数 |<br>| <code>-L</code>/<code>--max-line-length</code> | 显示最长一行的长度 |<br>| <code>-w</code>/<code>--words</code> | 显示单词个数 |<br>| <code>--help</code> | 显示帮助 |</li>
+<li>常用选项：</li>
 </ul>
 </li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>选 项</th>
+<th>描 述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-c</code>/<code>--bytes</code></td>
+<td>显示字节数</td>
+</tr>
+<tr>
+<td><code>-l</code>/<code>--lines</code></td>
+<td>显示行数</td>
+</tr>
+<tr>
+<td><code>-L</code>/<code>--max-line-length</code></td>
+<td>显示最长一行的长度</td>
+</tr>
+<tr>
+<td><code>-w</code>/<code>--words</code></td>
+<td>显示单词个数</td>
+</tr>
+<tr>
+<td><code>--help</code></td>
+<td>显示帮助</td>
+</tr>
+</tbody>
+</table>
+<ul>
 <li><code>substr</code>：从字符串提取一部分，是shell内建的运算符，<strong>必须使用<code>expr</code>进行表达式求值</strong>;<ul>
 <li>依次接受3个参数：(1)字符串/存放字符串的变量;(2)提取开始的位置(从1开始计数);(3)需要提取的字符数。</li>
 <li>用法：<code>expr substr &quot;Hello World&quot; 1 5</code>。</li>
@@ -592,31 +807,27 @@
 <li>只指定结束值：<code>seq &lt;end&gt;</code>产生从1到<num>的数列;</num></li>
 <li>指定开始和结束：<code>seq &lt;start&gt; &lt;end&gt;</code>产生从<start>到<num>的数列;</num></start></li>
 <li>指定开始结束和步长：<code>seq &lt;start&gt; &lt;step&gt; &lt;end&gt;</code>。<h2 id="Shell定制"><a href="#Shell定制" class="headerlink" title="Shell定制"></a>Shell定制</h2></li>
-</ul>
-</li>
-</ul>
-</li>
 <li>设置环境变量</li>
 <li>设置别名<h3 id="修改环境变量"><a href="#修改环境变量" class="headerlink" title="修改环境变量"></a>修改环境变量</h3></li>
 <li>“环境变量”是一些和当前Shell有关的变量，用于定义特定的Shell行为;</li>
 <li><code>printenv</code>查看当前Shell的所有环境变量。</li>
-<li><code>PATH</code>:搜索路径，是最常用的环境变量之一，这个变量告诉Shell在什么地方查找用户要求执行的程序;\<ul>
+<li><code>PATH</code>:搜索路径，是最常用的环境变量之一，这个变量告诉Shell在什么地方查找用户要求执行的程序;\</li>
+</ul>
+</li>
 <li><code>PATH</code>变量用一系列冒号分隔各目录，用户如果没有命令完整路径，Shell会依次在PATH变量指定的目录中查找;</li>
 <li>追加路径：<code>PATH=$PATH:/usr/local/bin</code>;</li>
 <li>shell中修改的变量只在当前shell中有效(所以有配置文件的存在);</li>
-<li>执行本地程序用<code>./program</code>一是为了安全，在安全性要求更高的场合应该输入完全路径;二是因为命令通常在PATH中搜索，所以要加上<code>./</code>目录才能运行。</li>
+<li>执行本地程序用<code>./program</code>一是为了安全，在安全性要求更高的场合应该输入完全路径;二是因为命令通常在PATH中搜索，所以要加上<code>./</code>目录才能运行。<ul>
+<li><code>alias</code>：设置命令(即程序)别名;</li>
 </ul>
 </li>
-<li><code>alias</code>：设置命令(即程序)别名;<ul>
-<li>用法:<code>alias ll=&#39;ls -l&#39;</code>。</li>
+<li>用法:<code>alias ll=&#39;ls -l&#39;</code>。<ul>
+<li>配置文件：shell中运行的命令只是临时有效，要保持长久有效需要将命令输入到配置文件中。</li>
 </ul>
 </li>
-<li>配置文件：shell中运行的命令只是临时有效，要保持长久有效需要将命令输入到配置文件中。<ul>
 <li><code>~/.bashrc</code>：Shell为每个用户维护了一个配置文件，对当前用户有效，<strong>推荐</strong>;</li>
 <li><code>/etc/bash.bashrc</code>：全局shell配置文件，对所有用户有效。</li>
 <li>用<code>source</code>命令生效。</li>
-</ul>
-</li>
 </ul>
 <h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p><em>Linux从入门到精通 刘忆智 著</em></p>
 
@@ -630,7 +841,7 @@
         <p><span>本文标题:</span><a href="/2018/04/09/Linux系列11-Shell编程/">Linux系列11-Shell编程</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">Yuci Cheung</a></p>
         <p><span>发布时间:</span>2018-04-09, 00:45:17</p>
-        <p><span>最后更新:</span>2018-04-09, 11:48:09</p>
+        <p><span>最后更新:</span>2018-04-09, 12:32:38</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2018/04/09/Linux系列11-Shell编程/" title="Linux系列11-Shell编程">https://yucicheung.github.io/2018/04/09/Linux系列11-Shell编程/</a>
             <span class="copy-path" data-clipboard-text="原文: https://yucicheung.github.io/2018/04/09/Linux系列11-Shell编程/　　作者: Yuci Cheung" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
