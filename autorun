@@ -1,6 +1,0 @@
-#!/bin/bash
-cd _drafts/
-for file in `ls`
-do
-	hexo publish ${file:0:-3}
-done
