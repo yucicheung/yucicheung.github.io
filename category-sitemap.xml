@@ -15,7 +15,14 @@
 
     <url>
         <loc>https://yucicheung.github.io/categories/Learning/</loc>
-        <lastmod>2018-04-09T04:32:38.705Z</lastmod>
+        <lastmod>2018-04-09T06:55:51.478Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://yucicheung.github.io/categories/Coding/</loc>
+        <lastmod>2018-04-11T15:46:52.439Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Yuci Cheung" />
+
+
+
+<meta name="description" content="一个帮助筛选图片自制GUI程序，方便建立图片数据库时使用。  python2.7编写; 使用tkinter+Pillow;代码下载请到我的github仓库。">
+<meta name="keywords" content="python,Linux,自制小工具">
+<meta property="og:type" content="article">
+<meta property="og:title" content="建库时帮助筛选图片的GUI小工具(python+tkinter)">
+<meta property="og:url" content="https://yucicheung.github.io/2018/04/11/建库时帮助筛选图片的GUI小工具-python-tkinter/index.html">
+<meta property="og:site_name" content="Yuci&#39;s Blog">
+<meta property="og:description" content="一个帮助筛选图片自制GUI程序，方便建立图片数据库时使用。  python2.7编写; 使用tkinter+Pillow;代码下载请到我的github仓库。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://yucicheung.github.io/img/initialization.png">
+<meta property="og:image" content="https://yucicheung.github.io/img/clickRadioButton.png">
+<meta property="og:image" content="https://yucicheung.github.io/img/doneProcessing.png">
+<meta property="og:updated_time" content="2018-04-11T15:46:52.439Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="建库时帮助筛选图片的GUI小工具(python+tkinter)">
+<meta name="twitter:description" content="一个帮助筛选图片自制GUI程序，方便建立图片数据库时使用。  python2.7编写; 使用tkinter+Pillow;代码下载请到我的github仓库。">
+<meta name="twitter:image" content="https://yucicheung.github.io/img/initialization.png">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="Yuci&#39;s Blog" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/egg.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>建库时帮助筛选图片的GUI小工具(python+tkinter) | Yuci&#39;s Blog</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+    <script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5aa6360dad8cb1a6"></script>
+
+
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?bd6df76638422f4466c5d6bd0c572265";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Yuci Cheung</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">A to-be programmer.</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="false" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:yucicheung@gmail.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/yucicheung" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" href="http://blog.csdn.net/yucicheung" title="CSDN"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CDN/">CDN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Grub/">Grub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSL/">SSL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/">Shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/正则表达式/">正则表达式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自制小工具/">自制小工具</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+
+                
+                
+                <section class="switch-part switch-part3">
+                
+                    <div id="js-aboutme">预备役程序员。</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Yuci Cheung</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Yuci Cheung</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">A to-be programmer.</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:yucicheung@gmail.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/yucicheung" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" target="_blank" href="http://blog.csdn.net/yucicheung" title="CSDN"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-建库时帮助筛选图片的GUI小工具-python-tkinter" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/04/11/建库时帮助筛选图片的GUI小工具-python-tkinter/" class="article-date">
+      <time datetime="2018-04-11T15:43:42.000Z" itemprop="datePublished">2018-04-11</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      建库时帮助筛选图片的GUI小工具(python+tkinter)
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Coding/">Coding</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/自制小工具/">自制小工具</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><excerpt in="" index="" |="" 首页摘要=""><br>一个帮助筛选图片自制GUI程序，方便建立图片数据库时使用。</excerpt></p>
+<ul>
+<li>python2.7编写;</li>
+<li>使用tkinter+Pillow;<br>代码下载请到<a href="https://github.com/yucicheung/Mini_Tools/tree/master/ClassifyGUI" target="_blank" rel="noopener">我的github仓库</a>。<a id="more"></a>
+<the rest="" of="" contents="" |="" 余下全文=""><h2 id="设计目的"><a href="#设计目的" class="headerlink" title="设计目的"></a>设计目的</h2>建立数据库过程中，需要对收集到的图片进行筛选，查看每一张图片，将合适的图片移动到最终的<code>category</code>目录中，而不合适的图片移动到<code>categoryDump</code>目录下。<br>这样一来方便建立数据库，二来不需要的图片也可以整理好(以便日后使用,如做负目标等)。<br>对于这个需求，就需要一边能实现查看图片，针对查看图片即使做出移动的动作，因此设计了一个GUI程序实现功能。<h2 id="依赖条件"><a href="#依赖条件" class="headerlink" title="依赖条件"></a>依赖条件</h2>Written in <strong>python2.7.12</strong>：</the></li>
+<li>python-tk 2.7.12-1~16.04</li>
+<li>PILLOW_VERSION = ‘5.0.0’</li>
+</ul>
+<h2 id="功能描述"><a href="#功能描述" class="headerlink" title="功能描述"></a>功能描述</h2><p>程序实现如下功能：</p>
+<ol>
+<li>当点击单选按钮时(请保证源数据目录都已正确设置)，程序会检查目录中的图片数量：<ul>
+<li>如果图片总数是0,告知用户目录为空(即图片已处理完成);</li>
+<li>如果大于0,显示其中一副图片，并且程序会确保源目录下有<code>category</code>目录及<code>categoryDump</code>目录存在。</li>
+</ul>
+</li>
+<li>当点击<code>category</code>按钮时，将图片移动到<code>category</code>目录下;</li>
+<li>当点击<code>categoryDump</code>钮时,将图片移动到<code>categoryDump</code>目录下。</li>
+</ol>
+<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p>如果要测试程序,运行 <code>main.py</code>。</p>
+<p>否则,在运行 <code>main.py</code>前你需要:</p>
+<ul>
+<li>根据自己的需求修改<code>main.py</code>中的参数;</li>
+<li><strong>如果有多于4类要分</strong>，请修改<code>ClassifyGUI.py</code>中相关参数.</li>
+</ul>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p>GUI的实际大小是<em>900x750</em>,以下展示图片按照0.5倍率缩放。</p>
+<ul>
+<li>程序初始化</li>
+</ul>
+<p><img src="/img/initialization.png" alt="Initialization"></p>
+<ul>
+<li>当点击单选按钮</li>
+</ul>
+<p><img src="/img/clickRadioButton.png" alt="clickRadioButton"></p>
+<ul>
+<li>当处理完当前类别的所有图片</li>
+</ul>
+<p><img src="/img/doneProcessing.png" alt="doneProcessing"></p>
+<h2 id="源代码"><a href="#源代码" class="headerlink" title="源代码"></a>源代码</h2><p>需要下载请到<a href="https://github.com/yucicheung/Mini_Tools/tree/master/ClassifyGUI" target="_blank" rel="noopener">我的github</a>。</p>
+<ul>
+<li><p><code>main.py</code>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">from</span> ClassifyGUI <span class="keyword">import</span> ClassifyGUI</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="comment"># config vars</span></span><br><span class="line">config = &#123;&#125;</span><br><span class="line">config[<span class="string">"destinationDir"</span>] = <span class="string">'./dataset'</span></span><br><span class="line">config[<span class="string">"searchPathList"</span>] = [<span class="string">'./dataset/hm'</span>,<span class="string">'./dataset/hz'</span>,<span class="string">'./dataset/ys'</span>,<span class="string">'./dataset/jq'</span>]</span><br><span class="line">config[<span class="string">"types"</span>] = [<span class="string">"AircraftCarrier"</span>,<span class="string">'Bomber'</span>,<span class="string">'TransportAircraft'</span>,<span class="string">'DestroyerAndFrigate'</span>]</span><br><span class="line">config[<span class="string">"dumpPath"</span>] = [os.path.join(config[<span class="string">"destinationDir"</span>], config[<span class="string">"types"</span>][i] + <span class="string">'Dump'</span>) <span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">4</span>)]</span><br><span class="line">config[<span class="string">"picSize"</span>] = (<span class="number">500</span>, <span class="number">500</span>)</span><br><span class="line">config[<span class="string">"windowTitle"</span>] = <span class="string">'Classify pics'</span></span><br><span class="line">config[<span class="string">"windowGeometry"</span>] = <span class="string">'900x750'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__==<span class="string">"__main__"</span>:</span><br><span class="line">    ClassifyGUI(config)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>utils.py</code>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> tkinter <span class="keyword">as</span> tk</span><br><span class="line"><span class="keyword">import</span> tkinter.messagebox</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">checkdir</span><span class="params">(pathToCheck)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> os.path.isdir(pathToCheck):</span><br><span class="line">        os.mkdir(pathToCheck)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> len(os.listdir(pathToCheck))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">checkSourceEmpty</span><span class="params">(picList)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> len(picList)==<span class="number">0</span>:</span><br><span class="line">        tk.messagebox.showwarning(title=<span class="string">'Finish'</span>, message=<span class="string">'Finish processing all images of this type!'</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">True</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>ClassifyGUI.py</code>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">from</span> utils <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image, ImageTk</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ClassifyGUI</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, config)</span>:</span></span><br><span class="line">        self.config = config</span><br><span class="line">        self.radioButtonPos = (<span class="number">100</span>,<span class="number">150</span>)</span><br><span class="line">        self.imgBoxPos = (<span class="number">200</span>,<span class="number">200</span>)</span><br><span class="line">        self.radioPad = <span class="number">220</span></span><br><span class="line">        self.gridPad = (<span class="number">30</span>,<span class="number">10</span>)</span><br><span class="line">        self.setUpWindow()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">setUpWindow</span><span class="params">(self)</span>:</span></span><br><span class="line">        searchPathLists = self.config[<span class="string">"searchPathList"</span>]</span><br><span class="line">        picLists = [[p <span class="keyword">for</span> p <span class="keyword">in</span> os.listdir(searchPathLists[i]) <span class="keyword">if</span> p.endswith(<span class="string">'.png'</span>)] <span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">4</span>)]</span><br><span class="line">        destinationDir = self.config[<span class="string">"destinationDir"</span>]</span><br><span class="line">        types = self.config[<span class="string">"types"</span>]</span><br><span class="line">        dumpPaths = self.config[<span class="string">"dumpPath"</span>]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">radioButtonTrigger</span><span class="params">()</span>:</span></span><br><span class="line"></span><br><span class="line">            Index = pathIndex.get()</span><br><span class="line">            processPath = searchPathLists[Index]</span><br><span class="line">            picList = picLists[Index]</span><br><span class="line">            <span class="keyword">if</span> checkSourceEmpty(picList):</span><br><span class="line">                destinationPath = os.path.join(destinationDir, types[Index])</span><br><span class="line">                checkdir(destinationPath)</span><br><span class="line">                checkdir(dumpPaths[Index])</span><br><span class="line">                picpath = os.path.join(processPath, picList[<span class="number">-1</span>])</span><br><span class="line">                changeImg(picpath)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">buttonTrigger0</span><span class="params">()</span>:</span></span><br><span class="line">            typeIndex = <span class="number">0</span></span><br><span class="line">            picList = picLists[typeIndex]</span><br><span class="line">            <span class="keyword">if</span> checkSourceEmpty(picList):</span><br><span class="line">                processImg = picList.pop()</span><br><span class="line">                type = types[typeIndex]</span><br><span class="line">                searchPathList = searchPathLists[typeIndex]</span><br><span class="line">                srcImg = os.path.join(searchPathList, processImg)</span><br><span class="line">                desImg = os.path.join(destinationDir, type, processImg)</span><br><span class="line">                os.system(<span class="string">'mv &#123;&#125; &#123;&#125;'</span>.format(srcImg, desImg))</span><br><span class="line">                <span class="keyword">if</span> checkSourceEmpty(picList):</span><br><span class="line">                    picpath = os.path.join(searchPathList, picList[<span class="number">-1</span>])</span><br><span class="line">                    changeImg(picpath)</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">dumpTrigger0</span><span class="params">()</span>:</span></span><br><span class="line">            typeIndex = <span class="number">0</span></span><br><span class="line">            picList = picLists[typeIndex]</span><br><span class="line">            <span class="keyword">if</span> checkSourceEmpty(picList):</span><br><span class="line">                processImg = picList.pop()</span><br><span class="line">                searchPathList = searchPathLists[typeIndex]</span><br><span class="line">                dumpPath = dumpPaths[typeIndex]</span><br><span class="line">                srcImg = os.path.join(searchPathList, processImg)</span><br><span class="line">                desImg = os.path.join(dumpPath, processImg)</span><br><span class="line">                os.system(<span class="string">'mv &#123;&#125; &#123;&#125;'</span>.format(srcImg, desImg))</span><br><span class="line">                <span class="keyword">if</span> checkSourceEmpty(picList):</span><br><span class="line">                    picpath = os.path.join(searchPathList, picList[<span class="number">-1</span>])</span><br><span class="line">                    changeImg(picpath)</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">buttonTrigger1</span><span class="params">()</span>:</span></span><br><span class="line">            typeIndex = <span class="number">1</span></span><br><span class="line">            picList = picLists[typeIndex]</span><br><span class="line">            <span class="keyword">if</span> checkSourceEmpty(picList):</span><br><span class="line">                processImg = picList.pop()</span><br><span class="line">                type = types[typeIndex]</span><br><span class="line">                searchPathList = searchPathLists[typeIndex]</span><br><span class="line">                srcImg = os.path.join(searchPathList, processImg)</span><br><span class="line">                desImg = os.path.join(destinationDir, type, processImg)</span><br><span class="line">                os.system(<span class="string">'mv &#123;&#125; &#123;&#125;'</span>.format(srcImg, desImg))</span><br><span class="line">                <span class="keyword">if</span> checkSourceEmpty(picList):</span><br><span class="line">                    picpath = os.path.join(searchPathList, picList[<span class="number">-1</span>])</span><br><span class="line">                    changeImg(picpath)</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">dumpTrigger1</span><span class="params">()</span>:</span></span><br><span class="line">            typeIndex = <span class="number">1</span></span><br><span class="line">            picList = picLists[typeIndex]</span><br><span class="line">            <span class="keyword">if</span> checkSourceEmpty(picList):</span><br><span class="line">                processImg = picList.pop()</span><br><span class="line">                searchPathList = searchPathLists[typeIndex]</span><br><span class="line">                dumpPath = dumpPaths[typeIndex]</span><br><span class="line">                srcImg = os.path.join(searchPathList, processImg)</span><br><span class="line">                desImg = os.path.join(dumpPath, processImg)</span><br><span class="line">                os.system(<span class="string">'mv &#123;&#125; &#123;&#125;'</span>.format(srcImg, desImg))</span><br><span class="line">                <span class="keyword">if</span> checkSourceEmpty(picList):</span><br><span class="line">                    picpath = os.path.join(searchPathList, picList[<span class="number">-1</span>])</span><br><span class="line">                    changeImg(picpath)</span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">buttonTrigger2</span><span class="params">()</span>:</span></span><br><span class="line">            typeIndex = <span class="number">2</span></span><br><span class="line">            picList = picLists[typeIndex]</span><br><span class="line">            <span class="keyword">if</span> checkSourceEmpty(picList):</span><br><span class="line">                processImg = picList.pop()</span><br><span class="line">                type = types[typeIndex]</span><br><span class="line">                searchPathList = searchPathLists[typeIndex]</span><br><span class="line">                srcImg = os.path.join(searchPathList, processImg)</span><br><span class="line">                desImg = os.path.join(destinationDir, type, processImg)</span><br><span class="line">                os.system(<span class="string">'mv &#123;&#125; &#123;&#125;'</span>.format(srcImg, desImg))</span><br><span class="line">                <span class="keyword">if</span> checkSourceEmpty(picList):</span><br><span class="line">                    picpath = os.path.join(searchPathList, picList[<span class="number">-1</span>])</span><br><span class="line">                    changeImg(picpath)</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">dumpTrigger2</span><span class="params">()</span>:</span></span><br><span class="line">            typeIndex = <span class="number">2</span></span><br><span class="line">            picList = picLists[typeIndex]</span><br><span class="line">            <span class="keyword">if</span> checkSourceEmpty(picList):</span><br><span class="line">                processImg = picList.pop()</span><br><span class="line">                searchPathList = searchPathLists[typeIndex]</span><br><span class="line">                dumpPath = dumpPaths[typeIndex]</span><br><span class="line">                srcImg = os.path.join(searchPathList, processImg)</span><br><span class="line">                desImg = os.path.join(dumpPath, processImg)</span><br><span class="line">                os.system(<span class="string">'mv &#123;&#125; &#123;&#125;'</span>.format(srcImg, desImg))</span><br><span class="line">                <span class="keyword">if</span> checkSourceEmpty(picList):</span><br><span class="line">                    picpath = os.path.join(searchPathList, picList[<span class="number">-1</span>])</span><br><span class="line">                    changeImg(picpath)</span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">buttonTrigger3</span><span class="params">()</span>:</span></span><br><span class="line">            typeIndex = <span class="number">3</span></span><br><span class="line">            picList = picLists[typeIndex]</span><br><span class="line">            <span class="keyword">if</span> checkSourceEmpty(picList):</span><br><span class="line">                processImg = picList.pop()</span><br><span class="line">                type = types[typeIndex]</span><br><span class="line">                searchPathList = searchPathLists[typeIndex]</span><br><span class="line">                srcImg = os.path.join(searchPathList, processImg)</span><br><span class="line">                desImg = os.path.join(destinationDir, type, processImg)</span><br><span class="line">                os.system(<span class="string">'mv &#123;&#125; &#123;&#125;'</span>.format(srcImg, desImg))</span><br><span class="line">                <span class="keyword">if</span> checkSourceEmpty(picList):</span><br><span class="line">                    picpath = os.path.join(searchPathList, picList[<span class="number">-1</span>])</span><br><span class="line">                    changeImg(picpath)</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">dumpTrigger3</span><span class="params">()</span>:</span></span><br><span class="line">            typeIndex = <span class="number">3</span></span><br><span class="line">            picList = picLists[typeIndex]</span><br><span class="line">            <span class="keyword">if</span> checkSourceEmpty(picList):</span><br><span class="line">                processImg = picList.pop()</span><br><span class="line">                searchPathList = searchPathLists[typeIndex]</span><br><span class="line">                dumpPath = dumpPaths[typeIndex]</span><br><span class="line">                srcImg = os.path.join(searchPathList, processImg)</span><br><span class="line">                desImg = os.path.join(dumpPath, processImg)</span><br><span class="line">                os.system(<span class="string">'mv &#123;&#125; &#123;&#125;'</span>.format(srcImg, desImg))</span><br><span class="line">                <span class="keyword">if</span> checkSourceEmpty(picList):</span><br><span class="line">                    picpath = os.path.join(searchPathList, picList[<span class="number">-1</span>])</span><br><span class="line">                    changeImg(picpath)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">changeImg</span><span class="params">(imgPath)</span>:</span></span><br><span class="line">            <span class="keyword">print</span> imgPath</span><br><span class="line">            im = Image.open(imgPath)</span><br><span class="line">            processImage = ImageTk.PhotoImage(im)</span><br><span class="line">            lbPic[<span class="string">'image'</span>] = processImage</span><br><span class="line">            lbPic.image = processImage</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        window = tk.Tk()</span><br><span class="line">        window.title(self.config[<span class="string">"windowTitle"</span>])</span><br><span class="line">        window.geometry(self.config[<span class="string">"windowGeometry"</span>])</span><br><span class="line">        lbPic = tk.Label(window, text=<span class="string">'image'</span>, width=<span class="number">500</span>, height=<span class="number">500</span>)</span><br><span class="line">        lbPic.place(x=self.imgBoxPos[<span class="number">0</span>], y=self.imgBoxPos[<span class="number">1</span>], width=<span class="number">500</span>, height=<span class="number">500</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># set up radio buttons</span></span><br><span class="line">        pathIndex = tk.IntVar()</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">4</span>):</span><br><span class="line">            tk.Radiobutton(window, text=self.config[<span class="string">"searchPathList"</span>][i], variable=pathIndex,</span><br><span class="line">                           value=i, command=radioButtonTrigger).\</span><br><span class="line">                place(x=self.radioButtonPos[<span class="number">0</span>]+self.radioPad*i,y=self.radioButtonPos[<span class="number">1</span>],anchor=<span class="string">'nw'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">2</span>):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> xrange(<span class="number">4</span>):</span><br><span class="line">                <span class="keyword">if</span> i%<span class="number">2</span> == <span class="number">0</span>:</span><br><span class="line">                    tk.Button(window, text=self.config[<span class="string">"types"</span>][j], width=<span class="number">20</span>, height=<span class="number">1</span>,</span><br><span class="line">                            command=eval(<span class="string">'buttonTrigger'</span>+str(j))).\</span><br><span class="line">                        grid(row=i, column=j, padx=self.gridPad[<span class="number">0</span>], pady=self.gridPad[<span class="number">1</span>])</span><br><span class="line">                <span class="keyword">elif</span> i % <span class="number">2</span> == <span class="number">1</span>:</span><br><span class="line">                    tk.Button(window, text=<span class="string">'dump '</span>+self.config[<span class="string">"types"</span>][j], width=<span class="number">20</span>, height=<span class="number">1</span>,</span><br><span class="line">                              command=eval(<span class="string">'dumpTrigger'</span>+str(j))). \</span><br><span class="line">                        grid(row=i, column=j, padx=self.gridPad[<span class="number">0</span>], pady=self.gridPad[<span class="number">1</span>])</span><br><span class="line"></span><br><span class="line">        window.mainloop()</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2018/04/11/建库时帮助筛选图片的GUI小工具-python-tkinter/">建库时帮助筛选图片的GUI小工具(python+tkinter)</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">Yuci Cheung</a></p>
+        <p><span>发布时间:</span>2018-04-11, 23:43:42</p>
+        <p><span>最后更新:</span>2018-04-11, 23:46:52</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2018/04/11/建库时帮助筛选图片的GUI小工具-python-tkinter/" title="建库时帮助筛选图片的GUI小工具(python+tkinter)">https://yucicheung.github.io/2018/04/11/建库时帮助筛选图片的GUI小工具-python-tkinter/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://yucicheung.github.io/2018/04/11/建库时帮助筛选图片的GUI小工具-python-tkinter/　　作者: Yuci Cheung" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2018/04/09/Linux系列11-Shell编程/">
+                    Linux系列11-Shell编程
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#设计目的"><span class="toc-number">1.</span> <span class="toc-text">设计目的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#依赖条件"><span class="toc-number">2.</span> <span class="toc-text">依赖条件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#功能描述"><span class="toc-number">3.</span> <span class="toc-text">功能描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用方法"><span class="toc-number">4.</span> <span class="toc-text">使用方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#示例"><span class="toc-number">5.</span> <span class="toc-text">示例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#源代码"><span class="toc-number">6.</span> <span class="toc-text">源代码</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+
+    
+        <div class="addthis_sharing_toolbox"></div>
+    
+</div>
+
+
+
+
+
+
+
+    
+        <section id="comments">
+    <style> aside.comment-bar { margin: auto 30px; }</style>
+    <div id="disqus_thread"></div>
+    <script>
+        var disqus_config = function(){
+            this.page.url = 'https://yucicheung.github.io/2018/04/11/建库时帮助筛选图片的GUI小工具-python-tkinter/';
+            this.page.identifier = '2018/04/11/建库时帮助筛选图片的GUI小工具-python-tkinter/';
+        };
+        var loadComment = function(){
+            var d = document, s = d.createElement('script');
+            s.src = '//yucicheung-github-io.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        }
+    </script>
+    
+    <script> loadComment(); </script>
+
+</section>
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2018/04/09/Linux系列11-Shell编程/" title="下一篇: Linux系列11-Shell编程">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/04/11/建库时帮助筛选图片的GUI小工具-python-tkinter/">建库时帮助筛选图片的GUI小工具(python+tkinter)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列11-Shell编程/">Linux系列11-Shell编程</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列10-VIM/">Linux系列10-Linux编程</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列9-网络配置和远程访问/">Linux系列9-网络配置和远程访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列8-进程管理/">Linux系列8-进程管理</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列7-用户与用户组管理/">Linux系列7-用户与用户组管理</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列6-磁盘管理/">Linux系列6-磁盘管理</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列5-软件包管理/">Linux系列5-软件包管理</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列4-文件目录管理/">Linux系列4-文件目录管理</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列3-shell基本命令/">Linux系列3-shell基本命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列2-基本配置/">Linux系列2-基本配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列1-概述/">Linux系列1-概述</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/24/Dijkstras算法和实现/">Dijkstras算法和实现(python)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/17/python中的argv和argc/">python中的argv和argc</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/14/为Github-page绑定自定义域名并实现https访问/">为Github page绑定自定义域名并实现https访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/13/Ubuntu下用hexo搭建github博客/">Ubuntu下用hexo搭建github博客</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2018 Yuci Cheung
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 6;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-115529402-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+    <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "(つェ⊂)" + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*)" + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
