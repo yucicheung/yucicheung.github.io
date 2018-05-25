@@ -15,18 +15,18 @@
 
 
 
-<meta name="description" content="用户的管理(增加、删除、修改和切换) 用户组的管理 用户和组的配置文件/etc/shadow、/etc/passwd、/etc/group 记录用户历史操作命令history如要下载笔记和代码请到我的github。">
-<meta name="keywords" content="Linux,Shell">
+<meta name="description" content="配置环境：Ubuntu 16.04; 安装tmux; tmux基本使用命令。tmux是一款分屏工具，可以将你的终端切分成几块利用。">
+<meta name="keywords" content="Linux,Ubuntu,工具">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Linux系列7-用户与用户组管理">
-<meta property="og:url" content="https://yucicheung.github.io/2018/04/09/Linux系列7-用户与用户组管理/index.html">
+<meta property="og:title" content="tmux的安装和使用">
+<meta property="og:url" content="https://yucicheung.github.io/2018/05/25/tmux-Usage/index.html">
 <meta property="og:site_name" content="Yuci&#39;s Blog">
-<meta property="og:description" content="用户的管理(增加、删除、修改和切换) 用户组的管理 用户和组的配置文件/etc/shadow、/etc/passwd、/etc/group 记录用户历史操作命令history如要下载笔记和代码请到我的github。">
+<meta property="og:description" content="配置环境：Ubuntu 16.04; 安装tmux; tmux基本使用命令。tmux是一款分屏工具，可以将你的终端切分成几块利用。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-04-09T06:55:51.478Z">
+<meta property="og:updated_time" content="2018-05-25T15:17:16.133Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Linux系列7-用户与用户组管理">
-<meta name="twitter:description" content="用户的管理(增加、删除、修改和切换) 用户组的管理 用户和组的配置文件/etc/shadow、/etc/passwd、/etc/group 记录用户历史操作命令history如要下载笔记和代码请到我的github。">
+<meta name="twitter:title" content="tmux的安装和使用">
+<meta name="twitter:description" content="配置环境：Ubuntu 16.04; 安装tmux; tmux基本使用命令。tmux是一款分屏工具，可以将你的终端切分成几块利用。">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -58,7 +58,7 @@
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>Linux系列7-用户与用户组管理 | Yuci&#39;s Blog</title>
+<title>tmux的安装和使用 | Yuci&#39;s Blog</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -262,11 +262,11 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
-      <div class="body-wrap"><article id="post-Linux系列7-用户与用户组管理" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-tmux-Usage" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/04/09/Linux系列7-用户与用户组管理/" class="article-date">
-      <time datetime="2018-04-08T16:45:11.000Z" itemprop="datePublished">2018-04-09</time>
+      <a href="/2018/05/25/tmux-Usage/" class="article-date">
+      <time datetime="2018-05-25T15:17:16.000Z" itemprop="datePublished">2018-05-25</time>
 </a>
 
 
@@ -281,7 +281,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Linux系列7-用户与用户组管理
+      tmux的安装和使用
     </h1>
   
 
@@ -290,13 +290,13 @@
       <div class="article-info article-info-post">
         
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Learning/">Learning</a>
+    <a class="article-category-link" href="/categories/Documenting/">Documenting</a>
     </div>
 
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Shell/">Shell</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/工具/">工具</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -308,169 +308,56 @@
           
         <p><excerpt in="" index="" |="" 首页摘要=""> </excerpt></p>
 <ul>
-<li>用户的管理(增加、删除、修改和切换)</li>
-<li>用户组的管理</li>
-<li>用户和组的配置文件<code>/etc/shadow</code>、<code>/etc/passwd</code>、<code>/etc/group</code></li>
-<li>记录用户历史操作命令<code>history</code><br>如要下载笔记和代码请到<a href="https://github.com/yucicheung/LearningNotes/tree/master/Linux" target="_blank" rel="noopener">我的github</a>。<a id="more"></a>
-<the rest="" of="" contents="" |="" 余下全文=""></the></li>
-<li>Linux作为一种多用户的操作系统(服务器系统)，允许多个用户同时登陆到系统上，并响应每个用户的请求;</li>
-<li>系统管理员的非常重要的工作之一是管理用户，包括：<ul>
-<li>添加和删除用户;</li>
-<li>分配用户主目录;</li>
-<li>限制用户权限。<h2 id="用户与用户组基础"><a href="#用户与用户组基础" class="headerlink" title="用户与用户组基础"></a>用户与用户组基础</h2></li>
+<li>配置环境：<strong>Ubuntu 16.04</strong>;</li>
+<li>安装tmux;</li>
+<li>tmux基本使用命令。<br>tmux是一款分屏工具，可以将你的终端切分成几块利用。<a id="more"></a>
+<the rest="" of="" contents="" |="" 余下全文=""><h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2></the></li>
 </ul>
+<ol>
+<li>安装tmux,<code>sudo apt install tmux</code>。</li>
+<li>开启tmux窗口<code>tmux</code>，会自动进入tmux窗口，此时只分一个窗口。</li>
+<li>tmux命令一般由prefix key+command key触发，使用方式是按住prefix key，松开后按下command key。prefix key默认是<code>Ctrl-b</code>，即同时按住<code>ctrl</code>和<code>b</code>键。而command key列表如下：<ol>
+<li>对窗格的操作：<ol>
+<li><code>%</code>:左右分窗格;</li>
+<li><code>&quot;</code>:上下分窗格;</li>
+<li><code>&lt;arrow key&gt;</code>:窗格导航，如配合使用left方向键时会导航到当前窗格的左端;</li>
+</ol>
 </li>
-<li>Linux识别多用户的流程：<ul>
-<li>用户提供用户和密码，经过验证后登录到系统;</li>
-<li>Linux为每一个用户启动一个进程，然后由这个进程接受用户的各种请求;</li>
-<li>建立用户时，需要限定其权限(root用户拥有所有权限<code>sudo -s</code>)，如不能修改配置文件，不能查看其他用户目录等;</li>
-<li>被划分为一个用户组的用户默认拥有用户组权限。</li>
-</ul>
+<li>对窗口的操作：<ol>
+<li><code>c</code>:创建新窗口;</li>
+<li><code>p</code>:切换到前一个窗口;</li>
+<li><code>n</code>:切换到下一个窗口;</li>
+<li><code>&lt;number&gt;</code>:切换到<number>号窗口，窗口号在窗口下端的status bar上显示。</number></li>
+</ol>
 </li>
-</ul>
-<h2 id="用户和组的添加useradd、groupadd"><a href="#用户和组的添加useradd、groupadd" class="headerlink" title="用户和组的添加useradd、groupadd"></a>用户和组的添加<code>useradd</code>、<code>groupadd</code></h2><ul>
-<li><code>useradd</code>：创建新用户;<ul>
-<li>默认情况下，不带<code>-m</code>参数的<code>useradd</code>命令不为新用户建立主目录，此时用户可以登录到系统Shell，但不能登录到图形界面;</li>
-<li><code>-g</code>：参数用于指定用户所属的组，不带<code>-g</code>参数时默认为新用户创建同名用户组，然后将新用户归入该组;</li>
-<li><code>-s</code>：指定用户登录后使用的Shell(目录)，否则默认使用<code>sh</code>;</li>
-<li>创建流程:(1)先创建用户名<code>useradd username</code>;(2)创建密码<code>passwd username</code>。</li>
-</ul>
+<li>对会话的操作：<ol>
+<li><code>d</code>:脱离当前tmux会话，回到bash下，会话会运行在后台;</li>
+<li><code>D</code>:从tmux选择一个会话进行脱离;</li>
+<li>bash敲入<code>tmux ls</code>可以查看到当前在运行的所有tmux sessions;</li>
+<li>bash敲入<code>tmux attach -t &lt;number&gt;</code>用于连接到<number>对应的会话;</number></li>
+<li>bash敲入<code>tmux new -s aMeaningfulName</code>创建一个会话并赋予名字;    </li>
+<li>bash敲入<code>tmux rename-session -t &lt;number&gt; aMeaningfulName</code>为第<number>号的session赋予一个新的名字。</number></li>
+<li>bash敲入<code>tmux attach -t sessionName</code>重新连接名字对应的session。</li>
+</ol>
 </li>
-<li><code>groupadd</code>：增加用户组，<code>groupadd groupname</code>。<h3 id="记录用户操作history"><a href="#记录用户操作history" class="headerlink" title="记录用户操作history"></a>记录用户操作<code>history</code></h3></li>
-<li>Shell会记录用户的每一条命令。</li>
-<li><code>history</code>：列出所有使用过的命令并加以编号;<ul>
-<li><code>history</code>命令只在bash中适用;</li>
-<li>历史命令记录被存在用户主目录下的<code>.bash_history</code>中，该文件默认可以存储1000条命令记录;</li>
-<li><code>history &lt;num&gt;</code>:列出最近<num>次输入的命令;</num></li>
-<li><code>history</code>列出当前用户的命令历史，查看其他用户命令应到其主目录的<code>.bash_history</code>查看。<h3 id="passwd和shadow文件"><a href="#passwd和shadow文件" class="headerlink" title="passwd和shadow文件"></a>passwd和shadow文件</h3></li>
-</ul>
+</ol>
 </li>
-<li>Linux中做的一切基本配置最终都会反映到配置文件，包括用户管理。</li>
-<li><code>/etc/passwd</code>:登记所有用户信息;</li>
-<li><code>/etc/shadow</code>:保存用户的登录密码(加密);</li>
-<li>直接修改配置文件也可以实现用户管理。<h2 id="删除用户userdel"><a href="#删除用户userdel" class="headerlink" title="删除用户userdel"></a>删除用户<code>userdel</code></h2></li>
-<li><code>userdel</code>:用于删除用户帐号;<ul>
-<li>默认情况下，不删除用户主目录;</li>
-<li><code>-r</code>:删除用户帐号，同时删除用户主目录;<h2 id="管理用户帐号usermod"><a href="#管理用户帐号usermod" class="headerlink" title="管理用户帐号usermod"></a>管理用户帐号<code>usermod</code></h2></li>
-</ul>
+<li>关闭窗格：用<code>ctrl-d</code>或者是输入<code>exit</code>来关闭。</li>
+<li>查看相关的帮助:<code>ctrl-b</code>+<code>?</code>查看相关命令。</li>
+<li>更多常用命令，prefix key+以下command key:<ol>
+<li><code>z</code>:将一个窗格放大到全窗口/缩回原窗格大小;</li>
+<li><code>Ctrl-&lt;arrow-key&gt;</code>:将窗格按照箭头方向放大/缩小;</li>
+<li><code>,</code>:重命名当前窗口。<h2 id="更多配置"><a href="#更多配置" class="headerlink" title="更多配置"></a>更多配置</h2></li>
+</ol>
 </li>
-<li><code>usermod</code>常用选项及含义：</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>选 项</th>
-<th>含 义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>-d</code></td>
-<td>修改用户主目录</td>
-</tr>
-<tr>
-<td><code>-e</code></td>
-<td>修改帐号的有效期限(MM/DD/YY)</td>
-</tr>
-<tr>
-<td><code>-g</code></td>
-<td>修改用户所属的组</td>
-</tr>
-<tr>
-<td><code>-l</code></td>
-<td>修改用户帐号名称</td>
-</tr>
-<tr>
-<td><code>-s</code></td>
-<td>修改用户登录后所使用的shell</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>同样可以通过修改配置文件<code>/etc/passwd</code>、<code>/etc/shadow</code>和<code>/etc/group</code>来修改用户信息。<h2 id="查看用户信息id"><a href="#查看用户信息id" class="headerlink" title="查看用户信息id"></a>查看用户信息<code>id</code></h2></li>
-<li><code>id</code>：查看用户信息;<ul>
-<li>以用户名作参数，查看用户的UID、GID及所属组;</li>
-<li>不带参数，则显示当前登录用户的信息。<h2 id="用户间切换su"><a href="#用户间切换su" class="headerlink" title="用户间切换su"></a>用户间切换<code>su</code></h2></li>
-</ul>
+<li>配置文件为<code>~/.tmux.conf</code>，每次开启新会话时，Tmux都会先读取该配置文件。</li>
+<li><p>如果希望新的配置能够立即生效，在配置文件中加入以下语句，并按下<code>C-b</code> <code>r</code>就可以使新配置生效：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bind R source-file ~/.tmux.conf; display-message &quot;Config reloaded..&quot;</span><br></pre></td></tr></table></figure>
 </li>
-<li>ubuntu使用<code>sudo -s</code>或<code>/bin/su</code>(绝对路径更为安全)来获得root权限。</li>
-<li><code>su username</code>：用于切换用户。<h2 id="受限的特权sudo"><a href="#受限的特权sudo" class="headerlink" title="受限的特权sudo"></a>受限的特权<code>sudo</code></h2></li>
-<li>root权限是不可分隔的，<strong>其他用户</strong>要获取某个特权时采用<code>sudo</code>命令;</li>
-<li>使用流程：<ul>
-<li><code>sudo</code>会首先要求用户输入用户自己的口令;</li>
-<li>用户在在一段时间内(5分钟)没有再次使用<code>sudo</code>，就必须再次输入口令。</li>
-</ul>
+<li><p>变更快捷键为<code>ctrl-a</code>，在<code>~/.tmux.conf</code>中添加以下语句：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">unbind C-b</span><br><span class="line">set -g prefix C-a</span><br></pre></td></tr></table></figure>
 </li>
-<li><code>/etc/sudoers</code>指定用户可以执行的特权命令;<ul>
-<li><code>root ALL=(ALL) ALL</code>指定root用户可以使用<code>sudo</code>在任何机器上(1st ALL)以任何用户身份(2nd ALL)执行任何命令(3rd)，无括号时以root身份执行;</li>
-<li><code>%admin</code>:替代所有属于admin组的用户，Ubuntu安装时创建的用户自动加入<code>admin</code>组。</li>
-</ul>
-</li>
-<li><code>sudoer</code>的每行包含下面内容：<ul>
-<li>该权限适合的用户;</li>
-<li>这一行配置在哪些主机上适用;</li>
-<li>该用户可以运行的命令;</li>
-<li>该命令以那个用户身份执行。</li>
-</ul>
-</li>
-<li><code>sudo -u</code>可以以其他用户身份执行命令。</li>
-<li><code>visudo</code>：修改sudoers文件时使用的命令。<h2 id="etc-passwd文件"><a href="#etc-passwd文件" class="headerlink" title="/etc/passwd文件"></a>/etc/passwd文件</h2></li>
-<li>早期所有信息都在<code>/etc/passwd</code>中，后来出于安全考虑，加密口令转移到<code>/etc/shadow</code>。</li>
-<li><code>/etc/passwd</code>中每一行代表一个用户，每一行由7个字段组成，使用冒号分隔;<ul>
-<li>登录名;</li>
-<li>口令占位符;</li>
-<li>用户ID(UID);</li>
-<li>默认组ID号(GID);</li>
-<li>用户私人信息;</li>
-<li>用户主目录;</li>
-<li>登录shell。</li>
-</ul>
-</li>
-<li>口令占位符代表算法加密，且口令放置在<code>/etc/shadow</code>中。</li>
-<li>Linux上使用最广泛的算法是MD5，MD5加密后长度是一个固定值(34个字符)。加密过程中，MD5算法会随机加入称作”salt”的数据，使一个口令可以对应多个不同的加密后形式。</li>
-<li>常用加密算法通过前缀识别;<ul>
-<li>MD5算法以”$1$”开头;</li>
-<li>Blowfish算法以“$2a$”开头。</li>
-</ul>
-</li>
-<li>UID号：用于唯一标识系统中的用户。<ul>
-<li>是一个32位无符号整数;</li>
-<li>root用户的UID为0。</li>
-<li>虚拟用户(bin/daemon)被分配到比较小的UID号，通常安排在<code>passwd</code>文件的开头;</li>
-<li>真实用户的UID号一般从比较大的数开始，这样可以为虚拟用户提供足够的余地(本机从1000开始)。</li>
-</ul>
-</li>
-<li>GID号：指定用户登录时默认所在的组;<ul>
-<li>一个32位整数;</li>
-<li>root组的GID号为0;</li>
-<li>在<code>/etc/group</code>中定义。<h2 id="etc-shadow文件"><a href="#etc-shadow文件" class="headerlink" title="/etc/shadow文件"></a>/etc/shadow文件</h2></li>
-</ul>
-</li>
-<li><code>/etc/shadow</code>存放加密后的用户口令。</li>
-<li><code>/etc/shadow</code>文件的每一行代表一个用户，并以冒号分隔每一个字段，每个字段的含义如下;<ul>
-<li>登录名;</li>
-<li>加密后口令； </li>
-<li>上次修改口令日期;</li>
-<li>两次修改口令之间的天数(最少);</li>
-<li>两次修改口令之间的天数(最多);</li>
-<li>提前多少天提醒用户修改口令;</li>
-<li>在口令过期多少天后禁用该用户;</li>
-<li>帐号过期的日期(<code>usermod</code>);</li>
-<li>保留，为空。</li>
-<li><strong>绝对日期</strong>是从1970.1.1至今的天数。<h2 id="etc-group文件"><a href="#etc-group文件" class="headerlink" title="/etc/group文件"></a><code>/etc/group</code>文件</h2></li>
-</ul>
-</li>
-<li><code>/etc/group</code>文件中保存系统所有组的名称，及每个组的成员列表;</li>
-<li>文件每一行表示一个组，由4个冒号分隔的字段组成，含义分别是：<ul>
-<li>组名;</li>
-<li>组口令占位符(如果口令字段是一个<code>x</code>，表示还有一个<code>/etc/gshadow</code>文件用于存放口令);</li>
-<li>GID号;</li>
-<li>成员列表，逗号分开，不能有空格。</li>
-</ul>
-</li>
-<li>应该保证GID的唯一性。</li>
-<li>实际上用户所属组是<code>/etc/group</code>和<code>/etc/passwd</code>中相应组的并集。<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><em>Linux从入门到精通 刘忆智 著</em></li>
-</ul>
+</ol>
 
       
     </div>
@@ -479,13 +366,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2018/04/09/Linux系列7-用户与用户组管理/">Linux系列7-用户与用户组管理</a></p>
+        <p><span>本文标题:</span><a href="/2018/05/25/tmux-Usage/">tmux的安装和使用</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">Yuci Cheung</a></p>
-        <p><span>发布时间:</span>2018-04-09, 00:45:11</p>
-        <p><span>最后更新:</span>2018-04-09, 14:55:51</p>
+        <p><span>发布时间:</span>2018-05-25, 23:17:16</p>
+        <p><span>最后更新:</span>2018-05-25, 23:17:16</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2018/04/09/Linux系列7-用户与用户组管理/" title="Linux系列7-用户与用户组管理">https://yucicheung.github.io/2018/04/09/Linux系列7-用户与用户组管理/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://yucicheung.github.io/2018/04/09/Linux系列7-用户与用户组管理/　　作者: Yuci Cheung" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2018/05/25/tmux-Usage/" title="tmux的安装和使用">https://yucicheung.github.io/2018/05/25/tmux-Usage/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://yucicheung.github.io/2018/05/25/tmux-Usage/　　作者: Yuci Cheung" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -498,15 +385,15 @@
     <nav id="article-nav">
         
             <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2018/04/09/Linux系列8-进程管理/">
-                    Linux系列8-进程管理
+                <a href="/2018/05/25/更改Ubuntu的apt源/">
+                    更改Ubuntu的apt源
                 </a>
             </div>
         
         
             <div id="article-nav-older" class="article-nav-title">
-                <a href="/2018/04/09/Linux系列6-磁盘管理/">
-                    Linux系列6-磁盘管理
+                <a href="/2018/04/11/建库时帮助筛选图片的GUI小工具-python-tkinter/">
+                    建库时帮助筛选图片的GUI小工具(python+tkinter)
                 </a>
             </div>
         
@@ -518,7 +405,7 @@
     <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
         
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#用户与用户组基础"><span class="toc-number">1.</span> <span class="toc-text">用户与用户组基础</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用户和组的添加useradd、groupadd"><span class="toc-number">2.</span> <span class="toc-text">用户和组的添加useradd、groupadd</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#记录用户操作history"><span class="toc-number">2.1.</span> <span class="toc-text">记录用户操作history</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#passwd和shadow文件"><span class="toc-number">2.2.</span> <span class="toc-text">passwd和shadow文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#删除用户userdel"><span class="toc-number">3.</span> <span class="toc-text">删除用户userdel</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#管理用户帐号usermod"><span class="toc-number">4.</span> <span class="toc-text">管理用户帐号usermod</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查看用户信息id"><span class="toc-number">5.</span> <span class="toc-text">查看用户信息id</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用户间切换su"><span class="toc-number">6.</span> <span class="toc-text">用户间切换su</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#受限的特权sudo"><span class="toc-number">7.</span> <span class="toc-text">受限的特权sudo</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#etc-passwd文件"><span class="toc-number">8.</span> <span class="toc-text">/etc/passwd文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#etc-shadow文件"><span class="toc-number">9.</span> <span class="toc-text">/etc/shadow文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#etc-group文件"><span class="toc-number">10.</span> <span class="toc-text">/etc/group文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考文献"><span class="toc-number">11.</span> <span class="toc-text">参考文献</span></a></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#常用命令"><span class="toc-number">1.</span> <span class="toc-text">常用命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#更多配置"><span class="toc-number">2.</span> <span class="toc-text">更多配置</span></a></li></ol>
         
     </div>
     <style>
@@ -561,8 +448,8 @@
     <div id="disqus_thread"></div>
     <script>
         var disqus_config = function(){
-            this.page.url = 'https://yucicheung.github.io/2018/04/09/Linux系列7-用户与用户组管理/';
-            this.page.identifier = '2018/04/09/Linux系列7-用户与用户组管理/';
+            this.page.url = 'https://yucicheung.github.io/2018/05/25/tmux-Usage/';
+            this.page.identifier = '2018/05/25/tmux-Usage/';
         };
         var loadComment = function(){
             var d = document, s = d.createElement('script');
@@ -584,7 +471,7 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2018/04/09/Linux系列8-进程管理/" title="上一篇: Linux系列8-进程管理">
+            <a href="/2018/05/25/更改Ubuntu的apt源/" title="上一篇: 更改Ubuntu的apt源">
                 <i class="fa fa-angle-left"></i>
             </a>
         
@@ -592,7 +479,7 @@
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
         
-            <a href="/2018/04/09/Linux系列6-磁盘管理/" title="下一篇: Linux系列6-磁盘管理">
+            <a href="/2018/04/11/建库时帮助筛选图片的GUI小工具-python-tkinter/" title="下一篇: 建库时帮助筛选图片的GUI小工具(python+tkinter)">
                 <i class="fa fa-angle-right"></i>
             </a>
         
