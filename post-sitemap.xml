@@ -7,6 +7,14 @@
     </url>
 
     <url>
+        <loc>https://yucicheung.github.io/2018/06/13/%E5%BE%AE%E4%BF%A1%E5%AE%9A%E6%97%B6%E8%87%AA%E5%8A%A8%E5%8F%91%E9%80%81%E7%BE%A4%E6%B6%88%E6%81%AF%E7%9A%84%E5%B0%8F%E5%B7%A5%E5%85%B7/</loc>
+        <lastmod>2018-06-13T07:52:33.382Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://yucicheung.github.io/2018/05/25/%E6%9B%B4%E6%94%B9Ubuntu%E7%9A%84apt%E6%BA%90/</loc>
         <lastmod>2018-05-25T15:17:30.337Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -47,7 +55,7 @@
     </url>
 
     <url>
-        <loc>https://yucicheung.github.io/2018/04/09/Linux%E7%B3%BB%E5%88%979-%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE%E5%92%8C%E8%BF%9C%E7%A8%8B%E8%AE%BF%E9%97%AE/</loc>
+        <loc>https://yucicheung.github.io/2018/04/09/Linux%E7%B3%BB%E5%88%978-%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/</loc>
         <lastmod>2018-04-09T06:55:51.478Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -55,7 +63,7 @@
     </url>
 
     <url>
-        <loc>https://yucicheung.github.io/2018/04/09/Linux%E7%B3%BB%E5%88%978-%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/</loc>
+        <loc>https://yucicheung.github.io/2018/04/09/Linux%E7%B3%BB%E5%88%979-%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE%E5%92%8C%E8%BF%9C%E7%A8%8B%E8%AE%BF%E9%97%AE/</loc>
         <lastmod>2018-04-09T06:55:51.478Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -71,7 +79,7 @@
     </url>
 
     <url>
-        <loc>https://yucicheung.github.io/2018/04/09/Linux%E7%B3%BB%E5%88%972-%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/</loc>
+        <loc>https://yucicheung.github.io/2018/04/09/Linux%E7%B3%BB%E5%88%9710-VIM/</loc>
         <lastmod>2018-04-09T06:55:51.474Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -87,7 +95,7 @@
     </url>
 
     <url>
-        <loc>https://yucicheung.github.io/2018/04/09/Linux%E7%B3%BB%E5%88%9710-VIM/</loc>
+        <loc>https://yucicheung.github.io/2018/04/09/Linux%E7%B3%BB%E5%88%972-%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/</loc>
         <lastmod>2018-04-09T06:55:51.474Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -119,7 +127,7 @@
     </url>
 
     <url>
-        <loc>https://yucicheung.github.io/2018/03/14/%E4%B8%BAGithub-page%E7%BB%91%E5%AE%9A%E8%87%AA%E5%AE%9A%E4%B9%89%E5%9F%9F%E5%90%8D%E5%B9%B6%E5%AE%9E%E7%8E%B0https%E8%AE%BF%E9%97%AE/</loc>
+        <loc>https://yucicheung.github.io/2018/03/17/python%E4%B8%AD%E7%9A%84argv%E5%92%8Cargc/</loc>
         <lastmod>2018-04-09T03:53:20.067Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -127,7 +135,7 @@
     </url>
 
     <url>
-        <loc>https://yucicheung.github.io/2018/03/17/python%E4%B8%AD%E7%9A%84argv%E5%92%8Cargc/</loc>
+        <loc>https://yucicheung.github.io/2018/03/14/%E4%B8%BAGithub-page%E7%BB%91%E5%AE%9A%E8%87%AA%E5%AE%9A%E4%B9%89%E5%9F%9F%E5%90%8D%E5%B9%B6%E5%AE%9E%E7%8E%B0https%E8%AE%BF%E9%97%AE/</loc>
         <lastmod>2018-04-09T03:53:20.067Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>

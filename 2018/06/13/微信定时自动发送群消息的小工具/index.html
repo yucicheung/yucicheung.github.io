@@ -15,18 +15,20 @@
 
 
 
-<meta name="description" content="Linux下编辑器VIM的操作 保存和编辑 字符串的搜索和替换 针对程序员的配置   C/C++的编译、运行和调试 版本管理系统简介如要下载笔记和代码请到我的github。">
-<meta name="keywords" content="Linux,Shell">
+<meta name="description" content="本程序实现定时向指定微信群发送指定消息的功能。主要工具如下：  python2.7编写; itchat提供微信API接口，实现进行向群组发送消息; apscheduler提供定时器功能。代码下载请到我的github仓库。">
+<meta name="keywords" content="python,Linux,自制小工具">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Linux系列10-Linux编程">
-<meta property="og:url" content="https://yucicheung.github.io/2018/04/09/Linux系列10-VIM/index.html">
+<meta property="og:title" content="微信定时自动发送群消息的小工具-python-itchat">
+<meta property="og:url" content="https://yucicheung.github.io/2018/06/13/微信定时自动发送群消息的小工具/index.html">
 <meta property="og:site_name" content="Yuci&#39;s Blog">
-<meta property="og:description" content="Linux下编辑器VIM的操作 保存和编辑 字符串的搜索和替换 针对程序员的配置   C/C++的编译、运行和调试 版本管理系统简介如要下载笔记和代码请到我的github。">
+<meta property="og:description" content="本程序实现定时向指定微信群发送指定消息的功能。主要工具如下：  python2.7编写; itchat提供微信API接口，实现进行向群组发送消息; apscheduler提供定时器功能。代码下载请到我的github仓库。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-04-09T06:55:51.474Z">
+<meta property="og:image" content="https://yucicheung.github.io/img/msgOnTimeSenderTest.png">
+<meta property="og:updated_time" content="2018-06-13T07:52:33.382Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Linux系列10-Linux编程">
-<meta name="twitter:description" content="Linux下编辑器VIM的操作 保存和编辑 字符串的搜索和替换 针对程序员的配置   C/C++的编译、运行和调试 版本管理系统简介如要下载笔记和代码请到我的github。">
+<meta name="twitter:title" content="微信定时自动发送群消息的小工具-python-itchat">
+<meta name="twitter:description" content="本程序实现定时向指定微信群发送指定消息的功能。主要工具如下：  python2.7编写; itchat提供微信API接口，实现进行向群组发送消息; apscheduler提供定时器功能。代码下载请到我的github仓库。">
+<meta name="twitter:image" content="https://yucicheung.github.io/img/msgOnTimeSenderTest.png">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -58,7 +60,7 @@
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>Linux系列10-Linux编程 | Yuci&#39;s Blog</title>
+<title>微信定时自动发送群消息的小工具-python-itchat | Yuci&#39;s Blog</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -262,11 +264,11 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
-      <div class="body-wrap"><article id="post-Linux系列10-VIM" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-微信定时自动发送群消息的小工具" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/04/09/Linux系列10-VIM/" class="article-date">
-      <time datetime="2018-04-08T16:45:15.000Z" itemprop="datePublished">2018-04-09</time>
+      <a href="/2018/06/13/微信定时自动发送群消息的小工具/" class="article-date">
+      <time datetime="2018-06-13T07:50:12.000Z" itemprop="datePublished">2018-06-13</time>
 </a>
 
 
@@ -281,7 +283,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Linux系列10-Linux编程
+      微信定时自动发送群消息的小工具-python-itchat
     </h1>
   
 
@@ -290,13 +292,13 @@
       <div class="article-info article-info-post">
         
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Learning/">Learning</a>
+    <a class="article-category-link" href="/categories/Coding/">Coding</a>
     </div>
 
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Shell/">Shell</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/自制小工具/">自制小工具</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -306,202 +308,34 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p><excerpt in="" index="" |="" 首页摘要=""> </excerpt></p>
+        <p><excerpt in="" index="" |="" 首页摘要=""><br>本程序实现定时向指定微信群发送指定消息的功能。<br>主要工具如下：</excerpt></p>
 <ul>
-<li>Linux下编辑器VIM的操作<ul>
-<li>保存和编辑</li>
-<li>字符串的搜索和替换</li>
-<li>针对程序员的配置</li>
+<li>python2.7编写;</li>
+<li><code>itchat</code>提供微信API接口，实现进行向群组发送消息;</li>
+<li><code>apscheduler</code>提供定时器功能。<br>代码下载请到<a href="https://github.com/yucicheung/Mini_Tools/blob/master/WechatTools/onTimeMsgSenderToChatroom.py" target="_blank" rel="noopener">我的github仓库</a>。<a id="more"></a>
+<the rest="" of="" contents="" |="" 余下全文="">
+
+</the></li>
 </ul>
-</li>
-<li>C/C++的编译、运行和调试</li>
-<li>版本管理系统简介<br>如要下载笔记和代码请到<a href="https://github.com/yucicheung/LearningNotes/tree/master/Linux" target="_blank" rel="noopener">我的github</a>。<a id="more"></a>
-<the rest="" of="" contents="" |="" 余下全文=""><h2 id="Vim编辑器"><a href="#Vim编辑器" class="headerlink" title="Vim编辑器"></a>Vim编辑器</h2></the></li>
-<li>Vim是Vi的增强版本，在不正式的情况下，两者是一回事。</li>
-<li>Vim是所有UNIX和Linux系统下的标准软件。<h3 id="两种模式-编辑和保存"><a href="#两种模式-编辑和保存" class="headerlink" title="两种模式/编辑和保存"></a>两种模式/编辑和保存</h3></li>
-<li><code>vim file</code>:对文件用vim编辑器进行编辑。如果文件不存在，Vim将自动创建文件。<ul>
-<li><code>vim</code> : 不带参数的vim自动打开编辑器。</li>
-</ul>
-</li>
-<li>vim分为<em>插入</em>和<em>命令</em>两种模式。Vim启动时自动处于命令模式。<ul>
-<li>按’I’键进入插入模式，此模式下可以输入字符;</li>
-<li>按’Esc’键进入命令模式，此模式下执行除了字符操作以外的所有操作，包括保存、搜索、移动光标等。</li>
-</ul>
-</li>
-<li>命令模式下，输入“：”在底部打开一个命令行，此时光标闪烁输入，等待用户输入。</li>
-<li>H、J、K、L分别代表向左、上、下、右移动。当然使用方向键也是可以的。</li>
-<li>O在当前行下插入一行空白行。</li>
-<li><code>w</code>保存，<code>q</code>退出，<code>wq</code>保存且退出，<code>q!</code>强制退出。<h3 id="搜索字符串"><a href="#搜索字符串" class="headerlink" title="搜索字符串"></a>搜索字符串</h3></li>
-<li><code>/string</code>用于搜索一个字符串，输入<code>/</code>后，vim底部也会出现一个命令行。</li>
-<li>vim的搜索可以循环进行，<code>/</code>命令向前(文件尾)查找，<code>？</code>命令向后(向文件头)查找。</li>
-<li>对大小写是否敏感：<ul>
-<li><code>:set ignorecase</code>命令vim忽略大小写;</li>
-<li><code>:set noignorecase</code>命令vim重新开启大小写敏感。<h3 id="替换字符串"><a href="#替换字符串" class="headerlink" title="替换字符串"></a>替换字符串</h3></li>
-</ul>
-</li>
-<li><code>:[range]s/pattern/string/[c,e,g,i]</code>:替换命令的完整语法，将匹配pattern(正则表达式)的字符串替换为string。<ul>
-<li>range规定替换范围，<code>1,4</code>表示1到4行，<code>1,$</code>表示1行到最后一行(全文)，<code>%</code>也表示全文。</li>
-<li>最后方括号内的字符是可选选项，选项含义如下：</li>
-</ul>
-</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>标志</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>c</td>
-<td>每次替换前询问</td>
-</tr>
-<tr>
-<td>e</td>
-<td>不显示错误信息</td>
-</tr>
-<tr>
-<td>g</td>
-<td>替换一行中的所有匹配项（通常需要使用,否则替换第一项）</td>
-</tr>
-<tr>
-<td>i</td>
-<td>不区分大小写</td>
-</tr>
-</tbody>
-</table>
+<h2 id="设计目的"><a href="#设计目的" class="headerlink" title="设计目的"></a>设计目的</h2><p>最开始只是想能不能做一个程序，可以定时在周二，四，六晚上10点半提醒组员们上传日志，所以就开始了搜索。发现<code>itchat</code>这个超级好用的工具，在<code>apscheduler</code>的加持下最终编了这么一个程序。灵感总是来源于生活….</p>
+<p>当然<code>itchat</code>的功能远不止是发送个群消息而已，它提供的微信API接口还可以做很多有意思的东西，比如最常见的机器人自动回复，还可以接入其他应用程序接口用微信号做一些小应用(如自动播放歌曲，返回天气信息等)。</p>
+<h2 id="依赖条件"><a href="#依赖条件" class="headerlink" title="依赖条件"></a>依赖条件</h2><p>Written in <strong>python2.7.12</strong>：</p>
 <ul>
-<li>*清除文本文件中的<code>^M</code>字符：由于来自windows环境的源代码对换行符的表述和Linux不一致，因此文末常出现<code>^M</code>符号——虽然对程序编译器和解释器没有影响，但在shell编程时会产生问题，此时用<code>%s/^M$//g</code>删除行末的<code>^M</code>字符。<h3 id="针对程序员的配置"><a href="#针对程序员的配置" class="headerlink" title="针对程序员的配置"></a>针对程序员的配置</h3></li>
-<li>一些常用的配置命令：<ul>
-<li><code>:syntax on</code>打开语法高亮，vim会根据文件扩展名决定哪些为关键字。</li>
-<li><code>:set autoindent</code>设置自动缩进;</li>
-<li><code>:set shiftwidth=4</code>设置自动缩进的空白长度;</li>
-<li><code>:set tabstop=4</code>将tab键缩进设置为4个空格。</li>
+<li><code>itchat</code> 1.3.10</li>
+<li><code>APScheduler</code> 3.5.1</li>
 </ul>
+<h2 id="功能描述"><a href="#功能描述" class="headerlink" title="功能描述"></a>功能描述</h2><p>定义文件中的发送时间<code>time</code>，发送群组名<code>roomName</code>，发送消息<code>context</code>(消息中含中文字符时应该使用unicode编码)。<br>运行后会在<code>time</code>对应时间，往<code>roomName</code>对应群组，发送<code>context</code>对应的消息。</p>
+<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><ul>
+<li><p>修改<code>onTimeMsgSenderToChatroom.py</code>文件中的<code>time</code>，<code>roomName</code>，<code>context</code>设置为自己需要的参数。具体参考如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">roomName = <span class="string">u'两张王'</span></span><br><span class="line">context=<span class="string">u'该消息由程序自动发送'</span></span><br><span class="line">time = &#123;<span class="string">'day_of_week'</span>:<span class="string">'*'</span>,<span class="string">'hour'</span>:<span class="number">12</span>,<span class="string">'minute'</span>:<span class="number">34</span>,<span class="string">'second'</span>:<span class="number">26</span>&#125;</span><br></pre></td></tr></table></figure>
 </li>
-<li>为避免每次启动vim都要手动输入命令，可以将命令写入vim的配置文件中(文件中不要包含<code>:</code>)，vim的配置文件为<code>/etc/vim/vimrc</code>(/etc中的文件对系统中所有用户生效)，推荐用户可以新建一个<code>~/.vimrc</code>文件在其中写入配置信息，只对当前用户生效。<ul>
-<li><strong>通常用户个性化的设置文件都是隐藏文件(<code>.</code>开头的文件)，且保存在用户主目录下</strong>。<h3 id="Vim的常用命令总结"><a href="#Vim的常用命令总结" class="headerlink" title="Vim的常用命令总结"></a>Vim的常用命令总结</h3></li>
-</ul>
+<li><p>运行<code>python onTimeMsgSenderToChatroom.py</code>;</p>
 </li>
-<li>模式切换：<ul>
-<li><code>a</code>:在光标后插入;</li>
-<li><code>i</code>:在光标所在位置插入;</li>
-<li><code>o</code>：在光标所在位置下一行插入;</li>
-<li><code>Esc</code>:进入命令模式;</li>
-<li><code>:</code>进入行命令模式。</li>
+<li>扫描QR码，自动登陆成功后，等待信息自动发送即可。</li>
 </ul>
-</li>
-<li>光标移动(名列前加上数字，可以重复多次移动，如<code>5w</code>)：<ul>
-<li><code>h</code>/<code>l</code>/<code>j</code>/<code>k</code>：光标向左/右/上/下移动;</li>
-<li><code>^</code>/<code>$</code>：移动光标到行首/尾;</li>
-<li><code>gg</code>/<code>shift+g</code>:移动光标到文件首/尾;</li>
-<li><code>w</code>/<code>b</code>:移动到下一个/上一个单词;</li>
-<li><code>ctrl+f</code>/<code>ctrl+b</code>:向前(文件尾)/后(文件头)翻动一页。</li>
-</ul>
-</li>
-<li>删除、复制和粘贴：<ul>
-<li><code>x</code>:删除光标所在位置的字符;</li>
-<li><code>dd</code>：删除光标所在行;</li>
-<li><code>shift+d</code>:删除光标所在位置到行尾的所有字符;</li>
-<li><code>d</code>:和移动命令配合使用的删除命令，如<code>dw</code>表示删除光标所在位置到下一个单词之间的所有字符;</li>
-<li><code>yy</code>:复制光标所在行;</li>
-<li><code>y</code>:和移动命令配合使用的复制命令;</li>
-<li><code>shift+p</code>:在光标所在位置粘贴最近复制/删除的内容。</li>
-</ul>
-</li>
-<li>撤销和重做：<ul>
-<li><code>u</code>：撤销一次操作;</li>
-<li><code>ctrl+r</code>:重做被撤销的操作。</li>
-</ul>
-</li>
-<li>搜索和替换：<ul>
-<li><code>:/string</code>：向前搜索字符串string;</li>
-<li><code>:?string</code>：向后搜索字符串string;</li>
-<li><code>:s/pattern/string</code>：将pattern代表的字符串替换成string。</li>
-</ul>
-</li>
-<li>保存和退出：<ul>
-<li><code>:w</code>：保存文件;</li>
-<li><code>:w filename</code>：另存为filename;</li>
-<li><code>:q</code>：退出vim;</li>
-<li><code>:!q</code>：强制退出，放弃保存修改。<h2 id="C-C-的编译-gcc-g"><a href="#C-C-的编译-gcc-g" class="headerlink" title="C/C++的编译(gcc/g++)"></a>C/C++的编译(gcc/g++)</h2></li>
-</ul>
-</li>
-<li>gcc最初是C编译器(GNU C Compiler)，如今支持多种语言编译(GNU Compiler Collection)。</li>
-<li><code>gcc *.c</code>:编译C源文件，默认产生一个可执行文件为<code>a.out</code>;<ul>
-<li><code>gcc -o &lt;outname&gt; *.c</code>:指定产生的可执行文件名字为<code>outname</code>。</li>
-</ul>
-</li>
-<li>*和编译有关的选项：<ul>
-<li><code>-c</code>：只激活预处理、编译和汇编，生成扩展名为.o的目标代码文件(在编写大型程序时必须，存在依赖关系的源代码应首先编译成目标代码，最后连接成可执行文件，超过3个源文件考虑用<code>make</code>);</li>
-<li><code>-S</code>：只激活预处理和编译，并生成扩展名为.s的汇编代码文件;</li>
-<li><code>-E</code>：只激活预处理，并将结果输出至标准输出;</li>
-<li><code>-g</code>：为调试程序(gdb)生成相关信息。</li>
-</ul>
-</li>
-<li>优化选项：gcc提供了从低到高3个级别的优化选项，依次为<code>-O1</code>、<code>-O2</code>、<code>-O3</code>。<ul>
-<li>优化程序越高，效率越高，相应风险越大;</li>
-<li>通常<code>-O2</code>选项可以满足绝大多数优化需求;</li>
-<li>这三个优化级别其实就是对多个优化选项的“打包”。</li>
-</ul>
-</li>
-<li><code>-march=</code>生成只适合特定CPU的二进制代码(一般不使用)。</li>
-<li><code>g++ *.cpp</code>：用g++完成C++程序的编译和连接(<code>gcc</code>可以编译C++源文件，但不能和C++程序使用的库连接)，会自动调用<code>gcc</code>完成对文件的编译;<ul>
-<li><code>-o</code>：同<code>gcc</code>，此选项指定可执行文件名。<h2 id="C程序的调试-gdb"><a href="#C程序的调试-gdb" class="headerlink" title="C程序的调试(gdb)"></a>C程序的调试(gdb)</h2></li>
-</ul>
-</li>
-<li>使用<code>gdb</code>调试C/C++程序之前，要先使用<code>gcc -g</code>生成带有调试信息的可执行程序，否则只有汇编代码存在。</li>
-<li><code>gdb a.out</code>：gdb以可执行二进制文件为参数，对其进行调试，运行后显示提示符(gdb)等待接受用户指令;一些常用指令如下：<ul>
-<li><code>help</code>/<code>help &lt;command&gt;</code>：获取(和特定命令)有关的帮助信息;</li>
-<li>支持<tab>命令补全，当不足以确定唯一命令时，连按两次tab获得所有符合要求的命令;</tab></li>
-<li>支持命令缩写，如<code>h</code>就可以替代<code>help</code>;</li>
-<li><code>list</code>/<code>l</code>:用于查看程序源代码(会自动在源代码前加上行号，每次显示10行，可指定中间行);</li>
-<li><code>search &lt;content&gt;</code>：搜索特定内容，只能向前搜索，不能循环，支持正则表达式;</li>
-<li><code>reverse-search &lt;content&gt;</code>：反向搜索特定内容，向后搜索，支持正则表达式。</li>
-</ul>
-</li>
-<li>断点指令：<ul>
-<li><code>break</code>/<code>b</code>：在指定位置设置断点，可以用行号或函数名做参数;</li>
-<li><code>info break</code>：查看已设置断点信息;</li>
-<li><code>clear</code>：清除当前行断点。</li>
-</ul>
-</li>
-<li>运行程序和单步执行：<ul>
-<li><code>run</code>/<code>r</code>：运行程序至断点;</li>
-<li><code>next</code>/<code>n</code>：单步执行程序，可在后面添加数字n，表<strong>连续执行n行</strong>;</li>
-<li><code>step</code>/<code>s</code>：单步执行，会在遇见函数时进入函数内部，而<code>n</code>只执行调用函数不进入内部;</li>
-<li><code>continue</code>/<code>c</code>：继续运行程序直至遇见下一个断点;</li>
-</ul>
-</li>
-<li>监视变量：<ul>
-<li><code>print</code>/<code>p</code>：打印指定变量的值;</li>
-<li><code>watch</code>/<code>w</code>：设置观察点(可以看作是变量的一种)，以变量名/表达式为参数，一旦参数值发生变化，就停下程序。</li>
-</ul>
-</li>
-<li>临时修改变量：<ul>
-<li><code>set var</code>实现，如<code>set var i=1</code></li>
-</ul>
-</li>
-<li>查看堆栈情况(每次程序调用一个函数，其地址、参数、函数内的局部变量都会被压入栈中)：<ul>
-<li><code>bt</code>实现。</li>
-</ul>
-</li>
-<li>退出gdb：<ul>
-<li><code>quit</code>/<code>q</code>。<h2 id="版本控制系统"><a href="#版本控制系统" class="headerlink" title="版本控制系统"></a>版本控制系统</h2></li>
-</ul>
-</li>
-<li>不论是与他人协作还是管理自己的密码，版本控制系统(git和SVN)都是非常好的工具。</li>
-<li>版本控制系统是一套在开发程序时存储源代码所有修改的工具。满足这些需求：<ul>
-<li>集中化管理，自动跟踪单个文件的修改历史;</li>
-<li>完善的日志机制，便于掌握某次修改的原因;</li>
-<li>快速还原到指定的版本;</li>
-<li>协调不同开发者之间的活动，保证对源代码同一部分的改动步互相覆盖。</li>
-</ul>
-</li>
-<li>Subversion相比git，管理人员对开发人员的权利可以作出规范，但git是最好用的版本管理工具。</li>
-<li>git的使用，可以参考我的其他笔记。<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><em>Linux从入门到精通 刘忆智 著</em></li>
-</ul>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p>以下是用按照上述设置运行源代码向微信群发送的消息的截图。</p>
+<p><img src="/img/msgOnTimeSenderTest.png" alt="msgOnTimeSenderTest"></p>
+<h2 id="源代码"><a href="#源代码" class="headerlink" title="源代码"></a>源代码</h2><p>需要下载请到<a href="https://github.com/yucicheung/Mini_Tools/blob/master/WechatTools/onTimeMsgSenderToChatroom.py" target="_blank" rel="noopener">我的github</a>。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> itchat</span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</span><br><span class="line"><span class="keyword">from</span> apscheduler.schedulers.blocking <span class="keyword">import</span> BlockingScheduler</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">onTimeSender</span><span class="params">(object)</span>:</span></span><br><span class="line">	<span class="string">'''</span></span><br><span class="line"><span class="string">	Automatically send message to chatroom on time according to user's predefinition.</span></span><br><span class="line"><span class="string">	params:</span></span><br><span class="line"><span class="string">		`roomName`: The name of chatroom you want to send message to;</span></span><br><span class="line"><span class="string">		`context`: The message you want to send to chatroom;</span></span><br><span class="line"><span class="string">		`time`: Time to send out message, in form of a dict.</span></span><br><span class="line"><span class="string">	Usage:</span></span><br><span class="line"><span class="string">		Please refer to the __main__ function part.</span></span><br><span class="line"><span class="string">	'''</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,roomName=<span class="string">''</span>,context=<span class="string">''</span>,time=&#123;&#125;)</span>:</span></span><br><span class="line">		self.roomName=roomName</span><br><span class="line">		self.context=context</span><br><span class="line">		self.time=time	</span><br><span class="line">		itchat.auto_login(hotReload=<span class="keyword">True</span>,loginCallback=self.loginCallback,exitCallback=self.exitCallback)</span><br><span class="line">		self.schedulerForSender()</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">sendChatroomMsg</span><span class="params">(self,roomName,context)</span>:</span></span><br><span class="line">		itchat.get_chatrooms(update=<span class="keyword">True</span>)</span><br><span class="line">		roomNickName = roomName</span><br><span class="line">		candidates = itchat.search_chatrooms(roomNickName)</span><br><span class="line">		<span class="keyword">print</span> candidates</span><br><span class="line">		username = <span class="string">''</span></span><br><span class="line">		<span class="keyword">for</span> candidate <span class="keyword">in</span> candidates:</span><br><span class="line">			<span class="keyword">if</span> candidate[<span class="string">'NickName'</span>] == roomNickName:</span><br><span class="line">				username = candidate[<span class="string">'UserName'</span>]</span><br><span class="line">				<span class="keyword">break</span></span><br><span class="line">		<span class="keyword">if</span> username:</span><br><span class="line">			sendtime = datetime.now().strftime(<span class="string">'%A %B %d,%Y'</span>)<span class="comment">#Tue June 08,2018</span></span><br><span class="line">			sendtime = datetime.now().strftime(<span class="string">'%m-%d-%Y %H:%M:%S,%A'</span>)</span><br><span class="line">			msg = context + <span class="string">"Sending in "</span>+sendtime</span><br><span class="line">			<span class="keyword">print</span> <span class="string">"Ready to send message to group %s,message as follows : \n%s"</span>%(roomName,msg)</span><br><span class="line">			itchat.send_msg(msg=msg,toUserName=username)</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">loginCallback</span><span class="params">(self)</span>:</span></span><br><span class="line">		<span class="keyword">print</span> <span class="string">"Successfully logged in."</span></span><br><span class="line">				</span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">exitCallback</span><span class="params">(self)</span>:</span></span><br><span class="line">		<span class="keyword">print</span> <span class="string">"Successfully logged out."</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">sendMsgToChatRoom</span><span class="params">(self)</span>:</span></span><br><span class="line">		self.sendChatroomMsg(self.roomName,self.context)</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">schedulerForSender</span><span class="params">(self)</span>:</span></span><br><span class="line">		<span class="comment"># scheduler setup</span></span><br><span class="line">		scheduler = BlockingScheduler()</span><br><span class="line">		scheduler.add_job(self.sendMsgToChatRoom,<span class="string">'cron'</span>,day_of_week=self.time[<span class="string">'day_of_week'</span>],hour=self.time[<span class="string">'hour'</span>],minute=self.time[<span class="string">'minute'</span>],second=self.time[<span class="string">'second'</span>])<span class="comment"># sending takes 4 seconds behind</span></span><br><span class="line">		scheduler.start()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__==<span class="string">'__main__'</span>:</span><br><span class="line">	</span><br><span class="line">	roomName = <span class="string">'DVS_Group'</span></span><br><span class="line">	context = <span class="string">u'通知上传日志'</span></span><br><span class="line">	time = &#123;<span class="string">'day_of_week'</span>:<span class="string">'tue,thu,sat'</span>,<span class="string">'hour'</span>:<span class="number">22</span>,<span class="string">'minute'</span>:<span class="number">24</span>,<span class="string">'second'</span>:<span class="number">56</span>&#125;</span><br><span class="line">	<span class="string">'''for testing</span></span><br><span class="line"><span class="string">	roomName = u'两张王'</span></span><br><span class="line"><span class="string">	context=u'该消息由程序自动发送'</span></span><br><span class="line"><span class="string">	time = &#123;'day_of_week':'*','hour':12,'minute':34,'second':26&#125;</span></span><br><span class="line"><span class="string">	'''</span></span><br><span class="line">	onTimeSender(roomName,context,time)</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -510,13 +344,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2018/04/09/Linux系列10-VIM/">Linux系列10-Linux编程</a></p>
+        <p><span>本文标题:</span><a href="/2018/06/13/微信定时自动发送群消息的小工具/">微信定时自动发送群消息的小工具-python-itchat</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">Yuci Cheung</a></p>
-        <p><span>发布时间:</span>2018-04-09, 00:45:15</p>
-        <p><span>最后更新:</span>2018-04-09, 14:55:51</p>
+        <p><span>发布时间:</span>2018-06-13, 15:50:12</p>
+        <p><span>最后更新:</span>2018-06-13, 15:52:33</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2018/04/09/Linux系列10-VIM/" title="Linux系列10-Linux编程">https://yucicheung.github.io/2018/04/09/Linux系列10-VIM/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://yucicheung.github.io/2018/04/09/Linux系列10-VIM/　　作者: Yuci Cheung" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2018/06/13/微信定时自动发送群消息的小工具/" title="微信定时自动发送群消息的小工具-python-itchat">https://yucicheung.github.io/2018/06/13/微信定时自动发送群消息的小工具/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://yucicheung.github.io/2018/06/13/微信定时自动发送群消息的小工具/　　作者: Yuci Cheung" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -528,16 +362,10 @@
 
     <nav id="article-nav">
         
-            <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2018/04/09/Linux系列11-Shell编程/">
-                    Linux系列11-Shell编程
-                </a>
-            </div>
-        
         
             <div id="article-nav-older" class="article-nav-title">
-                <a href="/2018/04/09/Linux系列9-网络配置和远程访问/">
-                    Linux系列9-网络配置和远程访问
+                <a href="/2018/05/25/更改Ubuntu的apt源/">
+                    更改Ubuntu的apt源
                 </a>
             </div>
         
@@ -549,7 +377,7 @@
     <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
         
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Vim编辑器"><span class="toc-number">1.</span> <span class="toc-text">Vim编辑器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#两种模式-编辑和保存"><span class="toc-number">1.1.</span> <span class="toc-text">两种模式/编辑和保存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#搜索字符串"><span class="toc-number">1.2.</span> <span class="toc-text">搜索字符串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#替换字符串"><span class="toc-number">1.3.</span> <span class="toc-text">替换字符串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#针对程序员的配置"><span class="toc-number">1.4.</span> <span class="toc-text">针对程序员的配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Vim的常用命令总结"><span class="toc-number">1.5.</span> <span class="toc-text">Vim的常用命令总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C-C-的编译-gcc-g"><span class="toc-number">2.</span> <span class="toc-text">C/C++的编译(gcc/g++)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C程序的调试-gdb"><span class="toc-number">3.</span> <span class="toc-text">C程序的调试(gdb)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#版本控制系统"><span class="toc-number">4.</span> <span class="toc-text">版本控制系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考文献"><span class="toc-number">5.</span> <span class="toc-text">参考文献</span></a></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#设计目的"><span class="toc-number">1.</span> <span class="toc-text">设计目的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#依赖条件"><span class="toc-number">2.</span> <span class="toc-text">依赖条件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#功能描述"><span class="toc-number">3.</span> <span class="toc-text">功能描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用方法"><span class="toc-number">4.</span> <span class="toc-text">使用方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#示例"><span class="toc-number">5.</span> <span class="toc-text">示例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#源代码"><span class="toc-number">6.</span> <span class="toc-text">源代码</span></a></li></ol>
         
     </div>
     <style>
@@ -592,8 +420,8 @@
     <div id="disqus_thread"></div>
     <script>
         var disqus_config = function(){
-            this.page.url = 'https://yucicheung.github.io/2018/04/09/Linux系列10-VIM/';
-            this.page.identifier = '2018/04/09/Linux系列10-VIM/';
+            this.page.url = 'https://yucicheung.github.io/2018/06/13/微信定时自动发送群消息的小工具/';
+            this.page.identifier = '2018/06/13/微信定时自动发送群消息的小工具/';
         };
         var loadComment = function(){
             var d = document, s = d.createElement('script');
@@ -615,15 +443,13 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2018/04/09/Linux系列11-Shell编程/" title="上一篇: Linux系列11-Shell编程">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
 
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
         
-            <a href="/2018/04/09/Linux系列9-网络配置和远程访问/" title="下一篇: Linux系列9-网络配置和远程访问">
+            <a href="/2018/05/25/更改Ubuntu的apt源/" title="下一篇: 更改Ubuntu的apt源">
                 <i class="fa fa-angle-right"></i>
             </a>
         
