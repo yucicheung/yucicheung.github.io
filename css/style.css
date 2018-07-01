@@ -538,6 +538,9 @@ a {
   #container .ua {
     display: none !important;
   }
+  #container .github-text {
+    display: none;
+  }
   #container .copyright {
     font-size: 16px;
   }
@@ -881,10 +884,10 @@ a {
   background-size: 103%;
 }
 #header .header-nav .social .GitHub {
-  background: url("//cdn.bootcss.com/logos/0.2.0/github-octocat.svg") no-repeat #fff;
-  -webkit-background-size: 90%;
-  -moz-background-size: 90%;
-  background-size: 90%;
+  background: url("//cdn.jsdelivr.net/npm/simple-icons@latest/icons/github.svg") no-repeat #fff;
+  -webkit-background-size: 100%;
+  -moz-background-size: 100%;
+  background-size: 100%;
   background-position: 50% 100%;
 }
 #header .header-nav .social .CodePen {
@@ -1077,6 +1080,24 @@ color
 }
 .post-list li:hover a {
   color: #88acdb;
+}
+.article-entry .github-widget h3::after {
+  content: none;
+}
+.article-entry .github-widget .github-box {
+  font-size: 0.8125rem;
+}
+.article-entry .github-widget .github-box .github-box-title h3 {
+  font-size: 1rem;
+}
+.article-entry .github-widget .github-box .github-box-title .github-stats {
+  font-size: 0.6875rem;
+}
+.article-entry .github-widget .github-box .updated {
+  font-size: 0.6875rem;
+}
+.article-entry .github-widget .github-box .download {
+  font-size: 0.75rem;
 }
 .pace .pace-progress {
   background: #77b6ff;
