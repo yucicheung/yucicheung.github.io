@@ -274,7 +274,7 @@ visit_counter:
 
 # GitHub Repo Widget
 # https://github.com/hustcc/GitHub-Repo-Widget.js
-github_widget: false
+github_widget: true
 
 # Progress Bar | 页面加载进度条
 # Demo: http://github.hubspot.com/pace/docs/welcome/
@@ -288,15 +288,28 @@ progressBar:
   color: blue
 
 CDN:
-  jquery: //cdn.bootcss.com/jquery/2.2.4/jquery.min.js
-  require: //cdn.bootcss.com/require.js/2.2.0/require.min.js
-  fontawesome: //cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css
-  fancybox_js: //cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js
+  jquery: //cdn.jsdelivr.net/gh/jquery/jquery@3.2.1/dist/jquery.min.js
+  require: //cdnjs.cloudflare.com/ajax/libs/require.js/2.2.0/require.min.js
+  fontawesome: //cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css
+  fancybox_js: //cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js 
   fancybox_css: //cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css
-  animate_css: //cdn.bootcss.com/animate.css/3.5.1/animate.min.css
-  jquery_ui_js: //cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js
+  animate_css: //cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css
+  jquery_ui_js: //cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js
   jquery_ui_css: //cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css
-  pace_js: //cdn.bootcss.com/pace/1.0.2/pace.min.js
-  clipboard: //cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js
-  mathjax: //cdn.bootcss.com/mathjax/2.6.1/MathJax.js
-  scrollreveal: //cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js
+  pace_js: //cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js
+  clipboard: //cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.1/clipboard.min.js
+  mathjax: //cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js 
+  scrollreveal: //cdnjs.cloudflare.com/ajax/libs/scrollReveal.js/3.4.0/scrollreveal.min.js
+
+#  jquery: //cdn.bootcss.com/jquery/2.2.4/jquery.min.js
+#  require: //cdn.bootcss.com/require.js/2.2.0/require.min.js
+#  fontawesome: //cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css
+#  fancybox_js: //cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js
+#  fancybox_css: //cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css
+#  animate_css: //cdn.bootcss.com/animate.css/3.5.1/animate.min.css
+#  jquery_ui_js: //cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js
+#  jquery_ui_css: //cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css
+#  pace_js: //cdn.bootcss.com/pace/1.0.2/pace.min.js
+#  clipboard: //cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js
+#  mathjax: //cdn.bootcss.com/mathjax/2.6.1/MathJax.js
+#  scrollreveal: //cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js
