@@ -24,7 +24,7 @@
 <meta property="og:description" content="qmake基本概念介绍; pro文件编写示例; pro文件高级编写语法。qmake是Trolltech公司创建的主要用来给qt项目在不同平台和编译器书写Makefile的工具。用qmake，开发者可以创建一个简单的“项目”(.pro文件)然后运行qmake在不同平台下生成适当的Makefile。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://yucicheung.github.io/2018/07/10/qmake手册记录/pics/qt_makespec.png">
-<meta property="og:updated_time" content="2018-07-09T16:24:49.596Z">
+<meta property="og:updated_time" content="2018-07-09T16:33:54.384Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="qmake手册记录">
 <meta name="twitter:description" content="qmake基本概念介绍; pro文件编写示例; pro文件高级编写语法。qmake是Trolltech公司创建的主要用来给qt项目在不同平台和编译器书写Makefile的工具。用qmake，开发者可以创建一个简单的“项目”(.pro文件)然后运行qmake在不同平台下生成适当的Makefile。">
@@ -554,16 +554,13 @@
 <li><p><code>isEmpty(variablename)</code>:如果variablename变量中没有任何元素，那么这个作用域中的设置会被处理。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">isEmpty(CONFIG)&#123;</span><br><span class="line">	CONFIG += qt warn_on debug</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
+<li><p><code>system(command)</code>:指令执行且如果返回值为1,则作用域中内容被执行。</p>
+</li>
+<li><code>infile(filename,var,val)</code>：如果filename文件包含一个值为val的变量var，那么这个函数将返回成功，第三个参数val省略时，只测试文件中是否有这样一个变量。</li>
 </ul>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
 <li><a href="http://read.pudn.com/downloads137/sourcecode/embed/583560/qt%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/qmake%E7%94%A8%E6%88%B7%E6%89%8B%E5%86%8C.pdf" target="_blank" rel="noopener">qmake用户手册</a></li>
-<li><p><a href="http://doc.qt.io/qt-5/qmake-manual.html" target="_blank" rel="noopener">官方qmake manual</a></p>
-</li>
-<li><p><code>system(command)</code>:指令执行且如果返回值为1,则作用域中内容被执行。</p>
-</li>
-</ul>
-<ul>
-<li><code>infile(filename,var,val)</code>：如果filename文件包含一个值为val的变量var，那么这个函数将返回成功，第三个参数val省略时，只测试文件中是否有这样一个变量。</li>
+<li><a href="http://doc.qt.io/qt-5/qmake-manual.html" target="_blank" rel="noopener">官方qmake manual</a></li>
 </ul>
 
       
@@ -576,7 +573,7 @@
         <p><span>本文标题:</span><a href="/2018/07/10/qmake手册记录/">qmake手册记录</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">Yuci Cheung</a></p>
         <p><span>发布时间:</span>2018-07-10, 00:16:08</p>
-        <p><span>最后更新:</span>2018-07-10, 00:24:49</p>
+        <p><span>最后更新:</span>2018-07-10, 00:33:54</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2018/07/10/qmake手册记录/" title="qmake手册记录">https://yucicheung.github.io/2018/07/10/qmake手册记录/</a>
             <span class="copy-path" data-clipboard-text="原文: https://yucicheung.github.io/2018/07/10/qmake手册记录/　　作者: Yuci Cheung" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>

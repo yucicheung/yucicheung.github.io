@@ -107,15 +107,8 @@
     </url>
 
     <url>
-        <loc>https://yucicheung.github.io/tags/qmake/</loc>
-        <lastmod>2018-07-09T16:24:49.596Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://yucicheung.github.io/tags/%E8%B7%A8%E5%B9%B3%E5%8F%B0%E7%BC%96%E8%AF%91/</loc>
-        <lastmod>2018-07-09T16:24:49.596Z</lastmod>
+        <loc>https://yucicheung.github.io/tags/qt/</loc>
+        <lastmod>2018-07-09T16:25:08.832Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -128,15 +121,22 @@
     </url>
 
     <url>
-        <loc>https://yucicheung.github.io/tags/qt/</loc>
+        <loc>https://yucicheung.github.io/tags/linux/</loc>
         <lastmod>2018-07-09T16:25:08.832Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>https://yucicheung.github.io/tags/linux/</loc>
-        <lastmod>2018-07-09T16:25:08.832Z</lastmod>
+        <loc>https://yucicheung.github.io/tags/qmake/</loc>
+        <lastmod>2018-07-09T16:33:54.384Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://yucicheung.github.io/tags/%E8%B7%A8%E5%B9%B3%E5%8F%B0%E7%BC%96%E8%AF%91/</loc>
+        <lastmod>2018-07-09T16:33:54.384Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
