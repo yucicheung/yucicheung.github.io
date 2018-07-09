@@ -201,7 +201,7 @@
                 
                 <section class="switch-part switch-part2">
                     <div class="widget tagcloud" id="js-tagcloud">
-                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CDN/">CDN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Grub/">Grub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSL/">SSL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/">Shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/matlab/">matlab</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工具/">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/正则表达式/">正则表达式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自制小工具/">自制小工具</a></li></ul>
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CDN/">CDN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Grub/">Grub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSL/">SSL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/">Shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/matlab/">matlab</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/qmake/">qmake</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/qt/">qt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工具/">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/正则表达式/">正则表达式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自制小工具/">自制小工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/跨平台编译/">跨平台编译</a></li></ul>
                     </div>
                 </section>
                 
@@ -267,6 +267,169 @@
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
       <div class="body-wrap">
+  
+    <article id="post-qmake手册记录" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/10/qmake手册记录/" class="article-date">
+      <time datetime="2018-07-09T16:16:08.000Z" itemprop="datePublished">2018-07-10</time>
+</a>
+
+ 
+    <a href="/2018/07/10/qmake手册记录/#comments" title="查看评论">
+        <i class="fa fa-comments-o" aria-hidden="true"></i>
+        <span class="count-comment"></span>
+        
+        
+            <span class="disqus-comment-count" data-disqus-identifier="2018/07/10/qmake手册记录/"></span>
+        
+    </a>
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/10/qmake手册记录/">qmake手册记录</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <p><excerpt in="" index="" |="" 首页摘要=""> </excerpt></p>
+<ul>
+<li><code>qmake</code>基本概念介绍;</li>
+<li><code>pro</code>文件编写示例;</li>
+<li><code>pro</code>文件高级编写语法。<br><code>qmake</code>是Trolltech公司创建的主要用来给qt项目在<strong>不同平台和编译器书写Makefile的工具</strong>。用<code>qmake</code>，开发者可以创建一个简单的“项目”(.pro文件)然后运行<code>qmake</code>在不同平台下生成适当的Makefile。
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Documenting/">Documenting</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/qmake/">qmake</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/跨平台编译/">跨平台编译</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2018/07/10/qmake手册记录/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Windows及Ubuntu软件包管理器安装qt5记录" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/05/Windows及Ubuntu软件包管理器安装qt5记录/" class="article-date">
+      <time datetime="2018-07-05T12:16:37.000Z" itemprop="datePublished">2018-07-05</time>
+</a>
+
+ 
+    <a href="/2018/07/05/Windows及Ubuntu软件包管理器安装qt5记录/#comments" title="查看评论">
+        <i class="fa fa-comments-o" aria-hidden="true"></i>
+        <span class="count-comment"></span>
+        
+        
+            <span class="disqus-comment-count" data-disqus-identifier="2018/07/05/Windows及Ubuntu软件包管理器安装qt5记录/"></span>
+        
+    </a>
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/05/Windows及Ubuntu软件包管理器安装qt5记录/">Windows及Ubuntu软件包管理器安装qt5记录</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <p><excerpt in="" index="" |="" 首页摘要=""> </excerpt></p>
+<ul>
+<li>在windows下安装qt5;</li>
+<li>Ubuntu下安装qt5;</li>
+<li>qt的环境变量配置;</li>
+<li>测试运行是否成功。
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Documenting/">Documenting</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/qt/">qt</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2018/07/05/Windows及Ubuntu软件包管理器安装qt5记录/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
   
     <article id="post-CelexMatlabToolbox-1-0发布记录" class="article article-type-post" itemscope itemprop="blogPost">
   
@@ -925,175 +1088,9 @@
 
 
   
-    <article id="post-Linux系列8-进程管理" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/04/09/Linux系列8-进程管理/" class="article-date">
-      <time datetime="2018-04-08T16:45:12.000Z" itemprop="datePublished">2018-04-09</time>
-</a>
-
- 
-    <a href="/2018/04/09/Linux系列8-进程管理/#comments" title="查看评论">
-        <i class="fa fa-comments-o" aria-hidden="true"></i>
-        <span class="count-comment"></span>
-        
-        
-            <span class="disqus-comment-count" data-disqus-identifier="2018/04/09/Linux系列8-进程管理/"></span>
-        
-    </a>
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/09/Linux系列8-进程管理/">Linux系列8-进程管理</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <p><excerpt in="" index="" |="" 首页摘要=""> </excerpt></p>
-<ul>
-<li>对进程及其属性的介绍</li>
-<li><code>ps</code>进程监视命令</li>
-<li><code>top</code>命令即时跟踪进程</li>
-<li><code>lsof</code>命令查看占用文件进程</li>
-<li><code>kill</code>命令向进程发送信号</li>
-<li>/PROC文件系统<br>如要下载笔记和代码请到<a href="https://github.com/yucicheung/LearningNotes/tree/master/Linux" target="_blank" rel="noopener">我的github</a>。
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Learning/">Learning</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Shell/">Shell</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a href="/2018/04/09/Linux系列8-进程管理/#more">阅读全文 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Linux系列7-用户与用户组管理" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/04/09/Linux系列7-用户与用户组管理/" class="article-date">
-      <time datetime="2018-04-08T16:45:11.000Z" itemprop="datePublished">2018-04-09</time>
-</a>
-
- 
-    <a href="/2018/04/09/Linux系列7-用户与用户组管理/#comments" title="查看评论">
-        <i class="fa fa-comments-o" aria-hidden="true"></i>
-        <span class="count-comment"></span>
-        
-        
-            <span class="disqus-comment-count" data-disqus-identifier="2018/04/09/Linux系列7-用户与用户组管理/"></span>
-        
-    </a>
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/09/Linux系列7-用户与用户组管理/">Linux系列7-用户与用户组管理</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <p><excerpt in="" index="" |="" 首页摘要=""> </excerpt></p>
-<ul>
-<li>用户的管理(增加、删除、修改和切换)</li>
-<li>用户组的管理</li>
-<li>用户和组的配置文件<code>/etc/shadow</code>、<code>/etc/passwd</code>、<code>/etc/group</code></li>
-<li>记录用户历史操作命令<code>history</code><br>如要下载笔记和代码请到<a href="https://github.com/yucicheung/LearningNotes/tree/master/Linux" target="_blank" rel="noopener">我的github</a>。
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Learning/">Learning</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Shell/">Shell</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a href="/2018/04/09/Linux系列7-用户与用户组管理/#more">阅读全文 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
     </nav>
   
 </div>

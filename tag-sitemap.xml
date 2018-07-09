@@ -86,13 +86,6 @@
     </url>
 
     <url>
-        <loc>https://yucicheung.github.io/tags/Ubuntu/</loc>
-        <lastmod>2018-06-28T15:50:55.987Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://yucicheung.github.io/tags/%E5%B7%A5%E5%85%B7/</loc>
         <lastmod>2018-06-29T16:31:16.688Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -109,6 +102,41 @@
     <url>
         <loc>https://yucicheung.github.io/tags/matlab/</loc>
         <lastmod>2018-06-29T16:31:16.688Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://yucicheung.github.io/tags/qmake/</loc>
+        <lastmod>2018-07-09T16:24:49.596Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://yucicheung.github.io/tags/%E8%B7%A8%E5%B9%B3%E5%8F%B0%E7%BC%96%E8%AF%91/</loc>
+        <lastmod>2018-07-09T16:24:49.596Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://yucicheung.github.io/tags/Ubuntu/</loc>
+        <lastmod>2018-07-09T16:25:08.832Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://yucicheung.github.io/tags/qt/</loc>
+        <lastmod>2018-07-09T16:25:08.832Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://yucicheung.github.io/tags/linux/</loc>
+        <lastmod>2018-07-09T16:25:08.832Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
