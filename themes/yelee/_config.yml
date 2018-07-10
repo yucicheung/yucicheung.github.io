@@ -162,7 +162,7 @@ toc:
 
 # 是否开启主页及加载头像时的动画效果
 # Animation in Homepage and Loading avatar
-animate: true
+animate: false
 
 # Load jQuery UI to style tooltips
 # 工具提示框样式美化
