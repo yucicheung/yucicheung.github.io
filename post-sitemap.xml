@@ -7,6 +7,14 @@
     </url>
 
     <url>
+        <loc>https://yucicheung.github.io/2018/07/10/cmake%E7%AC%94%E8%AE%B0/</loc>
+        <lastmod>2018-07-19T16:42:05.102Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://yucicheung.github.io/2018/07/10/qmake%E6%89%8B%E5%86%8C%E8%AE%B0%E5%BD%95/</loc>
         <lastmod>2018-07-09T16:33:54.384Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -95,7 +103,7 @@
     </url>
 
     <url>
-        <loc>https://yucicheung.github.io/2018/04/09/Linux%E7%B3%BB%E5%88%976-%E7%A3%81%E7%9B%98%E7%AE%A1%E7%90%86/</loc>
+        <loc>https://yucicheung.github.io/2018/04/09/Linux%E7%B3%BB%E5%88%977-%E7%94%A8%E6%88%B7%E4%B8%8E%E7%94%A8%E6%88%B7%E7%BB%84%E7%AE%A1%E7%90%86/</loc>
         <lastmod>2018-06-28T15:50:55.911Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -103,7 +111,7 @@
     </url>
 
     <url>
-        <loc>https://yucicheung.github.io/2018/04/09/Linux%E7%B3%BB%E5%88%977-%E7%94%A8%E6%88%B7%E4%B8%8E%E7%94%A8%E6%88%B7%E7%BB%84%E7%AE%A1%E7%90%86/</loc>
+        <loc>https://yucicheung.github.io/2018/04/09/Linux%E7%B3%BB%E5%88%976-%E7%A3%81%E7%9B%98%E7%AE%A1%E7%90%86/</loc>
         <lastmod>2018-06-28T15:50:55.911Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>

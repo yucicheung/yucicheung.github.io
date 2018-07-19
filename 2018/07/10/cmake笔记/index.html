@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Yuci Cheung" />
+
+
+
+<meta name="description" content="cmake简介; 简单语法; 几个项目示例。笔记内容汇总，需要结合项目代码进行理解，代码在我的仓库。">
+<meta name="keywords" content="Linux,cmake,跨平台编译,c++">
+<meta property="og:type" content="article">
+<meta property="og:title" content="cmake笔记">
+<meta property="og:url" content="https://yucicheung.github.io/2018/07/10/cmake笔记/index.html">
+<meta property="og:site_name" content="Yuci&#39;s Blog">
+<meta property="og:description" content="cmake简介; 简单语法; 几个项目示例。笔记内容汇总，需要结合项目代码进行理解，代码在我的仓库。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-07-19T16:42:05.102Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="cmake笔记">
+<meta name="twitter:description" content="cmake简介; 简单语法; 几个项目示例。笔记内容汇总，需要结合项目代码进行理解，代码在我的仓库。">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="Yuci&#39;s Blog" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/egg.png">
+
+
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>cmake笔记 | Yuci&#39;s Blog</title>
+
+<script src="//cdn.jsdelivr.net/gh/jquery/jquery@3.2.1/dist/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.1/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: false,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdnjs.cloudflare.com/ajax/libs/scrollReveal.js/3.4.0/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+    <script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5aa6360dad8cb1a6"></script>
+
+
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?bd6df76638422f4466c5d6bd0c572265";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Yuci Cheung</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">Coding for fun.</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="false" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:yucicheung@gmail.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/yucicheung" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" href="http://blog.csdn.net/yucicheung" title="CSDN"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CDN/">CDN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Grub/">Grub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSL/">SSL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/">Shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/">c++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cmake/">cmake</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/matlab/">matlab</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/qmake/">qmake</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/qt/">qt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工具/">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/正则表达式/">正则表达式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自制小工具/">自制小工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/跨平台编译/">跨平台编译</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+
+                
+                
+                <section class="switch-part switch-part3">
+                
+                    <div id="js-aboutme">预备役程序员。</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Yuci Cheung</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Yuci Cheung</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">Coding for fun.</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:yucicheung@gmail.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/yucicheung" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" target="_blank" href="http://blog.csdn.net/yucicheung" title="CSDN"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-cmake笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/10/cmake笔记/" class="article-date">
+      <time datetime="2018-07-09T16:16:08.000Z" itemprop="datePublished">2018-07-10</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      cmake笔记
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Documenting/">Documenting</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/">c++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cmake/">cmake</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/跨平台编译/">跨平台编译</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><excerpt in="" index="" |="" 首页摘要=""> </excerpt></p>
+<ul>
+<li><code>cmake</code>简介;</li>
+<li>简单语法;</li>
+<li>几个项目示例。<br><cmake practice="">笔记内容汇总，需要结合项目代码进行理解，代码在<a href="https://github.com/yucicheung/LearningNotes/tree/master/xmake/cmake" target="_blank" rel="noopener">我的仓库</a>。<a id="more"></a>
+<the rest="" of="" contents="" |="" 余下全文=""><br>本文主要参考<a href="http://sewm.pku.edu.cn/src/paradise/reference/CMake%20Practice.pdf" target="_blank" rel="noopener">cmake practice</a>,项目代码在<a href="https://github.com/yucicheung/LearningNotes/tree/master/xmake/cmake" target="_blank" rel="noopener">我的仓库</a>(因为原书内容有点过时，所以代码做出了修正)，笔记中加入了自己的理解。<br>另，原书未更新完，所以这里只有前六章内容，但是日常也够用了。</the></cmake></li>
+</ul>
+<h2 id="简单的HelloWorld-文件夹t1"><a href="#简单的HelloWorld-文件夹t1" class="headerlink" title="简单的HelloWorld(文件夹t1)"></a>简单的HelloWorld(文件夹t1)</h2><p>cmake以指定目录下的<code>CMakeLists.txt</code>为根据生成相应的中间文件(包括CMakeCache.txt,cmake_install.cmake,Makefile,CMakeFiles文件夹)，之后运行<code>make</code>（或者运行<code>make VERBOSE=1</code>观察make命令构建的详细过程）。</p>
+<h3 id="基本语法规则"><a href="#基本语法规则" class="headerlink" title="基本语法规则"></a>基本语法规则</h3><p>CMakeLists.txt必须在工程的每个目录下都存在一份，其最基本语法规则为：</p>
+<ul>
+<li>变量用<code>${}</code>方式取值，但在<strong>IF控制语句中</strong>直接使用变量名;</li>
+<li><code>指令(参数1 参数2)</code>，参数用空格或分号分开;</li>
+<li>指令大小写无关，但是变量名大小写相关，但<strong>推荐全部使用大写指令</strong>;</li>
+<li>运行<code>make clean</code>即可对构建结果进行清理(二进制可执行文件);<code>make distclean</code>在cmake中不可用(因为中间文件不可追踪，于是干脆禁用命令)。</li>
+</ul>
+<p><strong>注意</strong>：</p>
+<ol>
+<li>工程名和生成的可执行文件名之间没有关系(因为一个项目中可以生成多个可执行文件)。</li>
+<li>推荐外部构建(out-of-source build)而不推荐内部构建(in-source-build)，这样在需要重新构建时将整个构建文件夹删除即可。(最主要删除<code>CMakeCache.txt</code>)</li>
+</ol>
+<h2 id="更像工程的HelloWorld-文件夹t2"><a href="#更像工程的HelloWorld-文件夹t2" class="headerlink" title="更像工程的HelloWorld(文件夹t2)"></a>更像工程的HelloWorld(文件夹t2)</h2><p><strong>一些注意：</strong></p>
+<ul>
+<li>代码安装时用<strong>cmake -DCMAKE_INSTALL_PREFIX=/tmp/t2/usr ..</strong>选项;默认的CMAKE_INSTALL_PREFIX=/usr/local</li>
+<li>在INSTALL后，注意文件的权限会发生变更。</li>
+</ul>
+<p>默认以后采用外部构建方式。要使项目更像工程：</p>
+<ol>
+<li>添加一个子目录src存放工程源代码;<ul>
+<li>主目录下<code>CMakeLists.txt</code>填写<code>ADD_SUBDIRECTORY(src bin)</code>;</li>
+<li>子目录下用<code>ADD_EXECUTABLE()</code>;</li>
+</ul>
+</li>
+<li>添加一个子目录doc存放工程文档;</li>
+<li>工程目录下添加文本文件COPYRIGHT,README;</li>
+<li>工程目录添加一个<code>runhello.sh</code>脚本用于调用hello二进制文件;</li>
+<li>安装这些文件：将hello二进制文件与runhello.sh安装至/usr/bin，将doc目录内容及COPYRIGHT/README安装到/usr/share/doc/cmake/t2。<ul>
+<li>方式1:<code>make install</code>;方式2:打包时指定目录安装，如果是手工编写的MakeFile会看起来如下：</li>
+<li>对于<code>cmake</code>,需要使用指令<code>INSTALL</code>和一个很有用的变量<code>CMAKE_INSTALL_PREFIX</code>，下面具体说明<h3 id="cmake-install"><a href="#cmake-install" class="headerlink" title="cmake install"></a>cmake install</h3><code>cmake</code>需要使用指令<code>INSTALL</code>和一个很有用的变量<code>CMAKE_INSTALL_PREFIX</code>：</li>
+</ul>
+</li>
+<li><code>INSTALL</code>指令用于定义安装规则，安装内容可以包括目标二进制、动态库、静态库以及文件、目录、脚本等，具体安装指令在下面介绍;</li>
+<li><code>CMAKE_INSTALL_PREFIX</code>的使用格式一般是<code>cmake -DCMAKE_INSTALL_PREFIX=/usr .</code></li>
+</ol>
+<h4 id="INSTALL命令"><a href="#INSTALL命令" class="headerlink" title="INSTALL命令"></a>INSTALL命令</h4><p>INSTALL命令(不管是make install或者install命令)，都是负责copy files and set attributes。</p>
+<ol>
+<li>目标文件(动态静态库及可执行文件)的安装<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">INSTALL(TARGET targets...			#TARGETS后面跟ADD_EXECUTABLE/ADD_LIBRARY定义的目标文件，可能是可执行二进制、动态库、静态库，targets可以有多个</span><br><span class="line">		[[ARCHIVE|LIBRARY|RUNTIME]	# 对应目标类型为ARCHIVE静态库、LIBRARY动态库、RUNTIME可执行目标二进制</span><br><span class="line">		[DESTINATION &lt;dir&gt;]			# 如果路径以/开头，那么就是绝对路径，此时CMAKE_INSTALL_PREFIX无效;相对路径不要以/开头，则$&#123;CMAKE_INSTALL_PREFIX&#125;/&lt;DESTINATION&gt;为安装后的路径</span><br><span class="line">		[PERMISSIONS perssions...]</span><br><span class="line">		[CONFIGURATIONS [Debug|Release|...]]</span><br><span class="line">		[COMPONENT &lt;component&gt;] [OPTIONAL]]</span><br><span class="line">		[...]</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>举个例子<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">INSTALL (TARGETS myrun  mylib mystaticlib</span><br><span class="line">		RUNTIME DESTINATION bin			# 将二进制myrun安装到$&#123;CMAKE_INSTALL_PREFIX&#125;/bin目录</span><br><span class="line">		LIBRARY DESTINATION lib			# 动态库libmylib安装到$&#123;CMAKE_INSTALL_PREFIX&#125;/lib目录</span><br><span class="line">		ARCHIVE DESTINATION libstatic	# 静态库libmystaticlib安装到$&#123;CMAKE_INSTALL_PREFIX&#125;/libstatic目录</span><br><span class="line">	)</span><br></pre></td></tr></table></figure></p>
+<p>上述例子中，不需要写出库文件生成的全称(lib-)，而只要写出库文件的名字即可。</p>
+<ol>
+<li>普通文件的安装<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">INSTALL (FILES files... DESTINATION &lt;dir&gt;</span><br><span class="line">		[PERMISSIONS permissions...]</span><br><span class="line">		[CONFIGURATIONS [Debug|Release|...]]</span><br><span class="line">		[COMPONENT &lt;component&gt;]</span><br><span class="line">		[RENAME &lt;name&gt;] [OPTIONAL])</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>其中，文件名(FILES)是此指令所在路径下的相对路径，默认PERMISSIONS为644权限，cmake中描述为OWNER_WRITE,OWNER_READ,GROUP_READ,WORLD_READ。</p>
+<ol>
+<li>非目标文件的可执行程序安装(如脚本之类)：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">INSTALL(PROGRAMS files... DESTINATION &lt;dir&gt;</span><br><span class="line">		[PERMISSIONS permissions...]</span><br><span class="line">		[CONFIGURATIONS [Debug|Release|...]]</span><br><span class="line">		[COMPONENT &lt;component&gt;]</span><br><span class="line">		[RENAME &lt;name&gt;] [OPTIONAL])</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>跟上述FILES指令使用方法一致，唯一不同的是安装后的权限为：OWNER_EXECUTE,GROUP_EXECUTE,WORLD_EXECUTE,即755权限。</p>
+<ol>
+<li>目录的安装<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">INSTALL(DIRECTORY dirs... DESTINATION &lt;dir&gt;</span><br><span class="line">	[FILE_PERMISSIONS permissions...]		# permissions总是需要一连串指令指明</span><br><span class="line">	[DIRECTORY_PERMISSIONS permissions...]</span><br><span class="line">	[USE_SOURCE_PERMISSIONS]</span><br><span class="line">	[CONFIGUTATIONS [Debug|Release|...]]</span><br><span class="line">	[COMPONENT &lt;component&gt;]</span><br><span class="line">	[[PATTERN &lt;pattern&gt; | REGREX &lt;regex&gt;]</span><br><span class="line">	[EXECLUDE] [PERMISSIONS permissions...]] [...])</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>其中</p>
+<ul>
+<li><code>DIRECTORY</code>:后面接所在Source目录的相对路径，但<strong>注意</strong>：<code>abc</code>表示将整个目录拷贝，<code>abc/</code>表示将目录下的所有文件拷贝过去;</li>
+<li><code>PATTERN</code>:用于正则表达式过滤;</li>
+<li><code>PERMISSIONS</code>：用于指定对前面的正则表达式过滤出来的文件的权限。</li>
+</ul>
+<p>举个例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">INSTALL(DIRECTORY icons scripts/ DESTINATION share/myproj</span><br><span class="line">		PATTERN &quot;CVS&quot; EXECLUDE</span><br><span class="line">		PATTERN &quot;scripts/*&quot; PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ GROUP_EXECUTE GROUP_READ</span><br><span class="line">		# 可以看到每次出现一个关键词，将其后面的内容存储为其中内容，直到碰到下一个关键词</span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
+<p>上述执行结果会是：icons目录安装到<prefix>/share/myproj，将<code>scripts/</code>文件夹中所有内容安装到<prefix>/share/myproj;对含有”CVS”的目录不包含，对符合<code>srcipts/*</code>模式的文件。<br>如果要换个地方存放目标二进制，可以通过<code>SET</code>命令重新定义<code>EXECUTABLE_OUTPUT_PATH</code>/<code>LIBRARY_OUTPUT_PATH</code>变量来指定最终的目标二进制的位置(指最终生成的二进制可执行文件或最终共享库，不包含编译生成的中间文件。记住:<strong>在哪里<code>ADD_EXECUTABLE()</code>/<code>ADD_LIBRARY()</code>，就在哪里加入上述修改目标文件夹的定义。</strong></prefix></prefix></p>
+<h2 id="静态库与动态库构建-t3文件夹"><a href="#静态库与动态库构建-t3文件夹" class="headerlink" title="静态库与动态库构建(t3文件夹)"></a>静态库与动态库构建(t3文件夹)</h2><h3 id="任务"><a href="#任务" class="headerlink" title="任务"></a>任务</h3><ol>
+<li>建立一个静态库和动态库，提供HelloFunc函数供其他程序编程使用，HelloFunc向终端输出Hello World字符串。</li>
+<li>安装头文件及共享库。 <h3 id="相关指令"><a href="#相关指令" class="headerlink" title="相关指令"></a>相关指令</h3></li>
+</ol>
+<ul>
+<li><code>ADD_LIBRARY</code>添加构建动态静态库<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ADD_LIBRARY(libname [SHARED|STATIC|MODULE] [EXCLUDE_FROM_ALL] source1 source2 ... sourceN)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>其中，</p>
+<ul>
+<li>libname不需要写全<code>libhello.so</code>，只需要写<code>hello</code>就可以，cmake会自动生成<code>libhello.X</code>;</li>
+<li>库的三种类型<ul>
+<li><code>SHARED</code>动态库(<code>.so</code>后缀)</li>
+<li><code>STATIC</code>静态库(<code>.a</code>后缀)</li>
+<li><code>MODULE</code>在使用dyld的系统有效，如果不支持dyld，则被当作SHARED对待</li>
+</ul>
+</li>
+<li><p><code>EXCLUDE_FROM_ALL</code>表示该库不会被默认构建，除非有其他组建依赖或者手工构建<br><strong>问题</strong>：要构建的TARGET(可执行二进制文件/动态静态链接库等)是不能重名的，但是输出库的名字可以被修改,以使输出的动态静态库可以同名。</p>
+</li>
+<li><p><code>SET_TARGET_PROPERTIES</code>设置输出的名称，对于动态库还可以用来指定动态库版本和API版本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SET_TARGET_PROPERTIES(target1 target2 ...</span><br><span class="line">		PROPERTIES prop1 value1</span><br><span class="line">		prop2 value2...)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>在/t3/build中进行cmake，就可以同时输出<code>libhello.so</code>和<code>libhello.a</code>两个库。<br>举几个例子</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SET_TARGET_PROPERTIES(hello_static PROPERTIES OUTPUT_NAME &quot;hello&quot;)#以下命令用来表示不清除文件中的同名目标,但在3.5.1中已经可以生成同名的目标文件而不会被清除</span><br><span class="line">SET_TARGET_PROPERTIES(hello PROPERTIES CLEAN_DIRECT_OUTPUT 1)</span><br><span class="line">SET_TARGET_PROPERTIES(hello_static PROPERTIES CLEAN_DIRECT_OUPUT 1)</span><br></pre></td></tr></table></figure>
+<p><strong>问题</strong>：动态库一般是包含一个版本号的，如果我们想生成以下链接，我们应该怎么实现呢?<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">libhello.so.1.2</span><br><span class="line">libhello.so-&gt;libhello.so.1</span><br><span class="line">libhell.so.1-&gt;libhello.so.1.2</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>采用以下指令添加动态库版本:<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SET_TARGET_PROPERTIES(hello PROPERTIES VERSION 1.2 SOVERSION 1) #SOVERSION表示API版本，VERSION表示动态库版本</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>最终我们需要<strong>将动态库和头文件案安装到系统目录，才能被人开发使用</strong>，按照如下命令将hello共享库安装到<prefix>/lib目录，将<code>hello.h</code>安装到<prefix>/include/hello目录下。为下一节准备，将文件安装在<code>/usr/lib</code>和<code>/usr/include/hello</code>下。</prefix></prefix></p>
+<h2 id="使用外部共享库和头文件-t4目录"><a href="#使用外部共享库和头文件-t4目录" class="headerlink" title="使用外部共享库和头文件(t4目录)"></a>使用外部共享库和头文件(t4目录)</h2><p>按照构建可执行二进制文件的方式构建文件夹，此时<code>#include&lt;hello.h&gt;</code>需要用<code>&lt;&gt;</code>符号(因为已经在系统文件夹中,但是不在系统标准的头文件路径/usr/include中)，因此直接在<code>cmake</code>、<code>make</code>之后会出现错误,改用<strong><code>make VERBOSE=1</code></strong>来构建。<br><strong>注意</strong>：其实只要写成<code>#include&lt;hello/hello.h&gt;</code>会在<code>/usr/include</code>下查找相应文件。</p>
+<p>此时我们要<strong>引入头文件搜索所路径</strong>，用指令<code>INCLUDE_DIRECTORIES</code>或者是<code>CMAKE_INCLUDE_PATH</code>选项</p>
+<ul>
+<li><code>INCLUDE_DIRECTORIES</code><ul>
+<li>用于向工程添加多个特定的<strong>头文件搜索路径</strong>，多个路径之间用空格分割，如果路径中包含空格，可以用双括号括起来，<strong>默认</strong>的行为是<strong>追加到当前的头文件搜索路径后面</strong>;</li>
+<li>可以通过两种方式来进行控制搜索路径添加的方式:<ol>
+<li>CMAKE_INCLUDE_DIRECTORIES_BEFORE,通过SET这个cmake变量为on，可以将添加的头文件搜索路径放在已有路径的前面;</li>
+<li>通过AFTER或者BEFORE参数，也可以控制是追加或者是置前。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">INCLUDE_DIRECTORIES([AFTER|BEFORE] [SYSTEM] dir1 dir2 ...)</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>问题</strong>：上述步骤完成后，会出现一个新的错误<code>undefined reference to &#39;HelloFunc&#39;</code>，因为还没有link到共享库libhello上（gcc -lhello）。</p>
+<ul>
+<li><code>TARGET_LINK_LIBRARIES</code>用于为target(库/可执行二进制文件)添加需要链接的共享库。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">TARGET_LINK_LIBRARIES(target library1</span><br><span class="line">					&lt;debug | optimized&gt; library2</span><br><span class="line">					...)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>其中library可以写成<code>hello</code>(会优先链接到动态库<code>.so</code>)或者库全称<code>libhello.so</code>/<code>libhello.a</code>。<br>以下还有另外一个命令：</p>
+<ul>
+<li><p><code>LINK_DIRECTORIES</code>添加非标准的共享库搜索路径。</p>
+<ul>
+<li>如在工程内部同时存在共享库和可执行二进制，在编译时就需要指定一下这些共享库的路径。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LINK_DIRECTORIES(directory1 directory2 ...)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>特殊的<strong>环境变量</strong><code>CMAKE_INCLUDE_PATH</code>和<code>CMAKE_LIBRARY_PATH</code> </p>
+<ul>
+<li>两个环境变量可以设置到<code>.bashrc</code>中并且<code>export</code>生效，或者在CMakeLists.txt中用<code>SET</code>设置相应变量值;</li>
+<li><code>CMAKE_INCLUDE_PATH</code>配合<code>FIND_PATH</code>(用来在指定路径中搜索文件名)使用;<ul>
+<li>当头文件没有存在常规路径<code>/usr/include</code>,<code>usr/local/include</code>中时，可以通过这些变量弥补。</li>
+</ul>
+</li>
+<li><code>CMAKE_LIBRARY_PATH</code>配合<code>FIND_LIBRARY</code>(在指定路径中搜索库名)使用。<br>则更自动化的<code>INCLUDE_DIRECTORIES()</code>如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SET(CMAKE_INCLUDE_PATH /usr/include/hello)</span><br><span class="line">FIND_PATH(myHeader hello.h)</span><br><span class="line">IF(myHeader)</span><br><span class="line">INCLUDE_DIRECTORIES($&#123;myHeader&#125;)</span><br><span class="line">ENDIF(myHeader)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="模块的使用和自定义模块"><a href="#模块的使用和自定义模块" class="headerlink" title="模块的使用和自定义模块"></a>模块的使用和自定义模块</h2><p>对于系统与定义的Find<name>.cmake模块，使用方法如下：<br>每一个模块都会定义以下几个变量(系统预定义)：</name></p>
+<ul>
+<li><name>_FOUND:判断模块是否找到</name></li>
+<li><name>_INCLUDE_DIR or <name>_INCLUDES：存储include路径，当FOUND为真，INCLUDE_DIRECTORIES();</name></name></li>
+<li><name>_LIBRARY or <name>_LIBRARIES：存储library路径,当FOUND为真时，TARGET_LINK_LIBRARIES()。</name></name></li>
+</ul>
+<p>以下看一个复杂的例子，用<name>_FOUND控制工程特性：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">SET(mySources viewer.c)</span><br><span class="line">SET(optionalSources)</span><br><span class="line">SET(optionalLibs)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">FIND_PACKAGE(JPEG)# 当输入选项-DENABLE_JPEG_SUPPORT以下代码生效</span><br><span class="line">IF(JPEG_FOUND)</span><br><span class="line">	SET(optionalSources $&#123;optionalSources&#125; jpegview.c)</span><br><span class="line">	INCLUDE_DIRECTORIES($&#123;JPEG_INCLUDE_DIR&#125;)</span><br><span class="line">	SET(optionalLibs $&#123;optionalLibs&#125; $&#123;JPEG_LIBRARIES&#125;)</span><br><span class="line">	ADD_DEFINITIONS(-DENABLE_JPEG_SUPPORT)</span><br><span class="line">ENDIF(JPEG_FOUND)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">FIND_PACKGAE(PNG)# 当输入选项-DENABLE_PNG_SUPPORT以下代码生效</span><br><span class="line">IF(PNG_FOUND)</span><br><span class="line">	SET(optionalSources $&#123;optionalSources&#125; pngview.c)</span><br><span class="line">	INCLUDE_DIRECTORIES($&#123;PNG_INCLUDE_DIR&#125;)</span><br><span class="line">	SET(optionalLibs $&#123;optionalLibs&#125; $&#123;PNG_LIBRATIES&#125;)</span><br><span class="line">	ADD_DEFINITIONS(-DENABLE_PNG_SUPPORT)</span><br><span class="line">ENDIF(PNG_FOUND)</span><br><span class="line"></span><br><span class="line">ADD_EXECUTABLE(viewer $&#123;mySources&#125; $&#123;optionalSources&#125;)</span><br><span class="line">TARGET_LINK_LIBRARIES(viewer $&#123;optionalLibs&#125;)</span><br></pre></td></tr></table></figure></name></p>
+<h2 id="编写自己的FindHello模块-t6目录"><a href="#编写自己的FindHello模块-t6目录" class="headerlink" title="编写自己的FindHello模块(t6目录)"></a>编写自己的FindHello模块(t6目录)</h2><p>在CMakeLists.txt中调用的是<code>.cmake</code>模块中的变量，而cmake模块中的变量可以系统定义，也可以用户自己定义。</p>
+<ul>
+<li><code>FIND_PACKAGE(&lt;name&gt; [major.minor] [QUIET] [NO_MODULE] [REQUIRED|COMPONENTS] [components...]])</code><ul>
+<li>如果指定QUIET参数，就对应编写的FindHELLO.cmake中的HELLO_FIND_QUIETLY;</li>
+<li>指定REQUIRED参数，则找不到该链接库时不能编译，对应FindHELLO.cmake中的HELLO_FIND_REQUIRED变量。</li>
+</ul>
+</li>
+</ul>
+<h2 id="指令汇总"><a href="#指令汇总" class="headerlink" title="指令汇总"></a>指令汇总</h2><p>项目中用到的指令如下：</p>
+<ul>
+<li><code>PROJECT(projectname [CXX] [C] [JAVA])</code><ul>
+<li>语言列表可以忽略，默认支持所有语言;</li>
+<li>两个隐式的cmake变量，<code>&lt;projectname&gt;_BINARY_DIR</code>、<code>&lt;projectname&gt;_SOURCE_DIR</code>,或者就直接用<code>PROJECT_BINARY_dir</code>、<code>PROJECT_SOURCE_DIR</code>;</li>
+</ul>
+</li>
+<li><code>SET(VAR [VALUE] [CACHE TYPE DOCSTRING [FORCE]])</code><ul>
+<li>如给<code>SRC_LIST</code>设置变量时<code>main.cpp</code>/<code>&quot;main.cpp&quot;</code>均可;</li>
+</ul>
+</li>
+<li><code>MESSAGE([SEND_ERROR | STATUS | FATAL_ERROR] &quot;message to display&quot;...)</code><ul>
+<li>SEND_ERROR，产生错误，生成过程被跳过;</li>
+<li>STATUS，输出前缀为<code>--</code>的信息;</li>
+<li>FATAL_ERROR，立即终止所有cmake过程。</li>
+</ul>
+</li>
+<li><code>ADD_EXECUTABLE(hello ${SRC_LIST})</code></li>
+</ul>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2018/07/10/cmake笔记/">cmake笔记</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">Yuci Cheung</a></p>
+        <p><span>发布时间:</span>2018-07-10, 00:16:08</p>
+        <p><span>最后更新:</span>2018-07-20, 00:42:05</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2018/07/10/cmake笔记/" title="cmake笔记">https://yucicheung.github.io/2018/07/10/cmake笔记/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://yucicheung.github.io/2018/07/10/cmake笔记/　　作者: Yuci Cheung" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2018/07/10/qmake手册记录/">
+                    qmake手册记录
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#简单的HelloWorld-文件夹t1"><span class="toc-number">1.</span> <span class="toc-text">简单的HelloWorld(文件夹t1)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基本语法规则"><span class="toc-number">1.1.</span> <span class="toc-text">基本语法规则</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#更像工程的HelloWorld-文件夹t2"><span class="toc-number">2.</span> <span class="toc-text">更像工程的HelloWorld(文件夹t2)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#cmake-install"><span class="toc-number">2.1.</span> <span class="toc-text">cmake install</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#INSTALL命令"><span class="toc-number">2.1.1.</span> <span class="toc-text">INSTALL命令</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#静态库与动态库构建-t3文件夹"><span class="toc-number">3.</span> <span class="toc-text">静态库与动态库构建(t3文件夹)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#任务"><span class="toc-number">3.1.</span> <span class="toc-text">任务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#相关指令"><span class="toc-number">3.2.</span> <span class="toc-text">相关指令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用外部共享库和头文件-t4目录"><span class="toc-number">4.</span> <span class="toc-text">使用外部共享库和头文件(t4目录)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#模块的使用和自定义模块"><span class="toc-number">5.</span> <span class="toc-text">模块的使用和自定义模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编写自己的FindHello模块-t6目录"><span class="toc-number">6.</span> <span class="toc-text">编写自己的FindHello模块(t6目录)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#指令汇总"><span class="toc-number">7.</span> <span class="toc-text">指令汇总</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+
+    
+        <div class="addthis_sharing_toolbox"></div>
+    
+</div>
+
+
+
+
+
+
+
+    
+        <section id="comments">
+    <style> aside.comment-bar { margin: auto 30px; }</style>
+    <div id="disqus_thread"></div>
+    <script>
+        var disqus_config = function(){
+            this.page.url = 'https://yucicheung.github.io/2018/07/10/cmake笔记/';
+            this.page.identifier = '2018/07/10/cmake笔记/';
+        };
+        var loadComment = function(){
+            var d = document, s = d.createElement('script');
+            s.src = '//yucicheung-github-io.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        }
+    </script>
+    
+    <script> loadComment(); </script>
+
+</section>
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2018/07/10/qmake手册记录/" title="下一篇: qmake手册记录">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/07/10/cmake笔记/">cmake笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/10/qmake手册记录/">qmake手册记录</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/05/Windows及Ubuntu软件包管理器安装qt5记录/">Windows及Ubuntu软件包管理器安装qt5记录</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/30/CelexMatlabToolbox-1-0发布记录/">CelexMatlabToolbox-1.0发布记录</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/13/微信定时自动发送群消息的小工具/">微信定时自动发送群消息的小工具-python-itchat</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/25/更改Ubuntu的apt源/">更改Ubuntu的apt源</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/25/tmux-Usage/">tmux的安装和使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/11/建库时帮助筛选图片的GUI小工具-python-tkinter/">建库时帮助筛选图片的GUI小工具(python+tkinter)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列11-Shell编程/">Linux系列11-Shell编程</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列10-VIM/">Linux系列10-Linux编程</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列9-网络配置和远程访问/">Linux系列9-网络配置和远程访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列8-进程管理/">Linux系列8-进程管理</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列7-用户与用户组管理/">Linux系列7-用户与用户组管理</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列6-磁盘管理/">Linux系列6-磁盘管理</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列5-软件包管理/">Linux系列5-软件包管理</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列4-文件目录管理/">Linux系列4-文件目录管理</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列3-shell基本命令/">Linux系列3-shell基本命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列2-基本配置/">Linux系列2-基本配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列1-概述/">Linux系列1-概述</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/24/Dijkstras算法和实现/">Dijkstras算法和实现(python)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/17/python中的argv和argc/">python中的argv和argc</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/14/为Github-page绑定自定义域名并实现https访问/">为Github page绑定自定义域名并实现https访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/13/Ubuntu下用hexo搭建github博客/">Ubuntu下用hexo搭建github博客</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2018 Yuci Cheung
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+    <script src="/js/GithubRepoWidget.js"></script>
+
+<script data-main="/js/main.js" src="//cdnjs.cloudflare.com/ajax/libs/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 6;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-115529402-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+    <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+             github: ".github-widget a", 
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "(つェ⊂)" + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*)" + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
