@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Yuci Cheung" />
+
+
+
+<meta name="description" content="这些天在gist上记录了很多知识点，本来想等秋招结束后，统一整理，但是笔记慢慢也积累得很长了，担心到最后整理起来太麻烦，所以先把目前为止记录的内容整理好，之后做成一个小系列，可能会比较方便一些。正在看的Effective C++中有很多很好的内容，但是没有总结在这里面，这部分内容主要是平时从C++ Primer、stackOverflow、wikipedia、MSDN和博客上了解到的相关内容的汇总">
+<meta name="keywords" content="c++,编译,书写规范">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++相关知识点及建议总结(一)">
+<meta property="og:url" content="https://yucicheung.github.io/2018/08/18/C++相关知识点及建议总结(一)/index.html">
+<meta property="og:site_name" content="Yuci&#39;s Blog">
+<meta property="og:description" content="这些天在gist上记录了很多知识点，本来想等秋招结束后，统一整理，但是笔记慢慢也积累得很长了，担心到最后整理起来太麻烦，所以先把目前为止记录的内容整理好，之后做成一个小系列，可能会比较方便一些。正在看的Effective C++中有很多很好的内容，但是没有总结在这里面，这部分内容主要是平时从C++ Primer、stackOverflow、wikipedia、MSDN和博客上了解到的相关内容的汇总">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-08-18T04:10:19.624Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C++相关知识点及建议总结(一)">
+<meta name="twitter:description" content="这些天在gist上记录了很多知识点，本来想等秋招结束后，统一整理，但是笔记慢慢也积累得很长了，担心到最后整理起来太麻烦，所以先把目前为止记录的内容整理好，之后做成一个小系列，可能会比较方便一些。正在看的Effective C++中有很多很好的内容，但是没有总结在这里面，这部分内容主要是平时从C++ Primer、stackOverflow、wikipedia、MSDN和博客上了解到的相关内容的汇总">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="Yuci&#39;s Blog" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/egg.png">
+
+
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>C++相关知识点及建议总结(一) | Yuci&#39;s Blog</title>
+
+<script src="//cdn.jsdelivr.net/gh/jquery/jquery@3.2.1/dist/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.1/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: false,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdnjs.cloudflare.com/ajax/libs/scrollReveal.js/3.4.0/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+    <script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5aa6360dad8cb1a6"></script>
+
+
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?bd6df76638422f4466c5d6bd0c572265";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Yuci Cheung</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">Coding for fun.</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="false" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:yucicheung@gmail.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/yucicheung" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" href="http://blog.csdn.net/yucicheung" title="CSDN"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CDN/">CDN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Grub/">Grub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Notes/">Notes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Recommendation/">Recommendation</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSL/">SSL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/">Shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/">c++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cmake/">cmake</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/matlab/">matlab</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/qmake/">qmake</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/qt/">qt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/书写规范/">书写规范</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工具/">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/正则表达式/">正则表达式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/编译/">编译</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自制小工具/">自制小工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/跨平台编译/">跨平台编译</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+
+                
+                
+                <section class="switch-part switch-part3">
+                
+                    <div id="js-aboutme">预备役程序员。</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Yuci Cheung</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Yuci Cheung</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">Coding for fun.</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:yucicheung@gmail.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/yucicheung" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" target="_blank" href="http://blog.csdn.net/yucicheung" title="CSDN"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-C++相关知识点及建议总结(一)" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/08/18/C++相关知识点及建议总结(一)/" class="article-date">
+      <time datetime="2018-08-18T03:37:51.000Z" itemprop="datePublished">2018-08-18</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      C++相关知识点及建议总结(一)
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Learning/">Learning</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/">c++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/书写规范/">书写规范</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/编译/">编译</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><excerpt in="" index="" |="" 首页摘要=""><br>这些天在gist上记录了很多知识点，本来想等秋招结束后，统一整理，但是笔记慢慢也积累得很长了，担心到最后整理起来太麻烦，所以先把目前为止记录的内容整理好，之后做成一个小系列，可能会比较方便一些。<br>正在看的<em>Effective C++</em>中有很多很好的内容，但是没有总结在这里面，这部分内容主要是平时从<em>C++ Primer</em>、stackOverflow、wikipedia、MSDN和博客上了解到的相关内容的汇总。</excerpt></p>
+<p>本文包含：<code>1.</code>编译相关;<code>2.</code>语言特性;<code>3.</code>编写规范。<br><a id="more"></a></p>
+<the rest="" of="" contents="" |="" 余下全文="">
+
+<h2 id="编译相关"><a href="#编译相关" class="headerlink" title="编译相关"></a>编译相关</h2><ul>
+<li>在<code>g++</code>编译一系列文件时，不要包含<code>.h</code>文件，因为<code>.h</code>内容都已经包含在<code>.cpp</code>文件中。<strong>Header files are never compiled.</strong></li>
+<li><p><a href="https://zh.cppreference.com/w/cpp/preprocessor/conditional" target="_blank" rel="noopener">#ifdef and #ifndef Directives</a>:主要用于预处理器控制编译。</p>
+<ul>
+<li>头文件中的#ifndef是一个很关键的东西，比如两个c文件都include同一个头文件，而两个头文件要编译成同一个可运行文件，此时会有大量的声明冲突，所以一般把头文件内容放在#ifndef和#endif中。</li>
+<li>identifier理论上可以是自由命名的，对于头文件来说，每个标识都应该是唯一的。标识的命名规则一般是<strong>头文件名全大些，文件中的”.”变成下划线</strong>，如”stdio.h”变为”STDIO_H”(也就是说，如果没有定义这个identifier，就将identifier定义为以下到#endif为止的内容)。<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> identifier</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> identifier</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//equivalent to</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> defined identifier</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> !defined identifier</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p><a href="https://www.zhihu.com/question/21853681/answer/74134768" target="_blank" rel="noopener">关于程序语言是如何被编译，被解释执行的过程</a></p>
+<ul>
+<li>字节码和二进制机器码不是一个概念，字节码是在程序语言和二进制机器码中间的一个桥梁，最终被机器执行的仍然是二进制代码。</li>
+</ul>
+</li>
+<li><p>VS中解决方案solution和工程project之间的区别：本质上，解决方案是由多个工程组成的，(每个工程是一个独立的软件模块，如一个程序和一个代码库)，这样做的好处是解决方案可以共享文件和代码库。通常为解决方案创建一个主文件夹，包括所有的工程文件夹，但对于之包含一个工程的解决方案来说，习惯于把解决方案和项目放在一个解决方案中。</p>
+</li>
+<li><code>hpp</code>文件是将<code>.cpp</code>的实现代码混入<code>.h</code>头文件当中，定义与实现都包含在同一文件，则该类的调用者只需要include该hpp文件即可，无需再将cpp加入到project中进行编译。而实现代码<strong>将直接编译到调用者的obj文件中，不再生成单独的obj</strong>,采用hpp将大幅度减少调用 project中的cpp文件数与编译次数，也不用再发布烦人的lib与dll,因此非常适合用来编写公用的开源库。<ul>
+<li>优点：一般已预编译;</li>
+<li>缺点：不能包含全局对象和全局函数;类之间不可循环调用;不可使用静态成员。<code>redefined identifier</code>。</li>
+</ul>
+</li>
+<li><p><code>make</code>:根据Makefile编译源代码，连接，生成目标文件，可执行文件。</p>
+<ul>
+<li><code>make clean</code>：清除之前编译产生的可执行object文件(“.o”)；</li>
+<li><code>make distclean</code>:要清除所有生成的文件，包括configure生成的文件，如Makefile; </li>
+<li><code>make install</code>:将编译成功的可执行文件安装到系统目录中，一般为<code>/usr/local/bin</code>目录;</li>
+<li><code>make dist</code>:产生发布软件包文件(distribution package)，这个命令产生可执行文件及相关文件打成一个<code>tar.gz</code>压缩文件作为发布软件的软件包;一般会在当前目录下生成一个名字为<code>PACKAGE-VERSION.tar.gz</code>的文件，其中<code>PACKAGE</code>/<code>VERSION</code>是我们在configure.in中定义的<code>AM_INIT_AUTOMAKE(PACKAGE,VERSION)</code>。</li>
+<li><code>make distcheck</code>：生成发布软件包并对其进行测试检测，以确定发布包的正确性。该操作将自动打开压缩包文件，执行configure，执行make确认编译不出现错误，并且提示软件已经准备好，可以发布了。</li>
+</ul>
+</li>
+<li><p>宏定义<code>_WIN32</code>和<code>WIN32</code></p>
+<ul>
+<li><code>WIN32</code>是由工具包或者构建环境定义(user-defined)的，所以它不使用执行预留的命名空间中;</li>
+<li><code>_WIN32</code>是编译器定义的，所以使用下划线把它放置在执行预留的命名空间中。</li>
+</ul>
+</li>
+<li><p>C++关于DLL文件的导入导出</p>
+<ul>
+<li>使用<code>__declspec(dllexport)</code>关键字从DLL导出数据、函数、类或类成员函数。<code>__declspec(dllexport)</code>会将导出指令添加到对象文件中，因此您不需要使用<code>.def</code>文件，仅当解决任何命名约定更改时才必须重新编译DLL和依赖.exe文件;</li>
+<li>生成DLL时，通常创建一个包含正在导出的函数原型和/或类的头文件，并将<code>__declspec(dllexport)</code>添加到头文件中的声明中，若要提高代码的可读性，请为<code>__declspec(dllexport)</code>定义一个宏并且对正在导出的每个符号使用该宏，如<code>#define DllExport __declspec(dllexport)</code>,则该命令将函数名存储在DLL的导出表中。</li>
+<li>为使用DLL生成的应用程序创建头文件时，在公共符号的声明上使用<code>__declspec(dllimport)</code>(不论是.def文件导出还是用<strong>declspec(dllexport)关键字导出均有效),为使导入的可执行文件能够访问DLL的公共数据符号和对象，必须使用`</strong>declspec(dllimport)`;</li>
+<li><p>如要提高代码的可读性，请为<code>__declspec(dllimport)</code>定义一个宏，然后使用该宏声明每个导入的符号。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#define DllImport __declspec(dllimport)</span><br><span class="line"></span><br><span class="line">DllImport int j;</span><br><span class="line">DllImport void func();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>对DLL和客户端应用程序可以使用相同的头文件，因此需要使用特殊的预处理器符号来指示是<em>生成DLL</em>还是<em>生成客户端应用程序</em>，例如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#ifdef _EXPORTING</span><br><span class="line">   #define CLASS_DECLSPEC __declspec(dllexport)</span><br><span class="line">#else</span><br><span class="line">   #define CLASS_DECLSPEC __declspec(dllimport)</span><br><span class="line">#endif</span><br><span class="line"></span><br><span class="line">class CLASS_DECLSPEC CExampleA : public CObject</span><br><span class="line">&#123;...class definition...&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>关于<code>#if defined()</code>用法</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">if</span> defined(CREDIT)</span></span><br><span class="line">  credit();</span><br><span class="line"><span class="meta">#<span class="meta-keyword">elif</span> defined(DEBIT)</span></span><br><span class="line">  debit();</span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line">  printerror();</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="语言特性"><a href="#语言特性" class="headerlink" title="语言特性"></a>语言特性</h2><ul>
+<li><p>C++中<code>int main(int argc, char* argv[])</code></p>
+<ul>
+<li><code>argc</code>表示命令行输入参数的总个数，文件名本身也占1;</li>
+<li><code>argv</code>表示所有命令行输入参数的内容，其中<code>arg[0]</code>即文件名。</li>
+</ul>
+</li>
+<li><p><code>size_t</code>:SIZE_T is a ULONG_PTR representing the maximum number of bytes to which a pointer can point.This type is declared as <code>typedef ULONG_PTR SIZE_T;</code>,</p>
+<ul>
+<li>size_t代表目标平台能够使用的最大的类型，不仅考虑到跨平台特性，还兼顾了效率。</li>
+</ul>
+</li>
+<li><p><code>&lt;stdint.h&gt;</code>中带有<code>_t</code>(t for type)后缀数据类型的介绍</p>
+<ul>
+<li>用以下<code>_t</code>的数据类型，即我们可以以确定字节数表示一个数据类型，而不用为了适应不同CPU，而去改变数据类型。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">typedef unsigned char uint8_t</span><br><span class="line">typedef unsigned int uint16_t</span><br><span class="line">typedef unsigned long int uint32_t</span><br><span class="line">typedef unsigned long long int uint64_t</span><br><span class="line"></span><br><span class="line">typedef signed char int8_t</span><br><span class="line">typedef signed int int16_t</span><br><span class="line">typedef signed long int int32_t</span><br><span class="line">typedef signed long long int64_t</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>关于C++中的左值lvalue和右值rvalue：</p>
+<ul>
+<li>每个C++表达式是左值/右值;</li>
+<li>表达：<ul>
+<li>凡是真正存在于内存当中，而不是寄存器当中的值就是左值，其余的都是右值。(<strong>dereference<code>&amp;</code>可以成功的都是左值，其余都是右值</strong>)。</li>
+<li><strong>左值</strong>，在定义它的表达式以外保留的对象;<strong>右值</strong>，在定义它的表达式以外不保留的临时值。</li>
+<li><strong>编译器将已命名的右值引用视为左值，而将未命名的右值引用视为右值</strong>。</li>
+<li>左值引用符号<code>&amp;</code></li>
+<li>右值引用符号<code>&amp;&amp;</code><ul>
+<li>完美转发：在进行数值引用时，保留参数的左值/右值属性。<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> x = <span class="number">3</span> + <span class="number">4</span>;<span class="comment">//x是左值，3+4是右值</span></span><br><span class="line"><span class="comment">//perfect forwarding</span></span><br><span class="line"><span class="comment">//usage：factory function or constructor</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T，<span class="keyword">typename</span> T1&gt;</span><br><span class="line"><span class="function">T <span class="title">createObject</span><span class="params">(T1&amp;&amp; t1)</span></span>&#123;</span><br><span class="line">  <span class="keyword">return</span> T(forward&lt;T1&gt;(t1));</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">int</span> myFive2=createObject&lt;<span class="keyword">int</span>&gt;(<span class="number">5</span>);   <span class="comment">//rvalue</span></span><br><span class="line"><span class="keyword">int</span> five=<span class="number">5</span>;</span><br><span class="line"><span class="keyword">int</span> myFive=createObject&lt;<span class="keyword">int</span>&gt;(five); <span class="comment">//lvalue</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>nullptr</code>是C++11的新标准，表示空指针，等同于<code>NULL</code>。如果在qt中支持，需要添加<code>CONFIG+=c++11</code>。</p>
+</li>
+<li><p><a href="https://stackoverflow.com/questions/172587/what-is-the-difference-between-g-and-gcc/172592#172592" target="_blank" rel="noopener">关于<code>g++</code>和<code>gcc</code>的差异</a>:</p>
+<blockquote>
+<p>g++ is equivalent to  gcc -xc++ -lstdc++ -shared-libgcc (the 1st is a compiler option, the 2nd two are linker options). This can be checked by running both with the -v option (it displays the backend toolchain commands being run).</p>
+</blockquote>
+</li>
+<li><p><a href="https://www.cnblogs.com/yc_sunniwell/archive/2010/07/14/1777432.html" target="_blank" rel="noopener"><code>volatile</code>关键字</a><strong>用来设定某个对象的存储位置在内存中，而不是寄存器中</strong>。因为一般的对象编译器可能会将其的拷贝放在寄存器中用以加快指令的执行速度</p>
+<ul>
+<li>当对象的值可能在程序的控制或检测之外被改变时，应该将该对象声明为volatile，该关键字告诉编译器不应该对这样的对象进行优化。</li>
+<li>什么情况下要使用这个关键字？<ul>
+<li>代码中“内嵌汇编操纵栈”这种方式属于编译无法识别的变量改变；</li>
+<li>中断服务程序中修改的供其它程序检测的变量需要加volatile；</li>
+<li>多任务环境下各任务间共享的标志应该加volatile；</li>
+<li>存储器映射的硬件寄存器通常也要加volatile说明，因为每次对它的读写都可能由不同意义；</li>
+</ul>
+</li>
+<li>volatila限定符的用法和const很类似，起到对类型额外修饰的作用：同样地，如果出现在<code>*</code>左边，修饰被指物，如果出现在<code>*</code>右边，修饰的就是指针</li>
+<li>就像可以定义const限定符一样，也可以定义相应的volatile函数，它只能被volatile对象调用(与const类比)。<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">volatile</span> <span class="keyword">int</span> display_register;  <span class="comment">//该int值可能发生改变</span></span><br><span class="line"><span class="keyword">volatile</span> Task * curr_task;      <span class="comment">//curr_task指向一个volatile对象</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>元编程Meatprogramming：是指某类计算机程序的编写，这类计算机程序编写或操控其他程序作为它们的数据(比如cmake操控cpp文件或shell操控程序文件)，或者在运行时完成部分本该在编译时完成的工作。</p>
+<ul>
+<li>编写元程序的语言称之为元语言，被操作的语言称为目标语言。</li>
+<li>一门语言同时也是自身的元语言的能力称为反射。</li>
+</ul>
+</li>
+</ul>
+<h2 id="建议"><a href="#建议" class="headerlink" title="建议"></a>建议</h2><ul>
+<li>在<code>.h</code>文件中不要写<code>using namespace std</code>。</li>
+<li>对成员变量的命名不要采用下划线开头(下划线开头的变量通常是编译器自留的)，而应该采用下划线结尾。</li>
+</ul>
+</the>
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2018/08/18/C++相关知识点及建议总结(一)/">C++相关知识点及建议总结(一)</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">Yuci Cheung</a></p>
+        <p><span>发布时间:</span>2018-08-18, 11:37:51</p>
+        <p><span>最后更新:</span>2018-08-18, 12:10:19</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2018/08/18/C++相关知识点及建议总结(一)/" title="C++相关知识点及建议总结(一)">https://yucicheung.github.io/2018/08/18/C++相关知识点及建议总结(一)/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://yucicheung.github.io/2018/08/18/C++相关知识点及建议总结(一)/　　作者: Yuci Cheung" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2018/08/18/C++相关知识点及建议总结(二)/">
+                    C++相关知识点及建议总结(二)
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2018/08/17/书籍推荐/">
+                    书籍推荐
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#编译相关"><span class="toc-number">1.</span> <span class="toc-text">编译相关</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#语言特性"><span class="toc-number">2.</span> <span class="toc-text">语言特性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#建议"><span class="toc-number">3.</span> <span class="toc-text">建议</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+
+    
+        <div class="addthis_sharing_toolbox"></div>
+    
+</div>
+
+
+
+
+
+
+
+    
+        <section id="comments">
+    <style> aside.comment-bar { margin: auto 30px; }</style>
+    <div id="disqus_thread"></div>
+    <script>
+        var disqus_config = function(){
+            this.page.url = 'https://yucicheung.github.io/2018/08/18/C++相关知识点及建议总结(一)/';
+            this.page.identifier = '2018/08/18/C++相关知识点及建议总结(一)/';
+        };
+        var loadComment = function(){
+            var d = document, s = d.createElement('script');
+            s.src = '//yucicheung-github-io.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        }
+    </script>
+    
+    <script> loadComment(); </script>
+
+</section>
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2018/08/18/C++相关知识点及建议总结(二)/" title="上一篇: C++相关知识点及建议总结(二)">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2018/08/17/书籍推荐/" title="下一篇: 书籍推荐">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/08/18/C++相关知识点及建议总结(二)/">C++相关知识点及建议总结(二)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/18/C++相关知识点及建议总结(一)/">C++相关知识点及建议总结(一)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/17/书籍推荐/">书籍推荐</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/10/qmake手册记录/">qmake手册记录</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/10/cmake笔记/">cmake笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/05/Windows及Ubuntu软件包管理器安装qt5记录/">Windows及Ubuntu软件包管理器安装qt5记录</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/30/CelexMatlabToolbox-1-0发布记录/">CelexMatlabToolbox-1.0发布记录</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/13/微信定时自动发送群消息的小工具/">微信定时自动发送群消息的小工具-python-itchat</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/25/更改Ubuntu的apt源/">更改Ubuntu的apt源</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/25/tmux-Usage/">tmux的安装和使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/11/建库时帮助筛选图片的GUI小工具-python-tkinter/">建库时帮助筛选图片的GUI小工具(python+tkinter)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列11-Shell编程/">Linux系列11-Shell编程</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列10-VIM/">Linux系列10-Linux编程</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列9-网络配置和远程访问/">Linux系列9-网络配置和远程访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列8-进程管理/">Linux系列8-进程管理</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列7-用户与用户组管理/">Linux系列7-用户与用户组管理</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列6-磁盘管理/">Linux系列6-磁盘管理</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列5-软件包管理/">Linux系列5-软件包管理</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列4-文件目录管理/">Linux系列4-文件目录管理</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列3-shell基本命令/">Linux系列3-shell基本命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列2-基本配置/">Linux系列2-基本配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列1-概述/">Linux系列1-概述</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/24/Dijkstras算法和实现/">Dijkstras算法和实现(python)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/17/python中的argv和argc/">python中的argv和argc</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/14/为Github-page绑定自定义域名并实现https访问/">为Github page绑定自定义域名并实现https访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/13/Ubuntu下用hexo搭建github博客/">Ubuntu下用hexo搭建github博客</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2018 Yuci Cheung
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+    <script src="/js/GithubRepoWidget.js"></script>
+
+<script data-main="/js/main.js" src="//cdnjs.cloudflare.com/ajax/libs/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 6;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-115529402-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+    <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+             github: ".github-widget a", 
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "(つェ⊂)" + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*)" + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

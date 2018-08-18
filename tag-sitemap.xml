@@ -79,14 +79,14 @@
     </url>
 
     <url>
-        <loc>https://yucicheung.github.io/tags/%E5%B7%A5%E5%85%B7/</loc>
+        <loc>https://yucicheung.github.io/tags/github/</loc>
         <lastmod>2018-06-29T16:31:16.688Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>https://yucicheung.github.io/tags/github/</loc>
+        <loc>https://yucicheung.github.io/tags/%E5%B7%A5%E5%85%B7/</loc>
         <lastmod>2018-06-29T16:31:16.688Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
@@ -129,28 +129,56 @@
 
     <url>
         <loc>https://yucicheung.github.io/tags/Linux/</loc>
-        <lastmod>2018-07-19T16:42:05.102Z</lastmod>
+        <lastmod>2018-07-20T16:21:15.542Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://yucicheung.github.io/tags/cmake/</loc>
-        <lastmod>2018-07-19T16:42:05.102Z</lastmod>
+        <lastmod>2018-07-20T16:21:15.542Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://yucicheung.github.io/tags/%E8%B7%A8%E5%B9%B3%E5%8F%B0%E7%BC%96%E8%AF%91/</loc>
-        <lastmod>2018-07-19T16:42:05.102Z</lastmod>
+        <lastmod>2018-07-20T16:21:15.542Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://yucicheung.github.io/tags/Notes/</loc>
+        <lastmod>2018-08-18T04:12:04.531Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://yucicheung.github.io/tags/Recommendation/</loc>
+        <lastmod>2018-08-18T04:12:04.531Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://yucicheung.github.io/tags/c/</loc>
-        <lastmod>2018-07-19T16:42:05.102Z</lastmod>
+        <lastmod>2018-08-18T04:20:31.864Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://yucicheung.github.io/tags/%E7%BC%96%E8%AF%91/</loc>
+        <lastmod>2018-08-18T04:20:31.864Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://yucicheung.github.io/tags/%E4%B9%A6%E5%86%99%E8%A7%84%E8%8C%83/</loc>
+        <lastmod>2018-08-18T04:20:31.864Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

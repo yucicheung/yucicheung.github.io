@@ -7,13 +7,6 @@
     </url>
 
     <url>
-        <loc>https://yucicheung.github.io/categories/Learning/</loc>
-        <lastmod>2018-06-28T15:50:55.971Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://yucicheung.github.io/categories/Coding/</loc>
         <lastmod>2018-06-28T15:50:55.983Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -22,7 +15,14 @@
 
     <url>
         <loc>https://yucicheung.github.io/categories/Documenting/</loc>
-        <lastmod>2018-07-19T16:42:05.102Z</lastmod>
+        <lastmod>2018-08-18T04:12:04.531Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://yucicheung.github.io/categories/Learning/</loc>
+        <lastmod>2018-08-18T04:20:31.864Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
