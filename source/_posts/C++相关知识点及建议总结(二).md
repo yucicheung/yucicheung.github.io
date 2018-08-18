@@ -9,7 +9,7 @@ categories:
   - Learning
 ---
 <Excerpt in index | 首页摘要> 
-上一篇笔记请参阅[C++相关知识点及总结(一)](http://yucicheung.me/2018/08/18/C++%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86%E7%82%B9%E5%8F%8A%E5%BB%BA%E8%AE%AE%E6%80%BB%E7%BB%93(%E4%B8%80))
+上一篇笔记请参阅[C++相关知识点及总结(一)](http://yucicheung.me/2018/08/18/C++%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86%E7%82%B9%E5%8F%8A%E5%BB%BA%E8%AE%AE%E6%80%BB%E7%BB%93%28%E4%B8%80%29)
 本文包含：
 - 语言特性
 - 内存管理不当的隐患
