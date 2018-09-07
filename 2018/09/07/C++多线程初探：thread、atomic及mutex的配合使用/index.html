@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Yuci Cheung" />
+
+
+
+<meta name="description" content="线程及进程关系 线程同步与线程安全 用atomic/mutex实现线程安全 join和detach概念总结了这段时间看的线程和进程相关内容，并且用C++相关库做了对应实现。才疏学浅，理解不到位的地方，欢迎指正。">
+<meta name="keywords" content="C++,多线程,mutex">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++多线程初探：thread、atomic及mutex的配合使用">
+<meta property="og:url" content="https://yucicheung.github.io/2018/09/07/C++多线程初探：thread、atomic及mutex的配合使用/index.html">
+<meta property="og:site_name" content="Yuci&#39;s Blog">
+<meta property="og:description" content="线程及进程关系 线程同步与线程安全 用atomic/mutex实现线程安全 join和detach概念总结了这段时间看的线程和进程相关内容，并且用C++相关库做了对应实现。才疏学浅，理解不到位的地方，欢迎指正。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-09-07T15:49:37.346Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C++多线程初探：thread、atomic及mutex的配合使用">
+<meta name="twitter:description" content="线程及进程关系 线程同步与线程安全 用atomic/mutex实现线程安全 join和detach概念总结了这段时间看的线程和进程相关内容，并且用C++相关库做了对应实现。才疏学浅，理解不到位的地方，欢迎指正。">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="Yuci&#39;s Blog" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/egg.png">
+
+
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>C++多线程初探：thread、atomic及mutex的配合使用 | Yuci&#39;s Blog</title>
+
+<script src="//cdn.jsdelivr.net/gh/jquery/jquery@3.2.1/dist/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.1/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: false,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdnjs.cloudflare.com/ajax/libs/scrollReveal.js/3.4.0/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+    <script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5aa6360dad8cb1a6"></script>
+
+
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?bd6df76638422f4466c5d6bd0c572265";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Yuci Cheung</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">Coding for fun.</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="false" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:yucicheung@gmail.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/yucicheung" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" href="http://blog.csdn.net/yucicheung" title="CSDN"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CDN/">CDN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Grub/">Grub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Notes/">Notes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OOP/">OOP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Recommendation/">Recommendation</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSL/">SSL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/">Shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/">c++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cmake/">cmake</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/design-patterns/">design patterns</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/matlab/">matlab</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mutex/">mutex</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/qmake/">qmake</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/qt/">qt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/书写规范/">书写规范</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多线程/">多线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工具/">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/正则表达式/">正则表达式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/编译/">编译</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自制小工具/">自制小工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/跨平台编译/">跨平台编译</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+
+                
+                
+                <section class="switch-part switch-part3">
+                
+                    <div id="js-aboutme">预备役程序员。</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Yuci Cheung</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Yuci Cheung</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">Coding for fun.</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:yucicheung@gmail.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/yucicheung" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" target="_blank" href="http://blog.csdn.net/yucicheung" title="CSDN"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-C++多线程初探：thread、atomic及mutex的配合使用" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/09/07/C++多线程初探：thread、atomic及mutex的配合使用/" class="article-date">
+      <time datetime="2018-09-07T15:36:21.000Z" itemprop="datePublished">2018-09-07</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      C++多线程初探：thread、atomic及mutex的配合使用
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Learning/">Learning</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C/">C++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mutex/">mutex</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/多线程/">多线程</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><excerpt in="" index="" |="" 首页摘要=""> </excerpt></p>
+<ul>
+<li>线程及进程关系</li>
+<li>线程同步与线程安全</li>
+<li>用atomic/mutex实现线程安全</li>
+<li>join和detach概念<br>总结了这段时间看的线程和进程相关内容，并且用C++相关库做了对应实现。<br>才疏学浅，理解不到位的地方，欢迎指正。<a id="more"></a>
+<the rest="" of="" contents="" |="" 余下全文="">
+
+</the></li>
+</ul>
+<h2 id="不同OS下的多线程方案"><a href="#不同OS下的多线程方案" class="headerlink" title="不同OS下的多线程方案"></a>不同OS下的多线程方案</h2><p>C/C++的多线程编程在啊不同操作系统下有不同函数库可以进行调用，在Linux平台下，POSIX多线程库是<pthread>，在windows平台下，有windows API或MFC库(VC对WIN32 API的封装)，但是为了多线程程序在不同编译系统下的可移植性好，选用c++的<thread>库是比较合适/简便的。</thread></pthread></p>
+<h2 id="线程相关的一些概念的说明"><a href="#线程相关的一些概念的说明" class="headerlink" title="线程相关的一些概念的说明"></a>线程相关的一些概念的说明</h2><h3 id="进程与线程的关系"><a href="#进程与线程的关系" class="headerlink" title="进程与线程的关系"></a>进程与线程的关系</h3><blockquote>
+<p>进程是程序分配资源的最小单位，而线程是程序执行的最小单位(实际CPU时间就是分配给各线程的),简要来说，一个进程中可以有多个线程，而这些线程会共用进程中的资源（包括打开的文件、信号标识及动态分配的内存等）和地址空间，而每个执行的线程还会有自己的堆栈区和CPU寄存器状态。</p>
+</blockquote>
+<p>线程的执行顺序和是否可执行是由系统的调度程序决定的，线程有优先级别，优先级别高的程序优先执行(但是同时也要维护进程执行时间分配的公平性)。</p>
+<p>在多处理器的机器上，调度程序可以将多个线程放到不同的处理器上运行，这样可以使处理器任务平衡，并提高系统的运行效率。</p>
+<p>在进程存在的基础上，我们还需要有线程存在的原因是：</p>
+<ol>
+<li>进程之间的通信(IPC方式包括有名/匿名管道、信号、信号量、消息队列、共享内存、套接字等)并不算方便，而进程之间因为是共享线程的资源（包括全局/静态变量）因此通信会比较方便，只是在多个线程需要访问(写)同一个变量时，需要注意线程同步(在查找值和改写值之间不中断)的问题。</li>
+<li>进程的开启和销毁的代价是远大于线程的，当然线程的开启和销毁也是有代价的，因此有线程池的出现(所谓线程池就是将开辟多个线程，维护一个线程池，每次需要新线程时，将从中选取空闲线程，线程用完之后再放回线程池)。</li>
+</ol>
+<h3 id="线程的同步与线程安全"><a href="#线程的同步与线程安全" class="headerlink" title="线程的同步与线程安全"></a>线程的同步与线程安全</h3><p><strong>线程同步</strong>是同一时刻对公共变量的值的认知需要保持一致(不会线程1以为公共变量是1，而线程2以为公共变量是2)，如果确保在多线程编程环境中，线程能够正确地处理多个线程之间的共享变量，就称为<strong>线程安全</strong>。</p>
+<p>线程之间共享的变量通常需要注意线程安全的问题，即保证多个线程之间访问同一个变量，不会出现一个线程对公共变量的读写被其他线程打乱的情形(此时需要保证该线程对关键区的访问为原子操作，禁止中断)。</p>
+<p>因此通常需要加锁（加锁对象是需要访问公共变量的代码段，我们叫做临界区critical section）也就是常见的mutex(mutual exclusion)，保证一个线程对公共变量进行读写操作之间不会被其他线程影响，等到Unlock mutex时变量才可以被其他线程访问。</p>
+<h4 id="举个在多线程环境中公共变量访问出错的例子"><a href="#举个在多线程环境中公共变量访问出错的例子" class="headerlink" title="举个在多线程环境中公共变量访问出错的例子"></a><strong>举个在多线程环境中公共变量访问出错的例子</strong></h4><ul>
+<li>输出说明：预期结果是2e6，但是实际结果明显小于预期结果</li>
+<li>产生原因：实际<code>++n</code>的执行过程仍然是<code>n=n+1</code>,这涉及了两步操作，一是读取<code>n</code>,计算<code>n+1</code>；二是将<code>n+1</code>的结果赋值给<code>n</code>。多线程在这里的影响就是一个线程在<code>n+1</code>的结果赋值给<code>n</code>之前，另一个线程在原来<code>n</code>的基础上做+1的计算，而不是在+1之后的结果上做+1，因此最终的结果会小于预期。</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//线程不安全例子</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;thread&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">1e6</span>;</span><br><span class="line"><span class="keyword">int</span> n;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">increase_n</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;N;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        ++n;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">thread <span class="title">t1</span><span class="params">(increase_n)</span></span>;</span><br><span class="line">    <span class="function">thread <span class="title">t2</span><span class="params">(increase_n)</span></span>;</span><br><span class="line"></span><br><span class="line">    t1.join();</span><br><span class="line">    t2.join();</span><br><span class="line"></span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;n&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="C-中的解决办法"><a href="#C-中的解决办法" class="headerlink" title="C++中的解决办法"></a>C++中的解决办法</h4><p>具体在C++中实现时：</p>
+<ul>
+<li>为了避免编译器对变量做不必要的优化，通常需要将公共变量声明为易失性变量volatile，使得线程每次访问该变量时需要从内存中读取即时值，而不能从线程自己的寄存器中读取暂存值，以保证线程间的同步。<strong>关于volatile是为多线程准备的，这点是有争议的</strong>(因此这点暂放)。</li>
+<li>对访问公共变量的<em>临界区</em>代码我们可以<strong>使用mutex锁</strong>，保证在mutex的lock加锁和unlock之间执行临界区代码时不产生中断。<br>按照mutex加锁，我们可以得到<strong>方案1：mutex锁保证线程安全</strong>解决上述例子中的问题。</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//方案1：mutex锁保证线程安全</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;thread&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;mutex&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line">mutex m;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">1e6</span>;</span><br><span class="line"><span class="keyword">int</span> n;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">increase_n</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;N;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        m.lock();</span><br><span class="line">        ++n;</span><br><span class="line">        m.unlock();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">thread <span class="title">t1</span><span class="params">(increase_n)</span></span>;</span><br><span class="line">    <span class="function">thread <span class="title">t2</span><span class="params">(increase_n)</span></span>;</span><br><span class="line"></span><br><span class="line">    t1.join();</span><br><span class="line">    t2.join();</span><br><span class="line"></span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;n&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>对于某些简单的操作，使用mutex来保证线程安全会比较昂贵，因此可以使用<strong>原子变量</strong><atomic>(对于原子对象，即如果一个线程对原子对象进行写，另一个线程对对象进行读时，行为是明确的；另外一方面，当获取原子变量的值时会确立线程同步)来提供一个可使函数既线程安全又可重入(概念解释如下)的方案<ul>
+<li>编译器在编译阶段通常会对我们的代码进行优化(如乱序执行、指令重排等)以追求更高的效率，而这种操作在多线程环境下，通常会引发很多问题。而定义的原子操作就涉及对这些方面的说明，包含我们三个方面关心的语义：1. 操作本身是不可分割的(Atomicity)，一个线程对某个数据的访问何时对另外一个线程可见(visibility),执行的顺序是否可以重排(Ordering)。</li>
+<li><strong>可重入</strong>的程序是，在任意时刻被中断然后操作系统调度执行另外一段代码，这段代码又执行了该程序，但却不出错。可重入的函数应当满足，所有变量都保存在调用栈的当前函数栈/帧(frame)上，因此同一执行线程重入执行该函数时加载了新的函数帧，与前一次执行函数使用的函数帧不冲突。<ul>
+<li><em>函数帧</em>：又叫栈帧，每一次函数调用都会产生一个函数帧，每个栈帧对应一个未运行完的函数，栈帧中保存了该函数的返回地址和局部变量，记录着函数的执行环境。</li>
+</ul>
+</li>
+</ul>
+</atomic></li>
+</ul>
+<p>运用原子变量，我们就得到了<strong>方案2：用原子变量来保证线程安全</strong>：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//方案2：用原子变量来保证线程安全</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;thread&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;atomic&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">1e6</span>;</span><br><span class="line">atomic&lt;<span class="keyword">int</span>&gt; n(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">increase_n</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;N;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        ++n;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">thread <span class="title">t1</span><span class="params">(increase_n)</span></span>;</span><br><span class="line">    <span class="function">thread <span class="title">t2</span><span class="params">(increase_n)</span></span>;</span><br><span class="line"></span><br><span class="line">    t1.join();</span><br><span class="line">    t2.join();</span><br><span class="line"></span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;n&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="join及detach"><a href="#join及detach" class="headerlink" title="join及detach"></a><code>join</code>及<code>detach</code></h3><p>上述例子中已经用到了<code>join</code>和<code>detach</code>，以下对两者进行说明。<br>对于C++程序而言，你的main函数就是你的主线程，主线程在任何需要的时候都可以创建新的线程，当线程执行完毕时，自动终止线程；当进程结束时，所有线程都必须终止。</p>
+<ul>
+<li>所谓<code>join</code>就是主线程在调用<code>join</code>方法的位置等待子线程会合，会合之后执行下一步操作。</li>
+<li>所谓<code>detach</code>就是，主线程将不等待子线程的会合，自己直接结束生命，子线程未执行完也不报错，会自己在执行完毕后会退出。</li>
+</ul>
+<p>如果某个线程，不声明以上两者之一，但是在主线程结束之前又没有执行完毕，程序执行时会崩溃。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a href="https://www.cnblogs.com/wangyaning/p/7853908.html" target="_blank" rel="noopener">参考某多线程文章</a></li>
+<li>wikipedia</li>
+</ul>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2018/09/07/C++多线程初探：thread、atomic及mutex的配合使用/">C++多线程初探：thread、atomic及mutex的配合使用</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">Yuci Cheung</a></p>
+        <p><span>发布时间:</span>2018-09-07, 23:36:21</p>
+        <p><span>最后更新:</span>2018-09-07, 23:49:37</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2018/09/07/C++多线程初探：thread、atomic及mutex的配合使用/" title="C++多线程初探：thread、atomic及mutex的配合使用">https://yucicheung.github.io/2018/09/07/C++多线程初探：thread、atomic及mutex的配合使用/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://yucicheung.github.io/2018/09/07/C++多线程初探：thread、atomic及mutex的配合使用/　　作者: Yuci Cheung" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2018/08/18/设计模式概览/">
+                    设计模式概览
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#不同OS下的多线程方案"><span class="toc-number">1.</span> <span class="toc-text">不同OS下的多线程方案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线程相关的一些概念的说明"><span class="toc-number">2.</span> <span class="toc-text">线程相关的一些概念的说明</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#进程与线程的关系"><span class="toc-number">2.1.</span> <span class="toc-text">进程与线程的关系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线程的同步与线程安全"><span class="toc-number">2.2.</span> <span class="toc-text">线程的同步与线程安全</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#举个在多线程环境中公共变量访问出错的例子"><span class="toc-number">2.2.1.</span> <span class="toc-text">举个在多线程环境中公共变量访问出错的例子</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#C-中的解决办法"><span class="toc-number">2.2.2.</span> <span class="toc-text">C++中的解决办法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#join及detach"><span class="toc-number">2.3.</span> <span class="toc-text">join及detach</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-number">3.</span> <span class="toc-text">参考资料</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+
+    
+        <div class="addthis_sharing_toolbox"></div>
+    
+</div>
+
+
+
+
+
+
+
+    
+        <section id="comments">
+    <style> aside.comment-bar { margin: auto 30px; }</style>
+    <div id="disqus_thread"></div>
+    <script>
+        var disqus_config = function(){
+            this.page.url = 'https://yucicheung.github.io/2018/09/07/C++多线程初探：thread、atomic及mutex的配合使用/';
+            this.page.identifier = '2018/09/07/C++多线程初探：thread、atomic及mutex的配合使用/';
+        };
+        var loadComment = function(){
+            var d = document, s = d.createElement('script');
+            s.src = '//yucicheung-github-io.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        }
+    </script>
+    
+    <script> loadComment(); </script>
+
+</section>
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2018/08/18/设计模式概览/" title="下一篇: 设计模式概览">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/09/07/C++多线程初探：thread、atomic及mutex的配合使用/">C++多线程初探：thread、atomic及mutex的配合使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/18/设计模式概览/">设计模式概览</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/18/C++相关知识点及建议总结(二)/">C++相关知识点及建议总结(二)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/18/C++相关知识点及建议总结(一)/">C++相关知识点及建议总结(一)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/17/书籍推荐/">书籍推荐</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/10/qmake手册记录/">qmake手册记录</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/10/cmake笔记/">cmake笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/05/Windows及Ubuntu软件包管理器安装qt5记录/">Windows及Ubuntu软件包管理器安装qt5记录</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/30/CelexMatlabToolbox-1-0发布记录/">CelexMatlabToolbox-1.0发布记录</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/13/微信定时自动发送群消息的小工具/">微信定时自动发送群消息的小工具-python-itchat</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/25/更改Ubuntu的apt源/">更改Ubuntu的apt源</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/25/tmux-Usage/">tmux的安装和使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/11/建库时帮助筛选图片的GUI小工具-python-tkinter/">建库时帮助筛选图片的GUI小工具(python+tkinter)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列11-Shell编程/">Linux系列11-Shell编程</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列10-VIM/">Linux系列10-Linux编程</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列9-网络配置和远程访问/">Linux系列9-网络配置和远程访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列8-进程管理/">Linux系列8-进程管理</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列7-用户与用户组管理/">Linux系列7-用户与用户组管理</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列6-磁盘管理/">Linux系列6-磁盘管理</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列5-软件包管理/">Linux系列5-软件包管理</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列4-文件目录管理/">Linux系列4-文件目录管理</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列3-shell基本命令/">Linux系列3-shell基本命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列2-基本配置/">Linux系列2-基本配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/09/Linux系列1-概述/">Linux系列1-概述</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/24/Dijkstras算法和实现/">Dijkstras算法和实现(python)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/17/python中的argv和argc/">python中的argv和argc</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/14/为Github-page绑定自定义域名并实现https访问/">为Github page绑定自定义域名并实现https访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/13/Ubuntu下用hexo搭建github博客/">Ubuntu下用hexo搭建github博客</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2018 Yuci Cheung
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+    <script src="/js/GithubRepoWidget.js"></script>
+
+<script data-main="/js/main.js" src="//cdnjs.cloudflare.com/ajax/libs/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 6;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-115529402-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+    <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+             github: ".github-widget a", 
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "(つェ⊂)" + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*)" + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

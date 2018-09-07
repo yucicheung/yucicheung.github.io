@@ -79,14 +79,14 @@
     </url>
 
     <url>
-        <loc>https://yucicheung.github.io/tags/github/</loc>
+        <loc>https://yucicheung.github.io/tags/%E5%B7%A5%E5%85%B7/</loc>
         <lastmod>2018-06-29T16:31:16.688Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>https://yucicheung.github.io/tags/%E5%B7%A5%E5%85%B7/</loc>
+        <loc>https://yucicheung.github.io/tags/github/</loc>
         <lastmod>2018-06-29T16:31:16.688Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
@@ -179,6 +179,41 @@
     <url>
         <loc>https://yucicheung.github.io/tags/%E4%B9%A6%E5%86%99%E8%A7%84%E8%8C%83/</loc>
         <lastmod>2018-08-18T04:30:41.863Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://yucicheung.github.io/tags/design-patterns/</loc>
+        <lastmod>2018-08-18T04:53:34.437Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://yucicheung.github.io/tags/OOP/</loc>
+        <lastmod>2018-08-18T04:53:34.437Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://yucicheung.github.io/tags/C/</loc>
+        <lastmod>2018-09-07T15:49:37.346Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://yucicheung.github.io/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/</loc>
+        <lastmod>2018-09-07T15:49:37.346Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://yucicheung.github.io/tags/mutex/</loc>
+        <lastmod>2018-09-07T15:49:37.346Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
